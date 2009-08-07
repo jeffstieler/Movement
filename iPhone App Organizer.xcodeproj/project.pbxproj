@@ -11,6 +11,11 @@
 		8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165CFE840E0CC02AAC07 /* InfoPlist.strings */; };
 		8D11072D0486CEB800E47090 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
+		F5768F93102CF0ED002D2359 /* AFCInterface.m in Sources */ = {isa = PBXBuildFile; fileRef = F5768F8C102CF0ED002D2359 /* AFCInterface.m */; };
+		F5768F94102CF0ED002D2359 /* AFCDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = F5768F8E102CF0ED002D2359 /* AFCDevice.m */; };
+		F5768F95102CF0ED002D2359 /* AFCDeviceRef.m in Sources */ = {isa = PBXBuildFile; fileRef = F5768F90102CF0ED002D2359 /* AFCDeviceRef.m */; };
+		F5768F96102CF0ED002D2359 /* AFCFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = F5768F92102CF0ED002D2359 /* AFCFactory.m */; };
+		F5768F9B102CF13C002D2359 /* MobileDevice.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F5768F9A102CF13C002D2359 /* MobileDevice.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +29,16 @@
 		32CA4F630368D1EE00C91783 /* iPhone App Organizer_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "iPhone App Organizer_Prefix.pch"; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8D1107320486CEB800E47090 /* iPhone App Organizer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "iPhone App Organizer.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		F5768F8A102CF0ED002D2359 /* MobileDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MobileDevice.h; sourceTree = "<group>"; };
+		F5768F8B102CF0ED002D2359 /* AFCInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFCInterface.h; sourceTree = "<group>"; };
+		F5768F8C102CF0ED002D2359 /* AFCInterface.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFCInterface.m; sourceTree = "<group>"; };
+		F5768F8D102CF0ED002D2359 /* AFCDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFCDevice.h; sourceTree = "<group>"; };
+		F5768F8E102CF0ED002D2359 /* AFCDevice.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFCDevice.m; sourceTree = "<group>"; };
+		F5768F8F102CF0ED002D2359 /* AFCDeviceRef.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFCDeviceRef.h; sourceTree = "<group>"; };
+		F5768F90102CF0ED002D2359 /* AFCDeviceRef.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFCDeviceRef.m; sourceTree = "<group>"; };
+		F5768F91102CF0ED002D2359 /* AFCFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFCFactory.h; sourceTree = "<group>"; };
+		F5768F92102CF0ED002D2359 /* AFCFactory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFCFactory.m; sourceTree = "<group>"; };
+		F5768F9A102CF13C002D2359 /* MobileDevice.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileDevice.framework; path = /System/Library/PrivateFrameworks/MobileDevice.framework; sourceTree = "<absolute>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -32,6 +47,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */,
+				F5768F9B102CF13C002D2359 /* MobileDevice.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -48,6 +64,7 @@
 		1058C7A0FEA54F0111CA2CBB /* Linked Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				F5768F9A102CF13C002D2359 /* MobileDevice.framework */,
 				1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */,
 			);
 			name = "Linked Frameworks";
@@ -74,6 +91,8 @@
 		29B97314FDCFA39411CA2CEA /* iPhone App Organizer */ = {
 			isa = PBXGroup;
 			children = (
+				F5768F71102CEFA6002D2359 /* iPhone PNG */,
+				F5768F70102CEF9D002D2359 /* AFC */,
 				080E96DDFE201D6D7F000001 /* Classes */,
 				29B97315FDCFA39411CA2CEA /* Other Sources */,
 				29B97317FDCFA39411CA2CEA /* Resources */,
@@ -109,6 +128,29 @@
 				1058C7A2FEA54F0111CA2CBB /* Other Frameworks */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		F5768F70102CEF9D002D2359 /* AFC */ = {
+			isa = PBXGroup;
+			children = (
+				F5768F8A102CF0ED002D2359 /* MobileDevice.h */,
+				F5768F8B102CF0ED002D2359 /* AFCInterface.h */,
+				F5768F8C102CF0ED002D2359 /* AFCInterface.m */,
+				F5768F8D102CF0ED002D2359 /* AFCDevice.h */,
+				F5768F8E102CF0ED002D2359 /* AFCDevice.m */,
+				F5768F8F102CF0ED002D2359 /* AFCDeviceRef.h */,
+				F5768F90102CF0ED002D2359 /* AFCDeviceRef.m */,
+				F5768F91102CF0ED002D2359 /* AFCFactory.h */,
+				F5768F92102CF0ED002D2359 /* AFCFactory.m */,
+			);
+			name = AFC;
+			sourceTree = "<group>";
+		};
+		F5768F71102CEFA6002D2359 /* iPhone PNG */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = "iPhone PNG";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -167,6 +209,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				8D11072D0486CEB800E47090 /* main.m in Sources */,
+				F5768F93102CF0ED002D2359 /* AFCInterface.m in Sources */,
+				F5768F94102CF0ED002D2359 /* AFCDevice.m in Sources */,
+				F5768F95102CF0ED002D2359 /* AFCDeviceRef.m in Sources */,
+				F5768F96102CF0ED002D2359 /* AFCFactory.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -197,6 +243,10 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				COPY_PHASE_STRIP = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SYSTEM_LIBRARY_DIR)/PrivateFrameworks\"",
+				);
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 				GCC_MODEL_TUNING = G5;
@@ -214,6 +264,10 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SYSTEM_LIBRARY_DIR)/PrivateFrameworks\"",
+				);
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "iPhone App Organizer_Prefix.pch";
