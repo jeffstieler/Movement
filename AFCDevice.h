@@ -44,6 +44,7 @@
 }
 
 -(id)initWithRef:(AFCDeviceRef *)dev;
+-(id)initWithRef:(AFCDeviceRef *)dev andService:(NSString *)svc;
 
 -(NSData *)contentsOfFileAtPath:(NSString *)path;
 -(NSData *)chunkOfFileAtPath:(NSString *)path range:(NSRange)range;
@@ -58,6 +59,7 @@
 -(AFCInterface *)deviceInterface;
 
 -(void)setDeviceRef:(AFCDeviceRef *)dev;
+-(void)setDeviceRef:(AFCDeviceRef *)dev andService:(NSString *)svc;
 -(AFCDeviceRef *)device;
 
 

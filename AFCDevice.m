@@ -48,8 +48,13 @@
 
 @implementation AFCDevice
 
-
 -(id)initWithRef:(AFCDeviceRef *)dev {
+	
+	return [self initWithRef:dev andService:kMediaAFC];
+
+}
+
+-(id)initWithRef:(AFCDeviceRef *)dev andService:(NSString *)svc {
 	
 	if (self = [super init]) {
 		
@@ -57,7 +62,7 @@
 		// then open a connection to it. 
 		
 		if ([self initializeDevice:dev]) {
-			struct afc_connection *connection = [self openDevice:dev withService:kMediaAFC];
+			struct afc_connection *connection = [self openDevice:dev withService:svc];
 			
 			if (connection) {
 				
@@ -319,10 +324,13 @@
 	return delegate;
 }
 
-
 -(void)setDeviceRef:(AFCDeviceRef *)dev {
+	[self setDeviceRef:dev andService:kMediaAFC];
+}
+
+-(void)setDeviceRef:(AFCDeviceRef *)dev andService:(NSString *)svc {
 	if ([self initializeDevice:dev]) {
-		struct afc_connection *connection = [self openDevice:dev withService:kMediaAFC];
+		struct afc_connection *connection = [self openDevice:dev withService:svc];
 		
 		if (connection) {
 			[deviceInterface release];
