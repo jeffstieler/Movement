@@ -22,6 +22,7 @@
 		F57690B9102D20F5002D2359 /* OfficialAppDisplayNames.plist in Resources */ = {isa = PBXBuildFile; fileRef = F57690B8102D20F5002D2359 /* OfficialAppDisplayNames.plist */; };
 		F57690D3102D23E2002D2359 /* PossibleIconFileKeys.plist in Resources */ = {isa = PBXBuildFile; fileRef = F57690D2102D23E2002D2359 /* PossibleIconFileKeys.plist */; };
 		F57690D6102D2446002D2359 /* PossibleAppDisplayNameKeys.plist in Resources */ = {isa = PBXBuildFile; fileRef = F57690D5102D2446002D2359 /* PossibleAppDisplayNameKeys.plist */; };
+		F576911D102D3264002D2359 /* Disconnected.tif in Resources */ = {isa = PBXBuildFile; fileRef = F576911C102D3264002D2359 /* Disconnected.tif */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -53,6 +54,7 @@
 		F57690B8102D20F5002D2359 /* OfficialAppDisplayNames.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = OfficialAppDisplayNames.plist; sourceTree = "<group>"; };
 		F57690D2102D23E2002D2359 /* PossibleIconFileKeys.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = PossibleIconFileKeys.plist; sourceTree = "<group>"; };
 		F57690D5102D2446002D2359 /* PossibleAppDisplayNameKeys.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = PossibleAppDisplayNameKeys.plist; sourceTree = "<group>"; };
+		F576911C102D3264002D2359 /* Disconnected.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Disconnected.tif; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -138,6 +140,7 @@
 				089C165CFE840E0CC02AAC07 /* InfoPlist.strings */,
 				1DDD58140DA1D0A300B32029 /* MainMenu.xib */,
 				F57690B8102D20F5002D2359 /* OfficialAppDisplayNames.plist */,
+				F576911C102D3264002D2359 /* Disconnected.tif */,
 				F57690D2102D23E2002D2359 /* PossibleIconFileKeys.plist */,
 				F57690D5102D2446002D2359 /* PossibleAppDisplayNameKeys.plist */,
 			);
@@ -224,6 +227,7 @@
 				F57690B9102D20F5002D2359 /* OfficialAppDisplayNames.plist in Resources */,
 				F57690D3102D23E2002D2359 /* PossibleIconFileKeys.plist in Resources */,
 				F57690D6102D2446002D2359 /* PossibleAppDisplayNameKeys.plist in Resources */,
+				F576911D102D3264002D2359 /* Disconnected.tif in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
