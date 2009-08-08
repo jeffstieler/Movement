@@ -48,11 +48,46 @@
 	possibleIconFileKeys = (NSArray *)[self contentsOfPlist:@"PossibleIconFileKeys"];
 	possibleAppDisplayNameKeys = (NSArray *)[self contentsOfPlist:@"PossibleAppDisplayNameKeys"];
 	officialAppDisplayNames = (NSDictionary *)[self contentsOfPlist:@"OfficialAppDisplayNames"];
+	
+	NSLog(@"%@", [self allAppPathsOnDevice]);
+}
+
+
+#pragma mark -
+#pragma mark iPhone utilities
+
+// Retreive ALL apps (and their paths) on the connected iPhone (user && apple)
+- (NSDictionary *)allAppPathsOnDevice {
+	if (iPhone) {
+		
+		NSMutableDictionary *allApps = [[NSMutableDictionary alloc] initWithCapacity:2];
+		
+		// "Official" apps are in /Applications/<app name>.app/
+		[allApps setObject:[iPhone listOfFoldersAtPath:APP_DIR] forKey:APP_DIR];
+		NSRange isDotApp;
+		NSMutableArray *userApps = [[NSMutableArray alloc] init];
+		
+		// "Third Party" apps are in /User/Applications/<crazy hash>/<app name>.app/
+		for (NSString *folder in [iPhone listOfFoldersAtPath:USER_APP_DIR]) {
+			NSString *appPath = [NSString pathWithComponents:[NSArray arrayWithObjects:USER_APP_DIR, folder, nil]];
+			for (NSString *subFolder in [iPhone listOfFoldersAtPath:appPath]) {
+				isDotApp = [subFolder rangeOfString:@".app"];
+				if (isDotApp.location != NSNotFound) {
+					[userApps addObject:[NSString pathWithComponents:[NSArray arrayWithObjects:folder, subFolder, nil]]];
+				}
+			}
+		}
+		
+		[allApps setObject:(NSArray *)userApps forKey:USER_APP_DIR];
+		return [(NSDictionary *)allApps autorelease];
+	}
+	return nil;
 }
 
 
 #pragma mark -
 #pragma mark Plist content retrieval helpers
+
 - (id)contentsOfPlist:(NSString *)plistName {
 	return [NSPropertyListSerialization
 				propertyListFromData:

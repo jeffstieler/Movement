@@ -42,5 +42,6 @@
 @property (readonly)NSDictionary *officialAppDisplayNames;
 
 - (id)contentsOfPlist:(NSString *)plistName;
+- (NSDictionary *)allAppPathsOnDevice;
 
 @end
