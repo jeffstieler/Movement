@@ -36,8 +36,7 @@
 
 #import "AFCDevice.h"
 
-#define kMediaAFC @"com.apple.afc"
-#define kRootAFC @"com.apple.afc2"
+
 
 @interface AFCDevice (Private) 
 

@@ -18,6 +18,7 @@
 		F5768F9B102CF13C002D2359 /* MobileDevice.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F5768F9A102CF13C002D2359 /* MobileDevice.framework */; };
 		F5768FF8102D0C66002D2359 /* iPhoneApp.m in Sources */ = {isa = PBXBuildFile; fileRef = F5768FF7102D0C66002D2359 /* iPhoneApp.m */; };
 		F5769001102D0CA4002D2359 /* Quartz.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F5769000102D0CA4002D2359 /* Quartz.framework */; };
+		F5769066102D17F6002D2359 /* iPhoneController.m in Sources */ = {isa = PBXBuildFile; fileRef = F5769065102D17F6002D2359 /* iPhoneController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -44,6 +45,8 @@
 		F5768FF6102D0C66002D2359 /* iPhoneApp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iPhoneApp.h; sourceTree = "<group>"; };
 		F5768FF7102D0C66002D2359 /* iPhoneApp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = iPhoneApp.m; sourceTree = "<group>"; };
 		F5769000102D0CA4002D2359 /* Quartz.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Quartz.framework; path = /System/Library/Frameworks/Quartz.framework; sourceTree = "<absolute>"; };
+		F5769064102D17F6002D2359 /* iPhoneController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iPhoneController.h; sourceTree = "<group>"; };
+		F5769065102D17F6002D2359 /* iPhoneController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = iPhoneController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -65,6 +68,8 @@
 			children = (
 				F5768FF6102D0C66002D2359 /* iPhoneApp.h */,
 				F5768FF7102D0C66002D2359 /* iPhoneApp.m */,
+				F5769064102D17F6002D2359 /* iPhoneController.h */,
+				F5769065102D17F6002D2359 /* iPhoneController.m */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -223,6 +228,7 @@
 				F5768F95102CF0ED002D2359 /* AFCDeviceRef.m in Sources */,
 				F5768F96102CF0ED002D2359 /* AFCFactory.m in Sources */,
 				F5768FF8102D0C66002D2359 /* iPhoneApp.m in Sources */,
+				F5769066102D17F6002D2359 /* iPhoneController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

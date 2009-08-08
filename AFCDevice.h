@@ -6,6 +6,8 @@
 	 Copyright (c) 2008 KennettNet Software Limited
 	 All rights reserved.
 	 
+	 ~~ *Small* modifications by Jeff Stieler ~~
+	 
 	 Redistribution and use in source and binary forms, with or without
 	 modification, are permitted provided that the following conditions
 	 are met:
@@ -34,6 +36,9 @@
 #import "MobileDevice.h"
 #import "AFCInterface.h"
 #import "AFCDeviceRef.h"
+
+#define kMediaAFC @"com.apple.afc"
+#define kRootAFC @"com.apple.afc2"
 
 @interface AFCDevice : NSObject {
 

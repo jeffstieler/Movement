@@ -1,6 +1,6 @@
 /*
  
- iPhoneApp.m
+ iPhoneController.h
  iPhone App Organizer
  
  Copyright (c) 2009 Jeff Stieler
@@ -30,55 +30,11 @@
  
  */
 
-#import "iPhoneApp.h"
+#import <Cocoa/Cocoa.h>
+#import "AFCDevice.h"
 
-
-@implementation iPhoneApp
-
-- (id)initWithIdentifier:(NSString *)aIdentifier 
-			 displayName:(NSString *)aName 
-					icon:(NSImage *)aIcon { //(NSData *)aIcon {
-	if (self = [super init]) {
-		self.identifier = aIdentifier;
-		self.displayName = aName;
-		self.icon = aIcon;
-	}
-	return self;
+@interface iPhoneController : NSObject {
+	AFCDevice *iPhone;
 }
-
-- (NSString *)description {
-	return [NSString stringWithFormat:@"%@ [%@] (%d)", displayName, identifier, icon.length];
-}
-
-- (void)dealloc {
-	[identifier release];
-	[displayName release];
-	[icon release];
-	[super dealloc];
-}
-
-#pragma mark -
-#pragma mark Required Methods IKImageBrowserItem Informal Protocol
-- (NSString *) imageUID
-{
-	return identifier;
-}
-- (NSString *) imageRepresentationType
-{
-	return IKImageBrowserNSImageRepresentationType;// IKImageBrowserNSDataRepresentationType;
-}
-- (id) imageRepresentation
-{
-	return icon;
-}
-
-#pragma mark -
-#pragma mark Optional Methods IKImageBrowserItem Informal Protocol
-- (NSString*) imageTitle
-{
-	return displayName;
-}
-
-@synthesize identifier, displayName, icon;
 
 @end

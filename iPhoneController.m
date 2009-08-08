@@ -1,6 +1,6 @@
 /*
  
- iPhoneApp.m
+ iPhoneController.m
  iPhone App Organizer
  
  Copyright (c) 2009 Jeff Stieler
@@ -30,55 +30,54 @@
  
  */
 
-#import "iPhoneApp.h"
+#import "iPhoneController.h"
+#import "AFCFactory.h"
+
+#define APP_DIR @"/Applications/"
+#define USER_APP_DIR @"/User/Applications/"
+
+@implementation iPhoneController
+
+- (void)awakeFromNib {
+	[[AFCFactory factory] setDelegate:self];
+}
 
 
-@implementation iPhoneApp
+#pragma mark -
+#pragma mark AFC Factory Delegates
 
-- (id)initWithIdentifier:(NSString *)aIdentifier 
-			 displayName:(NSString *)aName 
-					icon:(NSImage *)aIcon { //(NSData *)aIcon {
-	if (self = [super init]) {
-		self.identifier = aIdentifier;
-		self.displayName = aName;
-		self.icon = aIcon;
+-(void)AFCDeviceWasConnected:(AFCDeviceRef *)dev {
+	
+	// This is where the action happens - the factory has
+	// detected a new iPhone/iPod touch.
+	if (iPhone) {
+		
+		if ([[[iPhone device] serialNumber] isEqualToString:[dev serialNumber]]) {
+			
+			// When the same device is reconnected, it seems to have 
+			// a different device_id. Therefore, inform our instance 
+			// that it's been changed.
+			[iPhone setDeviceRef:dev andService:kRootAFC];
+			
+			return;
+		} 
+		
 	}
-	return self;
+	
+	// If it isn't the same device as the previous one, make a new device. 
+	[iPhone release];
+	iPhone = nil;
+	iPhone = [[AFCDevice alloc] initWithRef:dev andService:kRootAFC];
+	
+	if (!iPhone) {
+		
+		[NSException raise:@"iPhoneController" format:@"Error occurred when trying to init AFC device."];
+		
+	} else {
+		
+		[iPhone setDelegate:self];
+	}
+	
 }
-
-- (NSString *)description {
-	return [NSString stringWithFormat:@"%@ [%@] (%d)", displayName, identifier, icon.length];
-}
-
-- (void)dealloc {
-	[identifier release];
-	[displayName release];
-	[icon release];
-	[super dealloc];
-}
-
-#pragma mark -
-#pragma mark Required Methods IKImageBrowserItem Informal Protocol
-- (NSString *) imageUID
-{
-	return identifier;
-}
-- (NSString *) imageRepresentationType
-{
-	return IKImageBrowserNSImageRepresentationType;// IKImageBrowserNSDataRepresentationType;
-}
-- (id) imageRepresentation
-{
-	return icon;
-}
-
-#pragma mark -
-#pragma mark Optional Methods IKImageBrowserItem Informal Protocol
-- (NSString*) imageTitle
-{
-	return displayName;
-}
-
-@synthesize identifier, displayName, icon;
 
 @end
