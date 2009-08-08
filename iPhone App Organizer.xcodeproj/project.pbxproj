@@ -16,6 +16,8 @@
 		F5768F95102CF0ED002D2359 /* AFCDeviceRef.m in Sources */ = {isa = PBXBuildFile; fileRef = F5768F90102CF0ED002D2359 /* AFCDeviceRef.m */; };
 		F5768F96102CF0ED002D2359 /* AFCFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = F5768F92102CF0ED002D2359 /* AFCFactory.m */; };
 		F5768F9B102CF13C002D2359 /* MobileDevice.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F5768F9A102CF13C002D2359 /* MobileDevice.framework */; };
+		F5768FF8102D0C66002D2359 /* iPhoneApp.m in Sources */ = {isa = PBXBuildFile; fileRef = F5768FF7102D0C66002D2359 /* iPhoneApp.m */; };
+		F5769001102D0CA4002D2359 /* Quartz.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F5769000102D0CA4002D2359 /* Quartz.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -39,6 +41,9 @@
 		F5768F91102CF0ED002D2359 /* AFCFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFCFactory.h; sourceTree = "<group>"; };
 		F5768F92102CF0ED002D2359 /* AFCFactory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFCFactory.m; sourceTree = "<group>"; };
 		F5768F9A102CF13C002D2359 /* MobileDevice.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileDevice.framework; path = /System/Library/PrivateFrameworks/MobileDevice.framework; sourceTree = "<absolute>"; };
+		F5768FF6102D0C66002D2359 /* iPhoneApp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iPhoneApp.h; sourceTree = "<group>"; };
+		F5768FF7102D0C66002D2359 /* iPhoneApp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = iPhoneApp.m; sourceTree = "<group>"; };
+		F5769000102D0CA4002D2359 /* Quartz.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Quartz.framework; path = /System/Library/Frameworks/Quartz.framework; sourceTree = "<absolute>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -48,6 +53,7 @@
 			files = (
 				8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */,
 				F5768F9B102CF13C002D2359 /* MobileDevice.framework in Frameworks */,
+				F5769001102D0CA4002D2359 /* Quartz.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -57,6 +63,8 @@
 		080E96DDFE201D6D7F000001 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				F5768FF6102D0C66002D2359 /* iPhoneApp.h */,
+				F5768FF7102D0C66002D2359 /* iPhoneApp.m */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -64,6 +72,7 @@
 		1058C7A0FEA54F0111CA2CBB /* Linked Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				F5769000102D0CA4002D2359 /* Quartz.framework */,
 				F5768F9A102CF13C002D2359 /* MobileDevice.framework */,
 				1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */,
 			);
@@ -213,6 +222,7 @@
 				F5768F94102CF0ED002D2359 /* AFCDevice.m in Sources */,
 				F5768F95102CF0ED002D2359 /* AFCDeviceRef.m in Sources */,
 				F5768F96102CF0ED002D2359 /* AFCFactory.m in Sources */,
+				F5768FF8102D0C66002D2359 /* iPhoneApp.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
