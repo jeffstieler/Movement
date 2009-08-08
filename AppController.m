@@ -42,6 +42,15 @@
 
 @implementation AppController
 
+- (void)awakeFromNib {
+	screenControllers = [[NSMutableArray alloc] init];
+}
+
+- (void)dealloc {
+	[screenControllers release];
+	[super dealloc];
+}
+
 @synthesize screenControllers;
 
 @end

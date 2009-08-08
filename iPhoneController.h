@@ -32,9 +32,11 @@
 
 #import <Cocoa/Cocoa.h>
 #import "AFCDevice.h"
+#import "AppController.h"
 
 @interface iPhoneController : NSObject {
 	AFCDevice *iPhone;
+	IBOutlet AppController *appController;
 	NSArray *possibleIconFileKeys, *possibleAppDisplayNameKeys;
 	NSDictionary *officialAppDisplayNames;
 	NSMutableDictionary *springboard;
