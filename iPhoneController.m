@@ -74,7 +74,7 @@
 		[NSException raise:@"iPhoneController" format:@"Error occurred when trying to init AFC device."];
 		
 	} else {
-		
+		NSLog(@"Device connected, ID: %d, SN: %@", [[iPhone device] deviceID], [[iPhone device] serialNumber]);
 		[iPhone setDelegate:self];
 	}
 	
