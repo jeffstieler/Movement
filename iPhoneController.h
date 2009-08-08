@@ -35,6 +35,12 @@
 
 @interface iPhoneController : NSObject {
 	AFCDevice *iPhone;
+	NSArray *possibleIconFileKeys, *possibleAppDisplayNameKeys;
+	NSDictionary *officialAppDisplayNames;
 }
+@property (readonly)NSArray *possibleIconFileKeys, *possibleAppDisplayNameKeys;
+@property (readonly)NSDictionary *officialAppDisplayNames;
+
+- (id)contentsOfPlist:(NSString *)plistName;
 
 @end

@@ -19,6 +19,9 @@
 		F5768FF8102D0C66002D2359 /* iPhoneApp.m in Sources */ = {isa = PBXBuildFile; fileRef = F5768FF7102D0C66002D2359 /* iPhoneApp.m */; };
 		F5769001102D0CA4002D2359 /* Quartz.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F5769000102D0CA4002D2359 /* Quartz.framework */; };
 		F5769066102D17F6002D2359 /* iPhoneController.m in Sources */ = {isa = PBXBuildFile; fileRef = F5769065102D17F6002D2359 /* iPhoneController.m */; };
+		F57690B9102D20F5002D2359 /* OfficialAppDisplayNames.plist in Resources */ = {isa = PBXBuildFile; fileRef = F57690B8102D20F5002D2359 /* OfficialAppDisplayNames.plist */; };
+		F57690D3102D23E2002D2359 /* PossibleIconFileKeys.plist in Resources */ = {isa = PBXBuildFile; fileRef = F57690D2102D23E2002D2359 /* PossibleIconFileKeys.plist */; };
+		F57690D6102D2446002D2359 /* PossibleAppDisplayNameKeys.plist in Resources */ = {isa = PBXBuildFile; fileRef = F57690D5102D2446002D2359 /* PossibleAppDisplayNameKeys.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -47,6 +50,9 @@
 		F5769000102D0CA4002D2359 /* Quartz.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Quartz.framework; path = /System/Library/Frameworks/Quartz.framework; sourceTree = "<absolute>"; };
 		F5769064102D17F6002D2359 /* iPhoneController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iPhoneController.h; sourceTree = "<group>"; };
 		F5769065102D17F6002D2359 /* iPhoneController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = iPhoneController.m; sourceTree = "<group>"; };
+		F57690B8102D20F5002D2359 /* OfficialAppDisplayNames.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = OfficialAppDisplayNames.plist; sourceTree = "<group>"; };
+		F57690D2102D23E2002D2359 /* PossibleIconFileKeys.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = PossibleIconFileKeys.plist; sourceTree = "<group>"; };
+		F57690D5102D2446002D2359 /* PossibleAppDisplayNameKeys.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = PossibleAppDisplayNameKeys.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -131,6 +137,9 @@
 				8D1107310486CEB800E47090 /* Info.plist */,
 				089C165CFE840E0CC02AAC07 /* InfoPlist.strings */,
 				1DDD58140DA1D0A300B32029 /* MainMenu.xib */,
+				F57690B8102D20F5002D2359 /* OfficialAppDisplayNames.plist */,
+				F57690D2102D23E2002D2359 /* PossibleIconFileKeys.plist */,
+				F57690D5102D2446002D2359 /* PossibleAppDisplayNameKeys.plist */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -212,6 +221,9 @@
 			files = (
 				8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */,
 				1DDD58160DA1D0A300B32029 /* MainMenu.xib in Resources */,
+				F57690B9102D20F5002D2359 /* OfficialAppDisplayNames.plist in Resources */,
+				F57690D3102D23E2002D2359 /* PossibleIconFileKeys.plist in Resources */,
+				F57690D6102D2446002D2359 /* PossibleAppDisplayNameKeys.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

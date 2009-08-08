@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>AppStore</key>
+	<string>App Store</string>
+	<key>MobileCal</key>
+	<string>Calendar</string>
+	<key>MobileAddressBook</key>
+	<string>Contacts</string>
+	<key>MobileTimer</key>
+	<string>Clock</string>
+	<key>MobileNotes</key>
+	<string>Notes</string>
+	<key>VoiceMemos</key>
+	<string>Voice Memos</string>
+	<key>Preferences</key>
+	<string>Settings</string>
+	<key>MobileStore</key>
+	<string>iTunes</string>
+</dict>
+</plist>

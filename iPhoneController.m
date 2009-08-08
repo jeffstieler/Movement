@@ -38,8 +38,31 @@
 
 @implementation iPhoneController
 
+@synthesize possibleIconFileKeys, possibleAppDisplayNameKeys, officialAppDisplayNames;
+
 - (void)awakeFromNib {
 	[[AFCFactory factory] setDelegate:self];
+	
+	// Grab official app display name, possible icon/app display name keys from
+	// their respective plists in the main bundle
+	possibleIconFileKeys = (NSArray *)[self contentsOfPlist:@"PossibleIconFileKeys"];
+	possibleAppDisplayNameKeys = (NSArray *)[self contentsOfPlist:@"PossibleAppDisplayNameKeys"];
+	officialAppDisplayNames = (NSDictionary *)[self contentsOfPlist:@"OfficialAppDisplayNames"];
+}
+
+
+#pragma mark -
+#pragma mark Plist content retrieval helpers
+- (id)contentsOfPlist:(NSString *)plistName {
+	return [NSPropertyListSerialization
+				propertyListFromData:
+					[NSData dataWithContentsOfFile:
+						[[NSBundle mainBundle]
+							pathForResource:plistName
+							ofType:@"plist"]]
+				mutabilityOption:NSPropertyListImmutable
+				format:nil
+				errorDescription:nil];
 }
 
 
