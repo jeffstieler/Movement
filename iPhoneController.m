@@ -35,10 +35,11 @@
 
 #define APP_DIR @"/Applications/"
 #define USER_APP_DIR @"/User/Applications/"
+#define SPRINGBOARD_PLIST @"/User/Library/Preferences/com.apple.springboard.plist"
 
 @implementation iPhoneController
 
-@synthesize possibleIconFileKeys, possibleAppDisplayNameKeys, officialAppDisplayNames;
+@synthesize possibleIconFileKeys, possibleAppDisplayNameKeys, officialAppDisplayNames, springboard;
 
 - (void)awakeFromNib {
 	[[AFCFactory factory] setDelegate:self];
@@ -48,8 +49,6 @@
 	possibleIconFileKeys = (NSArray *)[self contentsOfPlist:@"PossibleIconFileKeys"];
 	possibleAppDisplayNameKeys = (NSArray *)[self contentsOfPlist:@"PossibleAppDisplayNameKeys"];
 	officialAppDisplayNames = (NSDictionary *)[self contentsOfPlist:@"OfficialAppDisplayNames"];
-	
-	NSLog(@"%@", [self allAppPathsOnDevice]);
 }
 
 
@@ -98,6 +97,19 @@
 				mutabilityOption:NSPropertyListImmutable
 				format:nil
 				errorDescription:nil];
+}
+
+// Retreive the SpringBoard plist file
+- (NSMutableDictionary *)springboardFromPhone {
+	if (iPhone) {
+		
+		NSData *sbData = [iPhone contentsOfFileAtPath:SPRINGBOARD_PLIST];
+		return (NSMutableDictionary *)[NSPropertyListSerialization
+										propertyListFromData:sbData
+										mutabilityOption:NSPropertyListMutableContainersAndLeaves
+										format:nil errorDescription:nil];
+	}
+	return nil;
 }
 
 

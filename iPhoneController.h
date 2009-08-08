@@ -37,11 +37,14 @@
 	AFCDevice *iPhone;
 	NSArray *possibleIconFileKeys, *possibleAppDisplayNameKeys;
 	NSDictionary *officialAppDisplayNames;
+	NSMutableDictionary *springboard;
 }
 @property (readonly)NSArray *possibleIconFileKeys, *possibleAppDisplayNameKeys;
 @property (readonly)NSDictionary *officialAppDisplayNames;
+@property (readwrite, retain)NSMutableDictionary *springboard;
 
 - (id)contentsOfPlist:(NSString *)plistName;
 - (NSDictionary *)allAppPathsOnDevice;
+- (NSMutableDictionary *)springboardFromPhone;
 
 @end
