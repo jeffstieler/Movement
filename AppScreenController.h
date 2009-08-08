@@ -12,7 +12,7 @@
  1. Redistributions of source code must retain the above copyright
  notice, this list of conditions and the following disclaimer.
  2. Redistributions in binary form must, in all cases, contain attribution of 
- KennettNet Software Limited as the original author of the source code 
+ Jeff Stieler as the original author of the source code 
  shall be included in all such resulting software products or distributions.
  3. The name of the author may not be used to endorse or promote products
  derived from this software without specific prior written permission.
