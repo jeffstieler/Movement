@@ -23,6 +23,8 @@
 		F57690D3102D23E2002D2359 /* PossibleIconFileKeys.plist in Resources */ = {isa = PBXBuildFile; fileRef = F57690D2102D23E2002D2359 /* PossibleIconFileKeys.plist */; };
 		F57690D6102D2446002D2359 /* PossibleAppDisplayNameKeys.plist in Resources */ = {isa = PBXBuildFile; fileRef = F57690D5102D2446002D2359 /* PossibleAppDisplayNameKeys.plist */; };
 		F576911D102D3264002D2359 /* Disconnected.tif in Resources */ = {isa = PBXBuildFile; fileRef = F576911C102D3264002D2359 /* Disconnected.tif */; };
+		F57691EF102D4184002D2359 /* AppScreenController.m in Sources */ = {isa = PBXBuildFile; fileRef = F57691EE102D4184002D2359 /* AppScreenController.m */; };
+		F57691F4102D429F002D2359 /* AppController.m in Sources */ = {isa = PBXBuildFile; fileRef = F57691F3102D429F002D2359 /* AppController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -55,6 +57,10 @@
 		F57690D2102D23E2002D2359 /* PossibleIconFileKeys.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = PossibleIconFileKeys.plist; sourceTree = "<group>"; };
 		F57690D5102D2446002D2359 /* PossibleAppDisplayNameKeys.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = PossibleAppDisplayNameKeys.plist; sourceTree = "<group>"; };
 		F576911C102D3264002D2359 /* Disconnected.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Disconnected.tif; sourceTree = "<group>"; };
+		F57691ED102D4184002D2359 /* AppScreenController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppScreenController.h; sourceTree = "<group>"; };
+		F57691EE102D4184002D2359 /* AppScreenController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppScreenController.m; sourceTree = "<group>"; };
+		F57691F2102D429F002D2359 /* AppController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppController.h; sourceTree = "<group>"; };
+		F57691F3102D429F002D2359 /* AppController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -74,6 +80,10 @@
 		080E96DDFE201D6D7F000001 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				F57691F2102D429F002D2359 /* AppController.h */,
+				F57691F3102D429F002D2359 /* AppController.m */,
+				F57691ED102D4184002D2359 /* AppScreenController.h */,
+				F57691EE102D4184002D2359 /* AppScreenController.m */,
 				F5768FF6102D0C66002D2359 /* iPhoneApp.h */,
 				F5768FF7102D0C66002D2359 /* iPhoneApp.m */,
 				F5769064102D17F6002D2359 /* iPhoneController.h */,
@@ -245,6 +255,8 @@
 				F5768F96102CF0ED002D2359 /* AFCFactory.m in Sources */,
 				F5768FF8102D0C66002D2359 /* iPhoneApp.m in Sources */,
 				F5769066102D17F6002D2359 /* iPhoneController.m in Sources */,
+				F57691EF102D4184002D2359 /* AppScreenController.m in Sources */,
+				F57691F4102D429F002D2359 /* AppController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
