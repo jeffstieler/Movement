@@ -32,6 +32,7 @@
 
 #import "iPhoneController.h"
 #import "AFCFactory.h"
+#import "PNG Fixer.h"
 
 #define APP_DIR @"/Applications/"
 #define USER_APP_DIR @"/User/Applications/"
@@ -94,7 +95,8 @@
 			NSLog(@"%@", fullAppPath);
 			NSDictionary *appPlist = [self plistContentsForApp:fullAppPath];
 			NSLog(@"%@", appPlist);
-			
+			NSData *appIcon = [self iconForApp:fullAppPath plistContents:appPlist];
+			NSLog(@"%@", appIcon);
 		}
 	}
 	/*for (int screenNum = 0; screenNum < [iconLists count]; screenNum++) {
@@ -151,7 +153,7 @@
 		}
 	}
 	appIconPath = [appPath stringByAppendingPathComponent:appIconPath];
-	return [iPhone contentsOfFileAtPath:appIconPath];
+	return [PNGFixer fixPNG:[iPhone contentsOfFileAtPath:appIconPath]];
 }
 
 
