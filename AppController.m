@@ -64,12 +64,15 @@
 }
 
 - (void)addApp:(iPhoneApp *)anApp toScreen:(int)aScreen atIndex:(int)anIndex {
-	AppScreenController *screenController = [screenControllers objectAtIndex:aScreen];
-	if (!screenController) {
-		[self addScreen:nil];
-		screenController = [screenControllers objectAtIndex:aScreen];
+	if (anApp) {
+		AppScreenController *screenController = [screenControllers objectAtIndex:aScreen];
+		if (!screenController) {
+			[self addScreen:nil];
+			screenController = [screenControllers objectAtIndex:aScreen];
+		}
+		//[[screenController apps] replaceObjectAtIndex:anIndex withObject:anApp];
+		[[screenController apps] addObject:anApp];// insertObject:anApp atIndex:anIndex];
 	}
-	[[screenController apps] replaceObjectAtIndex:anIndex withObject:anApp];
 }
 
 - (IBAction)processAppsOnDevice:(id)sender {

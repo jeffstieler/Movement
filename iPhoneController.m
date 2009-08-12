@@ -99,12 +99,14 @@
 			//NSLog(@"%@", appIcon);
 			NSString *appIdentifer = [appPlist valueForKey:@"CFBundleIdentifier"];
 			NSString *appDisplayName = [self displayNameForApp:fullAppPath plistContents:appPlist];
+			//NSLog(@"%@ %@", appIdentifer, appDisplayName);
 			iPhoneApp *app = [[iPhoneApp alloc] initWithIdentifier:appIdentifer displayName:appDisplayName icon:appIcon];
 			[apps setObject:app forKey:appIdentifer];
 		}
 	}
+	
 	NSLog(@"%@", apps);
-	/*for (int screenNum = 0; screenNum < [iconLists count]; screenNum++) {
+	for (int screenNum = 0; screenNum < [iconLists count]; screenNum++) {
 		
 		// Add a screen to the AppController
 		[appController addScreen:nil];
@@ -117,16 +119,32 @@
 			for (int appNum = 0; appNum < [row count]; appNum++) {
 				id app = [row objectAtIndex:appNum];
 				if ([app isKindOfClass:[NSDictionary class]]) {
+					NSString *identifier = [app valueForKey:@"displayIdentifier"];
+					iPhoneApp *appToAdd = [apps objectForKey:identifier];
 					NSNumber *appPosition = [NSNumber numberWithInt:((rowNum * 4) + appNum)];
-					NSDictionary *appDict = [NSDictionary dictionaryWithObjectsAndKeys:
-											 screenNSNum, @"screen", appPosition, @"position", nil];
-					[appPositions setObject:appDict forKey:[app valueForKey:@"displayIdentifier"]];
+					int position = ((rowNum * 4) + appNum);
+					
+					NSRange hypenRange = [identifier rangeOfString:@"-"];
+					if (hypenRange.location != NSNotFound) {
+						NSString *displayName = [identifier substringFromIndex:(hypenRange.location + 1)];
+						NSString *appExecutableName = [identifier substringToIndex:hypenRange.location];
+						appToAdd = [apps objectForKey:appExecutableName];
+						iPhoneApp *newApp = [[iPhoneApp alloc] initWithIdentifier:identifier displayName:displayName icon:appToAdd.icon];
+						appToAdd = newApp;
+					}
+					//NSLog(@"%@", identifier);
+					[appController addApp:appToAdd
+								 toScreen:screenNum 
+								  atIndex:position];
+					//NSDictionary *appDict = [NSDictionary dictionaryWithObjectsAndKeys:
+					//						 screenNSNum, @"screen", appPosition, @"position", nil];
+					//[appPositions setObject:appDict forKey:[app valueForKey:@"displayIdentifier"]];
 				}				
 			}
 		}
-		NSLog(@"%@", appPositions);
+		[[[[appController screenControllers] objectAtIndex:screenNum] screen] reloadData];
 		
-	}*/
+	}
 }
 
 - (NSDictionary *)plistContentsForApp:(NSString *)appPath {
