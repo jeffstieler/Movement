@@ -86,7 +86,15 @@
 - (void)processAppsFromSpringboard {
 	NSArray *iconLists = [[[self springboard] objectForKey:@"iconState"] objectForKey:@"iconLists"];
 	NSMutableDictionary *appPositions = [[NSMutableDictionary alloc] init];
-	
+	NSDictionary *allAppPaths = [self allAppPathsOnDevice];
+
+	for (NSString *basePath in allAppPaths) {
+		for (NSString *appPath in [allAppPaths objectForKey:basePath]) {
+			NSString *fullAppPath = [basePath stringByAppendingString:appPath];
+			NSLog(@"%@", fullAppPath);
+			
+		}
+	}
 	for (int screenNum = 0; screenNum < [iconLists count]; screenNum++) {
 		
 		// Add a screen to the AppController
@@ -108,7 +116,26 @@
 			}
 		}
 		NSLog(@"%@", appPositions);
+		
 	}
+}
+
+- (NSDictionary *)plistContentsForApp:(NSString *)appPath {
+	NSString *plistPath;
+	NSPropertyListFormat format;
+	NSError *error;
+	NSArray *possibleInfoFiles = [NSArray arrayWithObjects:@"/Info.plist", @"/info.plist", nil];
+	for (NSString *possibleFile in possibleInfoFiles) {
+		NSString *path = [appPath stringByAppendingPathComponent:possibleFile];
+		if ([[iPhone deviceInterface] isFileAtPath:path]) {
+			plistPath = path;
+		}
+	}
+	NSData *plist = [iPhone contentsOfFileAtPath:plistPath];
+	return [NSPropertyListSerialization propertyListFromData:plist 
+											mutabilityOption:NSPropertyListImmutable
+													  format:&format
+											errorDescription:&error];
 }
 
 

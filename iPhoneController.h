@@ -49,5 +49,6 @@
 - (NSDictionary *)allAppPathsOnDevice;
 - (NSMutableDictionary *)springboardFromPhone;
 - (void)processAppsFromSpringboard;
+- (NSDictionary *)plistContentsForApp:(NSString *)appPath;
 
 @end
