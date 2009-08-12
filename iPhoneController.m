@@ -92,10 +92,12 @@
 		for (NSString *appPath in [allAppPaths objectForKey:basePath]) {
 			NSString *fullAppPath = [basePath stringByAppendingString:appPath];
 			NSLog(@"%@", fullAppPath);
+			NSDictionary *appPlist = [self plistContentsForApp:fullAppPath];
+			NSLog(@"%@", appPlist);
 			
 		}
 	}
-	for (int screenNum = 0; screenNum < [iconLists count]; screenNum++) {
+	/*for (int screenNum = 0; screenNum < [iconLists count]; screenNum++) {
 		
 		// Add a screen to the AppController
 		[appController addScreen:nil];
@@ -117,13 +119,11 @@
 		}
 		NSLog(@"%@", appPositions);
 		
-	}
+	}*/
 }
 
 - (NSDictionary *)plistContentsForApp:(NSString *)appPath {
 	NSString *plistPath;
-	NSPropertyListFormat format;
-	NSError *error;
 	NSArray *possibleInfoFiles = [NSArray arrayWithObjects:@"/Info.plist", @"/info.plist", nil];
 	for (NSString *possibleFile in possibleInfoFiles) {
 		NSString *path = [appPath stringByAppendingPathComponent:possibleFile];
@@ -134,8 +134,24 @@
 	NSData *plist = [iPhone contentsOfFileAtPath:plistPath];
 	return [NSPropertyListSerialization propertyListFromData:plist 
 											mutabilityOption:NSPropertyListImmutable
-													  format:&format
-											errorDescription:&error];
+													  format:nil
+											errorDescription:nil];
+}
+
+- (NSData *)iconForApp:(NSString *)appPath plistContents:(NSDictionary *)plistContents {
+	NSArray *possibleIconFiles = [NSArray arrayWithObjects:@"Icon.png", @"Icon-Small.png", @"icon.png", nil];
+	NSString *appIconPath = [plistContents valueForKey:@"CFBundleIconFile"];
+	if (!appIconPath) {
+		for (NSString *iconPath in possibleIconFiles) {
+			NSString *possibleIconPath = [appPath stringByAppendingPathComponent:iconPath];
+			if ([[iPhone deviceInterface] isFileAtPath:possibleIconPath]) {
+				appIconPath = iconPath;
+				break;
+			}
+		}
+	}
+	appIconPath = [appPath stringByAppendingPathComponent:appIconPath];
+	return [iPhone contentsOfFileAtPath:appIconPath];
 }
 
 

@@ -50,5 +50,6 @@
 - (NSMutableDictionary *)springboardFromPhone;
 - (void)processAppsFromSpringboard;
 - (NSDictionary *)plistContentsForApp:(NSString *)appPath;
+- (NSData *)iconForApp:(NSString *)appPath plistContents:(NSDictionary *)plistContents;
 
 @end
