@@ -48,5 +48,6 @@
 - (id)contentsOfPlist:(NSString *)plistName;
 - (NSDictionary *)allAppPathsOnDevice;
 - (NSMutableDictionary *)springboardFromPhone;
+- (void)processAppsFromSpringboard;
 
 @end

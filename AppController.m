@@ -42,8 +42,11 @@
 
 @implementation AppController
 
+@synthesize screenControllers;
+
 - (void)awakeFromNib {
-	screenControllers = [[NSMutableArray alloc] init];
+	self.screenControllers = [[NSMutableArray alloc] init];
+	NSLog(@"AppController is awake");
 }
 
 - (void)dealloc {
@@ -51,6 +54,26 @@
 	[super dealloc];
 }
 
-@synthesize screenControllers;
+- (IBAction)addScreen:(id)sender {
+	NSRect screenFrame = NSMakeRect(SCREEN_X_OFFSET([screenControllers count]), PAD, SCREEN_WIDTH, SCREEN_HEIGHT);	
+	AppScreenController *controller = [[AppScreenController alloc] initWithFrame:screenFrame];
+
+	[screenControllers addObject:controller];
+	[scrollViewContent addSubview:[controller screen]];
+	[scrollViewContent setFrame:NSMakeRect(0, 0, SCREEN_X_OFFSET([screenControllers count]), CONTAINER_HEIGHT)];
+}
+
+- (void)addApp:(iPhoneApp *)anApp toScreen:(int)aScreen atIndex:(int)anIndex {
+	AppScreenController *screenController = [screenControllers objectAtIndex:aScreen];
+	if (!screenController) {
+		[self addScreen];
+		screenController = [screenControllers objectAtIndex:aScreen];
+	}
+	[[screenController apps] replaceObjectAtIndex:anIndex withObject:anApp];
+}
+
+- (IBAction)processAppsOnDevice:(id)sender {
+	[phoneController processAppsFromSpringboard];
+}
 
 @end

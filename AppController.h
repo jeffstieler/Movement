@@ -38,8 +38,14 @@
 @interface AppController : NSObject {
 	IBOutlet NSWindow *appWindow;
 	IBOutlet NSView *scrollViewContent;
+	IBOutlet id phoneController;
 	NSMutableArray *screenControllers;
 }
 @property (readwrite, assign)NSMutableArray *screenControllers;
+
+- (IBAction)addScreen:(id)sender;
+- (void)addApp:(iPhoneApp *)anApp toScreen:(int)aScreen atIndex:(int)anIndex;
+
+- (IBAction)processAppsOnDevice:(id)sender;
 
 @end

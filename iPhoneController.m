@@ -83,26 +83,20 @@
 	return nil;
 }
 
-/*- (void)processAppsFromSpringboard {
+- (void)processAppsFromSpringboard {
 	NSArray *iconLists = [[[self springboard] objectForKey:@"iconState"] objectForKey:@"iconLists"];
 	NSMutableDictionary *appPositions = [[NSMutableDictionary alloc] init];
+	
 	for (int screenNum = 0; screenNum < [iconLists count]; screenNum++) {
-		NSArray *screen = [[iconLists objectAtIndex:screenNum] objectForKey:@"iconMatrix"];
+		
+		// Add a screen to the AppController
+		[appController addScreen:nil];
+		
+		NSArray *screenRows = [[iconLists objectAtIndex:screenNum] objectForKey:@"iconMatrix"];
 		NSNumber *screenNSNum = [NSNumber numberWithInt:screenNum];
 		
-		IKImageBrowserView *screen = [[IKImageBrowserView alloc] initWithFrame:screenFrame];
-		[screen setCellsStyleMask:IKCellsStyleTitled];
-		[screen setCellSize:NSMakeSize(50, 50)];
-		ScreenController *controller = [[ScreenController alloc] init];
-		
-		
-		
-		//[screens addObject:[NSMutableArray arrayWithCapacity:16]];
-		//for (int i = 0; i < 16; i++) {
-		//[screens objectAtIndex:
-		//}
-		for (int rowNum = 0; rowNum < [screen count]; rowNum++) {
-			NSArray *row = [screen objectAtIndex:rowNum];
+		for (int rowNum = 0; rowNum < [screenRows count]; rowNum++) {
+			NSArray *row = [screenRows objectAtIndex:rowNum];
 			for (int appNum = 0; appNum < [row count]; appNum++) {
 				id app = [row objectAtIndex:appNum];
 				if ([app isKindOfClass:[NSDictionary class]]) {
@@ -113,8 +107,9 @@
 				}				
 			}
 		}
+		NSLog(@"%@", appPositions);
 	}
-}*/
+}
 
 
 #pragma mark -
@@ -161,7 +156,7 @@
 			// a different device_id. Therefore, inform our instance 
 			// that it's been changed.
 			[iPhone setDeviceRef:dev andService:kRootAFC];
-			
+
 			return;
 		} 
 		
@@ -173,12 +168,12 @@
 	iPhone = [[AFCDevice alloc] initWithRef:dev andService:kRootAFC];
 	
 	if (!iPhone) {
-		
 		[NSException raise:@"iPhoneController" format:@"Error occurred when trying to init AFC device."];
 		
 	} else {
 		NSLog(@"Device connected, ID: %d, SN: %@", [[iPhone device] deviceID], [[iPhone device] serialNumber]);
 		[iPhone setDelegate:self];
+		self.springboard = [self springboardFromPhone];
 	}
 	
 }

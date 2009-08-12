@@ -35,9 +35,13 @@
 
 #define APPS_PER_SCREEN 16
 
-@interface AppScreenController : NSObject {
+@interface AppScreenController : NSWindowController {
 	NSMutableArray *apps;
+	IKImageBrowserView *screen;
 }
 @property (readwrite, retain)NSMutableArray *apps;
+@property (readwrite, retain)IKImageBrowserView *screen;
+
+- (id)initWithFrame:(NSRect)aFrame;
 
 @end

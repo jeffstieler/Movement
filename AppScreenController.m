@@ -34,15 +34,26 @@
 
 @implementation AppScreenController
 
-- (id)init {
+@synthesize apps, screen;
+
+- (id)initWithFrame:(NSRect)aFrame {
 	if (self = [super init]) {
-		apps = [NSMutableArray arrayWithCapacity:APPS_PER_SCREEN];
+		self.apps = [NSMutableArray arrayWithCapacity:APPS_PER_SCREEN];
+		screen = [[IKImageBrowserView alloc] initWithFrame:aFrame];
+		[screen setCellsStyleMask:IKCellsStyleTitled];
+		[screen setCellSize:NSMakeSize(50, 50)];
+		[screen setAllowsReordering:YES];
+		[screen setAnimates:YES];
+		[screen setDelegate:self];
+		[screen setDataSource:self];
+		[screen setDraggingDestinationDelegate:self];
 	}
 	return self;
 }
 
 - (void)dealloc {
 	[apps release];
+	[screen release];
 	[super dealloc];
 }
 
@@ -58,7 +69,5 @@
 {
 	return [apps objectAtIndex:index];
 }
-
-@synthesize apps;
 
 @end
