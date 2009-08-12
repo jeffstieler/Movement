@@ -37,7 +37,7 @@
 
 - (id)initWithIdentifier:(NSString *)aIdentifier 
 			 displayName:(NSString *)aName 
-					icon:(NSImage *)aIcon { //(NSData *)aIcon {
+					icon:(NSData *)aIcon {
 	if (self = [super init]) {
 		self.identifier = aIdentifier;
 		self.displayName = aName;
@@ -65,7 +65,7 @@
 }
 - (NSString *) imageRepresentationType
 {
-	return IKImageBrowserNSImageRepresentationType;// IKImageBrowserNSDataRepresentationType;
+	return IKImageBrowserNSDataRepresentationType;
 }
 - (id) imageRepresentation
 {

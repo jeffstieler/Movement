@@ -44,7 +44,7 @@
 
 - (id)initWithIdentifier:(NSString *)aIdentifier 
 			 displayName:(NSString *)aName 
-					icon:(NSImage *)aIcon;//(NSData *)aIcon;
+					icon:(NSData *)aIcon;
 
 #pragma mark -
 #pragma mark Required Methods IKImageBrowserItem Informal Protocol

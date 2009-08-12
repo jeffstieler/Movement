@@ -86,19 +86,24 @@
 
 - (void)processAppsFromSpringboard {
 	NSArray *iconLists = [[[self springboard] objectForKey:@"iconState"] objectForKey:@"iconLists"];
-	NSMutableDictionary *appPositions = [[NSMutableDictionary alloc] init];
+	NSMutableDictionary *apps = [[NSMutableDictionary alloc] init];
 	NSDictionary *allAppPaths = [self allAppPathsOnDevice];
 
 	for (NSString *basePath in allAppPaths) {
 		for (NSString *appPath in [allAppPaths objectForKey:basePath]) {
 			NSString *fullAppPath = [basePath stringByAppendingString:appPath];
-			NSLog(@"%@", fullAppPath);
+			//NSLog(@"%@", fullAppPath);
 			NSDictionary *appPlist = [self plistContentsForApp:fullAppPath];
-			NSLog(@"%@", appPlist);
+			//NSLog(@"%@", appPlist);
 			NSData *appIcon = [self iconForApp:fullAppPath plistContents:appPlist];
-			NSLog(@"%@", appIcon);
+			//NSLog(@"%@", appIcon);
+			NSString *appIdentifer = [appPlist valueForKey:@"CFBundleIdentifier"];
+			NSString *appDisplayName = [self displayNameForApp:fullAppPath plistContents:appPlist];
+			iPhoneApp *app = [[iPhoneApp alloc] initWithIdentifier:appIdentifer displayName:appDisplayName icon:appIcon];
+			[apps setObject:app forKey:appIdentifer];
 		}
 	}
+	NSLog(@"%@", apps);
 	/*for (int screenNum = 0; screenNum < [iconLists count]; screenNum++) {
 		
 		// Add a screen to the AppController
@@ -155,13 +160,26 @@
 	appIconPath = [appPath stringByAppendingPathComponent:appIconPath];
 	return [PNGFixer fixPNG:[iPhone contentsOfFileAtPath:appIconPath]];
 }
+			
+- (NSString *)displayNameForApp:(NSString *)appPath plistContents:(NSDictionary *)plistContents {
+	for (NSString *key in possibleAppDisplayNameKeys) {
+		NSString *displayName = [plistContents valueForKey:key];
+		if (displayName) {
+			if ([officialAppDisplayNames valueForKey:displayName]) {
+				displayName = [officialAppDisplayNames valueForKey:displayName];
+			}
+			return displayName;
+		}
+	}
+	return nil;
+}
 
 
 #pragma mark -
 #pragma mark Plist content retrieval helpers
 
 - (id)contentsOfPlist:(NSString *)plistName {
-	return [NSPropertyListSerialization
+	return [[NSPropertyListSerialization
 				propertyListFromData:
 					[NSData dataWithContentsOfFile:
 						[[NSBundle mainBundle]
@@ -169,7 +187,7 @@
 							ofType:@"plist"]]
 				mutabilityOption:NSPropertyListImmutable
 				format:nil
-				errorDescription:nil];
+				errorDescription:nil] retain];
 }
 
 // Retreive the SpringBoard plist file

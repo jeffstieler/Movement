@@ -66,7 +66,7 @@
 - (void)addApp:(iPhoneApp *)anApp toScreen:(int)aScreen atIndex:(int)anIndex {
 	AppScreenController *screenController = [screenControllers objectAtIndex:aScreen];
 	if (!screenController) {
-		[self addScreen];
+		[self addScreen:nil];
 		screenController = [screenControllers objectAtIndex:aScreen];
 	}
 	[[screenController apps] replaceObjectAtIndex:anIndex withObject:anApp];

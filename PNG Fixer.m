@@ -67,7 +67,7 @@ unsigned char cgbichunk[4] = {0x43, 0x67, 0x42, 0x49}; // CgBI
 	
 	if (memcmp(buf, pngheader, 8)) {
 		printf("This is not a PNG file. I require a PNG file!\n");
-        return nil;
+        return [NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"sad_mac" ofType:@"gif"]];
     }
 	
 	chunks = malloc(sizeof(png_chunk *) * MAX_CHUNKS);
