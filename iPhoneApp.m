@@ -37,7 +37,7 @@
 
 - (id)initWithIdentifier:(NSString *)aIdentifier 
 			 displayName:(NSString *)aName 
-					icon:(NSData *)aIcon {
+					icon:(NSImage *)aIcon {
 	if (self = [super init]) {
 		self.identifier = aIdentifier;
 		self.displayName = aName;
@@ -47,7 +47,7 @@
 }
 
 - (NSString *)description {
-	return [NSString stringWithFormat:@"%@ [%@] (%d)", displayName, identifier, icon.length];
+	return [NSString stringWithFormat:@"%@ [%@] (%@)", displayName, identifier, icon];
 }
 
 - (void)dealloc {
@@ -65,7 +65,7 @@
 }
 - (NSString *) imageRepresentationType
 {
-	return IKImageBrowserNSDataRepresentationType;
+	return IKImageBrowserNSImageRepresentationType;
 }
 - (id) imageRepresentation
 {

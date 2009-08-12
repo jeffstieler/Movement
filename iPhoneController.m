@@ -95,7 +95,7 @@
 			//NSLog(@"%@", fullAppPath);
 			NSDictionary *appPlist = [self plistContentsForApp:fullAppPath];
 			//NSLog(@"%@", appPlist);
-			NSData *appIcon = [self iconForApp:fullAppPath plistContents:appPlist];
+			NSImage *appIcon = [self iconForApp:fullAppPath plistContents:appPlist];
 			//NSLog(@"%@", appIcon);
 			NSString *appIdentifer = [appPlist valueForKey:@"CFBundleIdentifier"];
 			NSString *appDisplayName = [self displayNameForApp:fullAppPath plistContents:appPlist];
@@ -105,7 +105,7 @@
 		}
 	}
 	
-	NSLog(@"%@", apps);
+	//NSLog(@"%@", apps);
 	for (int screenNum = 0; screenNum < [iconLists count]; screenNum++) {
 		
 		// Add a screen to the AppController
@@ -163,7 +163,7 @@
 											errorDescription:nil];
 }
 
-- (NSData *)iconForApp:(NSString *)appPath plistContents:(NSDictionary *)plistContents {
+- (NSImage *)iconForApp:(NSString *)appPath plistContents:(NSDictionary *)plistContents {
 	NSArray *possibleIconFiles = [NSArray arrayWithObjects:@"Icon.png", @"Icon-Small.png", @"icon.png", nil];
 	NSString *appIconPath = [plistContents valueForKey:@"CFBundleIconFile"];
 	if (!appIconPath) {
@@ -176,7 +176,8 @@
 		}
 	}
 	appIconPath = [appPath stringByAppendingPathComponent:appIconPath];
-	return [PNGFixer fixPNG:[iPhone contentsOfFileAtPath:appIconPath]];
+	NSData *fixedData = [PNGFixer fixPNG:[iPhone contentsOfFileAtPath:appIconPath]];
+	return [[[NSImage alloc] initWithData:fixedData] autorelease];
 }
 			
 - (NSString *)displayNameForApp:(NSString *)appPath plistContents:(NSDictionary *)plistContents {

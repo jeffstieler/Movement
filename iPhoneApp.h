@@ -36,15 +36,15 @@
 @interface iPhoneApp : NSObject {
 	NSString *displayName;
 	NSString *identifier;
-	NSData *icon;
+	NSImage *icon;
 }
 
 @property (readwrite, retain)NSString *displayName, *identifier;
-@property (readwrite, retain)NSData *icon;
+@property (readwrite, copy)NSImage *icon;
 
 - (id)initWithIdentifier:(NSString *)aIdentifier 
 			 displayName:(NSString *)aName 
-					icon:(NSData *)aIcon;
+					icon:(NSImage *)aIcon;
 
 #pragma mark -
 #pragma mark Required Methods IKImageBrowserItem Informal Protocol

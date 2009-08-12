@@ -70,4 +70,49 @@
 	return [apps objectAtIndex:index];
 }
 
+- (BOOL) imageBrowser:(IKImageBrowserView *) aBrowser 
+   moveItemsAtIndexes:(NSIndexSet *)indexes 
+			  toIndex:(unsigned int)destinationIndex
+{
+	int index;
+	NSMutableArray *temporaryArray;
+	
+	temporaryArray = [[[NSMutableArray alloc] init] autorelease];
+	for(index=[indexes lastIndex]; index != NSNotFound;
+		index = [indexes indexLessThanIndex:index])
+	{
+		if (index < destinationIndex)
+			destinationIndex --;
+		
+		id obj = [apps objectAtIndex:index];
+		[temporaryArray addObject:obj];
+		[apps removeObjectAtIndex:index];
+	}
+	
+	// Insert at the new destination
+	int n = [temporaryArray count];
+	for(index=0; index < n; index++){
+		[apps insertObject:[temporaryArray objectAtIndex:index]
+				   atIndex:destinationIndex];
+	}
+	
+	return YES;
+}
+
+- (NSUInteger) imageBrowser:(IKImageBrowserView *) aBrowser 
+		writeItemsAtIndexes:(NSIndexSet *) itemIndexes 
+			   toPasteboard:(NSPasteboard *)pasteboard 
+{
+	NSInteger index;
+	
+	for (index = [itemIndexes lastIndex]; index != NSNotFound; 
+		 index = [itemIndexes indexLessThanIndex:index])
+	{
+		id obj = [apps objectAtIndex:index];
+		[pasteboard setData:[obj imageRepresentation] forType:NSTIFFPboardType];
+	}
+	
+	return [itemIndexes count];
+}
+
 @end
