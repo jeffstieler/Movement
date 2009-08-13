@@ -99,17 +99,17 @@
 	return YES;
 }
 
-- (NSUInteger) imageBrowser:(IKImageBrowserView *) aBrowser 
+- (NSUInteger) imageBrowser:(IKImageBrowserView *) aBrowser  
 		writeItemsAtIndexes:(NSIndexSet *) itemIndexes 
-			   toPasteboard:(NSPasteboard *)pasteboard 
+			   toPasteboard:(NSPasteboard *) pasteboard
 {
 	NSInteger index;
 	
-	for (index = [itemIndexes lastIndex]; index != NSNotFound; 
-		 index = [itemIndexes indexLessThanIndex:index])
+	for (index = [itemIndexes lastIndex]; index != NSNotFound; index =  
+		 [itemIndexes indexLessThanIndex:index])
 	{
-		id obj = [apps objectAtIndex:index];
-		[pasteboard setData:[obj imageRepresentation] forType:NSTIFFPboardType];
+		id app = [apps objectAtIndex:index];
+		[pasteboard setData:[app imageRepresentation] forType:NSTIFFPboardType];
 	}
 	
 	return [itemIndexes count];

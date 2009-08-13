@@ -40,7 +40,7 @@
 }
 
 @property (readwrite, retain)NSString *displayName, *identifier;
-@property (readwrite, copy)NSImage *icon;
+@property (readwrite, retain)NSImage *icon;
 
 - (id)initWithIdentifier:(NSString *)aIdentifier 
 			 displayName:(NSString *)aName 
