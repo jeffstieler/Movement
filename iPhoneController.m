@@ -47,9 +47,17 @@
 	
 	// Grab official app display name, possible icon/app display name keys from
 	// their respective plists in the main bundle
-	possibleIconFileKeys = (NSArray *)[self contentsOfPlist:@"PossibleIconFileKeys"];
-	possibleAppDisplayNameKeys = (NSArray *)[self contentsOfPlist:@"PossibleAppDisplayNameKeys"];
-	officialAppDisplayNames = (NSDictionary *)[self contentsOfPlist:@"OfficialAppDisplayNames"];
+	self.possibleIconFileKeys = (NSArray *)[self contentsOfPlist:@"PossibleIconFileKeys"];
+	self.possibleAppDisplayNameKeys = (NSArray *)[self contentsOfPlist:@"PossibleAppDisplayNameKeys"];
+	self.officialAppDisplayNames = (NSDictionary *)[self contentsOfPlist:@"OfficialAppDisplayNames"];
+}
+
+- (void)dealloc {
+	[possibleIconFileKeys release];
+	[possibleAppDisplayNameKeys release];
+	[officialAppDisplayNames release];
+	[iPhone release];
+	[super dealloc];
 }
 
 
@@ -60,12 +68,12 @@
 - (NSDictionary *)allAppPathsOnDevice {
 	if (iPhone) {
 		
-		NSMutableDictionary *allApps = [[NSMutableDictionary alloc] initWithCapacity:2];
+		NSMutableDictionary *allApps = [NSMutableDictionary dictionaryWithCapacity:2];
 		
 		// "Official" apps are in /Applications/<app name>.app/
 		[allApps setObject:[iPhone listOfFoldersAtPath:APP_DIR] forKey:APP_DIR];
 		NSRange isDotApp;
-		NSMutableArray *userApps = [[NSMutableArray alloc] init];
+		NSMutableArray *userApps = [[[NSMutableArray alloc] init] autorelease];
 		
 		// "Third Party" apps are in /User/Applications/<crazy hash>/<app name>.app/
 		for (NSString *folder in [iPhone listOfFoldersAtPath:USER_APP_DIR]) {
@@ -79,14 +87,14 @@
 		}
 		
 		[allApps setObject:(NSArray *)userApps forKey:USER_APP_DIR];
-		return [(NSDictionary *)allApps autorelease];
+		return (NSDictionary *)allApps;
 	}
 	return nil;
 }
 
 - (void)processAppsFromSpringboard {
 	NSArray *iconLists = [[[self springboard] objectForKey:@"iconState"] objectForKey:@"iconLists"];
-	NSMutableDictionary *apps = [[NSMutableDictionary alloc] init];
+	NSMutableDictionary *apps = [[[NSMutableDictionary alloc] init] autorelease];
 	NSDictionary *allAppPaths = [self allAppPathsOnDevice];
 
 	for (NSString *basePath in allAppPaths) {
@@ -100,8 +108,11 @@
 			NSString *appIdentifer = [appPlist valueForKey:@"CFBundleIdentifier"];
 			NSString *appDisplayName = [self displayNameForApp:fullAppPath plistContents:appPlist];
 			//NSLog(@"%@ %@", appIdentifer, appDisplayName);
-			iPhoneApp *app = [[iPhoneApp alloc] initWithIdentifier:appIdentifer displayName:appDisplayName icon:appIcon];
+			iPhoneApp *app = [[iPhoneApp alloc] initWithIdentifier:appIdentifer
+													   displayName:appDisplayName
+															  icon:appIcon];
 			[apps setObject:app forKey:appIdentifer];
+			[app release];
 		}
 	}
 	
@@ -112,7 +123,7 @@
 		[appController addScreen:nil];
 		
 		NSArray *screenRows = [[iconLists objectAtIndex:screenNum] objectForKey:@"iconMatrix"];
-		NSNumber *screenNSNum = [NSNumber numberWithInt:screenNum];
+		//NSNumber *screenNSNum = [NSNumber numberWithInt:screenNum];
 		
 		for (int rowNum = 0; rowNum < [screenRows count]; rowNum++) {
 			NSArray *row = [screenRows objectAtIndex:rowNum];
@@ -121,7 +132,7 @@
 				if ([app isKindOfClass:[NSDictionary class]]) {
 					NSString *identifier = [app valueForKey:@"displayIdentifier"];
 					iPhoneApp *appToAdd = [apps objectForKey:identifier];
-					NSNumber *appPosition = [NSNumber numberWithInt:((rowNum * 4) + appNum)];
+					//NSNumber *appPosition = [NSNumber numberWithInt:((rowNum * 4) + appNum)];
 					int position = ((rowNum * 4) + appNum);
 					
 					NSRange hypenRange = [identifier rangeOfString:@"-"];
@@ -129,13 +140,19 @@
 						NSString *displayName = [identifier substringFromIndex:(hypenRange.location + 1)];
 						NSString *appExecutableName = [identifier substringToIndex:hypenRange.location];
 						appToAdd = [apps objectForKey:appExecutableName];
-						iPhoneApp *newApp = [[iPhoneApp alloc] initWithIdentifier:identifier displayName:displayName icon:appToAdd.icon];
-						appToAdd = newApp;
+						iPhoneApp *newApp = [[iPhoneApp alloc] initWithIdentifier:identifier
+																	  displayName:displayName
+																			 icon:appToAdd.icon];
+						[appController addApp:newApp
+									 toScreen:screenNum 
+									  atIndex:position];
+						[newApp release];
+					} else {
+						[appController addApp:appToAdd
+									 toScreen:screenNum 
+									  atIndex:position];
 					}
 					//NSLog(@"%@", identifier);
-					[appController addApp:appToAdd
-								 toScreen:screenNum 
-								  atIndex:position];
 					//NSDictionary *appDict = [NSDictionary dictionaryWithObjectsAndKeys:
 					//						 screenNSNum, @"screen", appPosition, @"position", nil];
 					//[appPositions setObject:appDict forKey:[app valueForKey:@"displayIdentifier"]];
@@ -148,7 +165,7 @@
 }
 
 - (NSDictionary *)plistContentsForApp:(NSString *)appPath {
-	NSString *plistPath;
+	NSString *plistPath = nil;
 	NSArray *possibleInfoFiles = [NSArray arrayWithObjects:@"/Info.plist", @"/info.plist", nil];
 	for (NSString *possibleFile in possibleInfoFiles) {
 		NSString *path = [appPath stringByAppendingPathComponent:possibleFile];
@@ -156,11 +173,14 @@
 			plistPath = path;
 		}
 	}
-	NSData *plist = [iPhone contentsOfFileAtPath:plistPath];
-	return [NSPropertyListSerialization propertyListFromData:plist 
-											mutabilityOption:NSPropertyListImmutable
-													  format:nil
-											errorDescription:nil];
+	if (plistPath) {
+		NSData *plist = [iPhone contentsOfFileAtPath:plistPath];
+		return [NSPropertyListSerialization propertyListFromData:plist 
+												mutabilityOption:NSPropertyListImmutable
+														  format:nil
+												errorDescription:nil];
+	}
+	return nil;
 }
 
 - (NSImage *)iconForApp:(NSString *)appPath plistContents:(NSDictionary *)plistContents {
@@ -198,7 +218,7 @@
 #pragma mark Plist content retrieval helpers
 
 - (id)contentsOfPlist:(NSString *)plistName {
-	return [[NSPropertyListSerialization
+	return [NSPropertyListSerialization
 				propertyListFromData:
 					[NSData dataWithContentsOfFile:
 						[[NSBundle mainBundle]
@@ -206,7 +226,7 @@
 							ofType:@"plist"]]
 				mutabilityOption:NSPropertyListImmutable
 				format:nil
-				errorDescription:nil] retain];
+				errorDescription:nil];
 }
 
 // Retreive the SpringBoard plist file

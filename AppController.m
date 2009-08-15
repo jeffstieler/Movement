@@ -45,7 +45,7 @@
 @synthesize screenControllers;
 
 - (void)awakeFromNib {
-	self.screenControllers = [[NSMutableArray alloc] init];
+	self.screenControllers = [[[NSMutableArray alloc] init] autorelease];
 	NSLog(@"AppController is awake");
 }
 
@@ -61,6 +61,7 @@
 	[screenControllers addObject:controller];
 	[scrollViewContent addSubview:[controller screen]];
 	[scrollViewContent setFrame:NSMakeRect(0, 0, SCREEN_X_OFFSET([screenControllers count]), CONTAINER_HEIGHT)];
+	[controller release];
 }
 
 - (void)addApp:(iPhoneApp *)anApp toScreen:(int)aScreen atIndex:(int)anIndex {

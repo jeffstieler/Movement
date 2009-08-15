@@ -39,7 +39,7 @@
 - (id)initWithFrame:(NSRect)aFrame {
 	if (self = [super init]) {
 		self.apps = [NSMutableArray arrayWithCapacity:APPS_PER_SCREEN];
-		screen = [[IKImageBrowserView alloc] initWithFrame:aFrame];
+		self.screen = [[[IKImageBrowserView alloc] initWithFrame:aFrame] autorelease];
 		[screen setCellsStyleMask:IKCellsStyleTitled];
 		[screen setCellSize:NSMakeSize(50, 50)];
 		[screen setAllowsReordering:YES];
@@ -70,8 +70,13 @@
 	return [apps objectAtIndex:index];
 }
 
-- (BOOL) imageBrowser:(IKImageBrowserView *) aBrowser 
-   moveItemsAtIndexes:(NSIndexSet *)indexes 
+- (void) imageBrowser:(IKImageBrowserView *) view removeItemsAtIndexes: (NSIndexSet *) indexes
+{
+    [apps removeObjectsAtIndexes:indexes];
+}
+
+- (BOOL) imageBrowser:(IKImageBrowserView *) aBrowser  
+   moveItemsAtIndexes: (NSIndexSet *)indexes 
 			  toIndex:(unsigned int)destinationIndex
 {
 	int index;

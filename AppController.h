@@ -41,7 +41,7 @@
 	IBOutlet id phoneController;
 	NSMutableArray *screenControllers;
 }
-@property (readwrite, assign)NSMutableArray *screenControllers;
+@property (readwrite, retain)NSMutableArray *screenControllers;
 
 - (IBAction)addScreen:(id)sender;
 - (void)addApp:(iPhoneApp *)anApp toScreen:(int)aScreen atIndex:(int)anIndex;

@@ -41,8 +41,8 @@
 	NSDictionary *officialAppDisplayNames;
 	NSMutableDictionary *springboard;
 }
-@property (readonly)NSArray *possibleIconFileKeys, *possibleAppDisplayNameKeys;
-@property (readonly)NSDictionary *officialAppDisplayNames;
+@property (readwrite, retain)NSArray *possibleIconFileKeys, *possibleAppDisplayNameKeys;
+@property (readwrite, retain)NSDictionary *officialAppDisplayNames;
 @property (readwrite, retain)NSMutableDictionary *springboard;
 
 - (id)contentsOfPlist:(NSString *)plistName;

@@ -47,7 +47,7 @@
 }
 
 - (NSString *)description {
-	return [NSString stringWithFormat:@"%@ [%@] (%@)", displayName, identifier, icon];
+	return [NSString stringWithFormat:@"%@ [%@]", displayName, identifier];
 }
 
 - (void)dealloc {
