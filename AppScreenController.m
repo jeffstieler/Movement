@@ -40,6 +40,11 @@
 	if (self = [super init]) {
 		self.apps = [NSMutableArray arrayWithCapacity:APPS_PER_SCREEN];
 		self.screen = [[[IKImageBrowserView alloc] initWithFrame:aFrame] autorelease];
+		[screen setValue:[NSColor blackColor] forKey:IKImageBrowserBackgroundColorKey];
+		NSMutableDictionary *attributes = [NSMutableDictionary dictionaryWithCapacity:1];
+		[attributes setValue:[NSColor whiteColor] forKey:NSForegroundColorAttributeName];
+		[screen setValue:attributes forKey:IKImageBrowserCellsTitleAttributesKey];
+		//[attributes release];
 		[screen setCellsStyleMask:IKCellsStyleTitled];
 		[screen setCellSize:NSMakeSize(50, 50)];
 		[screen setAllowsReordering:YES];

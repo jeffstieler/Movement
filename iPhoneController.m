@@ -56,6 +56,7 @@
 	[possibleIconFileKeys release];
 	[possibleAppDisplayNameKeys release];
 	[officialAppDisplayNames release];
+	[springboard release];
 	[iPhone release];
 	[super dealloc];
 }
