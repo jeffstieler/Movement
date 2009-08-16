@@ -109,6 +109,9 @@
 	return YES;
 }
 
+#pragma mark - 
+#pragma mark Browser Dragging Methods
+
 - (NSUInteger) imageBrowser:(IKImageBrowserView *) aBrowser  
 		writeItemsAtIndexes:(NSIndexSet *) itemIndexes 
 			   toPasteboard:(NSPasteboard *) pasteboard
@@ -123,6 +126,10 @@
 	}
 	
 	return [itemIndexes count];
+}
+
+- (NSDragOperation)draggingSourceOperationMaskForLocal:(BOOL)isLocal {
+	return (isLocal ? NSDragOperationMove : NSDragOperationNone);
 }
 
 @end

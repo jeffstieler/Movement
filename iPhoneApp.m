@@ -35,6 +35,15 @@
 
 @implementation iPhoneApp
 
+- (id)init {
+	if (self = [super init]) {
+		self.identifier = [NSString string];
+		self.displayName = [NSString string];
+		self.icon = [NSImage imageNamed:@"sad_mac"];
+	}
+	return self;
+}
+
 - (id)initWithIdentifier:(NSString *)aIdentifier 
 			 displayName:(NSString *)aName 
 					icon:(NSImage *)aIcon {
@@ -55,6 +64,33 @@
 	[displayName release];
 	[icon release];
 	[super dealloc];
+}
+
+- (BOOL)isEqual:(id)anObject {
+	if ([[anObject className] isEqualToString:@"iPhoneApp"]) {
+		if ([identifier isEqualToString:[anObject identifier]] &&
+			[displayName isEqualToString:[anObject displayName]] &&
+			[[icon TIFFRepresentation] isEqualToData:[[anObject icon] TIFFRepresentation]]) {
+			return YES;
+		}
+	}
+	return NO;
+}
+
+#pragma mark -
+#pragma mark NSCoding Methods
+- (id)initWithCoder:(NSCoder *)coder {
+	[super init];
+	self.identifier = [coder decodeObjectForKey:@"identifier"];
+	self.displayName = [coder decodeObjectForKey:@"displayName"];
+	self.icon = [coder decodeObjectForKey:@"icon"];
+	return self;
+}
+
+- (void)encodeWithCoder:(NSCoder *)coder {
+	[coder encodeObject:identifier forKey:@"identifier"];
+	[coder encodeObject:displayName forKey:@"displayName"];
+	[coder encodeObject:icon forKey:@"icon"];
 }
 
 #pragma mark -
