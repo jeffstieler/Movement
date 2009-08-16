@@ -32,19 +32,21 @@
 
 #import "AppScreenController.h"
 
+#define IPHONE_APP_PBOARD_TYPE @"iPhoneApps"
+
 @implementation AppScreenController
 
-@synthesize apps, screen;
+@synthesize apps, screen, appController;
 
-- (id)initWithFrame:(NSRect)aFrame {
+- (id)initWithFrame:(NSRect)aFrame andController:(id)aController {
 	if (self = [super init]) {
+		self.appController = aController;
 		self.apps = [NSMutableArray arrayWithCapacity:APPS_PER_SCREEN];
 		self.screen = [[[IKImageBrowserView alloc] initWithFrame:aFrame] autorelease];
 		[screen setValue:[NSColor blackColor] forKey:IKImageBrowserBackgroundColorKey];
 		NSMutableDictionary *attributes = [NSMutableDictionary dictionaryWithCapacity:1];
 		[attributes setValue:[NSColor whiteColor] forKey:NSForegroundColorAttributeName];
 		[screen setValue:attributes forKey:IKImageBrowserCellsTitleAttributesKey];
-		//[attributes release];
 		[screen setCellsStyleMask:IKCellsStyleTitled];
 		[screen setCellSize:NSMakeSize(50, 50)];
 		[screen setAllowsReordering:YES];
@@ -52,6 +54,7 @@
 		[screen setDelegate:self];
 		[screen setDataSource:self];
 		[screen setDraggingDestinationDelegate:self];
+		[screen registerForDraggedTypes:[NSArray arrayWithObject:IPHONE_APP_PBOARD_TYPE]];
 	}
 	return self;
 }
@@ -60,6 +63,40 @@
 	[apps release];
 	[screen release];
 	[super dealloc];
+}
+
+- (void)insertApps:(NSArray *)appsToInsert atIndex:(int)index {
+	NSEnumerator *appsToInsertReversed = [appsToInsert reverseObjectEnumerator];
+	id app;
+	while (app = [appsToInsertReversed nextObject]) {
+		[apps insertObject:app atIndex:index];
+	}
+	// Handle overflow if necessary
+	if ([apps count] > APPS_PER_SCREEN) {
+		[appController handleOverflowForAppScreen:self];
+	}
+	// Refresh the view
+	[screen reloadData];
+}
+
+- (void)removeApps:(NSArray *)appsToRemove {
+	NSLog(@"my apps: %@", apps);
+	NSLog(@"removing: %@", appsToRemove);
+	for (id appToRemove in appsToRemove) {
+		[apps removeObject:appToRemove];
+	}
+	NSLog(@"my apps: %@", apps);
+	[screen reloadData];
+}
+
+- (NSArray *)overflowingApps {
+	int numberOfOverflowedApps = ([apps count] - APPS_PER_SCREEN);
+	if (numberOfOverflowedApps > 0) {
+		NSRange overflowedAppsRange = NSMakeRange(APPS_PER_SCREEN, numberOfOverflowedApps);
+		NSIndexSet *overflowedIndexes = [NSIndexSet indexSetWithIndexesInRange:overflowedAppsRange];
+		return [apps objectsAtIndexes:overflowedIndexes];
+	}
+	return nil;
 }
 
 #pragma mark - 
@@ -112,17 +149,47 @@
 #pragma mark - 
 #pragma mark Browser Dragging Methods
 
+- (BOOL)prepareForDragOperation:(id <NSDraggingInfo>)sender {
+	int sourceScreenNumber = [[appController screenControllers] indexOfObject:[[sender draggingSource] delegate]];
+	int destinationScreenNumber = [[appController screenControllers] indexOfObject:self];
+	
+	// If the drag would result in overflow back to the sender, do not allow it
+	if (((sourceScreenNumber - 1) == destinationScreenNumber) &&
+		([apps count] == APPS_PER_SCREEN)) {
+		return NO;
+	}
+	return YES;
+}
+
+- (BOOL) performDragOperation:(id <NSDraggingInfo>)sender {
+    NSData *data = nil;
+    NSPasteboard *pasteboard = [sender draggingPasteboard];
+	
+    if ([[pasteboard types] containsObject:IPHONE_APP_PBOARD_TYPE]) {
+		data = [pasteboard dataForType:IPHONE_APP_PBOARD_TYPE];
+	}
+    if(data) {
+		// Add app to destination screen
+		NSArray *draggedApps = [NSKeyedUnarchiver unarchiveObjectWithData:data];
+		
+		[self insertApps:draggedApps atIndex:[screen indexAtLocationOfDroppedItem]];
+		[[[sender draggingSource] delegate] removeApps:draggedApps];
+    }
+	
+    return YES;
+}
+
 - (NSUInteger) imageBrowser:(IKImageBrowserView *) aBrowser  
 		writeItemsAtIndexes:(NSIndexSet *) itemIndexes 
 			   toPasteboard:(NSPasteboard *) pasteboard
 {
 	NSInteger index;
-	
 	for (index = [itemIndexes lastIndex]; index != NSNotFound; index =  
 		 [itemIndexes indexLessThanIndex:index])
 	{
-		id app = [apps objectAtIndex:index];
-		[pasteboard setData:[app imageRepresentation] forType:NSTIFFPboardType];
+		NSArray *draggedApps = [apps objectsAtIndexes:itemIndexes];
+		[pasteboard declareTypes:[NSArray arrayWithObject:IPHONE_APP_PBOARD_TYPE] owner:nil];
+		[pasteboard setData:[NSKeyedArchiver archivedDataWithRootObject:draggedApps] forType:IPHONE_APP_PBOARD_TYPE];
 	}
 	
 	return [itemIndexes count];
@@ -130,6 +197,27 @@
 
 - (NSDragOperation)draggingSourceOperationMaskForLocal:(BOOL)isLocal {
 	return (isLocal ? NSDragOperationMove : NSDragOperationNone);
+}
+
+- (NSDragOperation)draggingEntered:(id <NSDraggingInfo>)sender
+{
+    return NSDragOperationMove;
+}
+
+- (NSDragOperation)draggingUpdated:(id <NSDraggingInfo>)sender
+{
+    return NSDragOperationMove;
+}
+
+- (void)draggingEnded:(id <NSDraggingInfo>)sender {
+	
+	// If the source view is now empty, remove it
+	AppScreenController *sourceController = [[sender draggingSource] delegate];
+	if ([[sourceController apps] count] == 0) {
+		[sourceController retain];
+		[appController removeScreenController:sourceController];
+		[sourceController autorelease];
+	}
 }
 
 @end

@@ -38,10 +38,15 @@
 @interface AppScreenController : NSWindowController {
 	NSMutableArray *apps;
 	IKImageBrowserView *screen;
+	id appController;
 }
 @property (readwrite, retain)NSMutableArray *apps;
 @property (readwrite, retain)IKImageBrowserView *screen;
+@property (readwrite, assign)id appController;
 
-- (id)initWithFrame:(NSRect)aFrame;
+- (id)initWithFrame:(NSRect)aFrame andController:(id)aController;
+- (NSArray *)overflowingApps;
+- (void)insertApps:(NSArray *)appsToInsert atIndex:(int)index;
+- (void)removeApps:(NSArray *)appsToRemove;
 
 @end

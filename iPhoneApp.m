@@ -67,10 +67,14 @@
 }
 
 - (BOOL)isEqual:(id)anObject {
+	NSLog(@"isEqual:");
 	if ([[anObject className] isEqualToString:@"iPhoneApp"]) {
+		NSLog(@"%@ <--> %@", identifier, [anObject identifier]);
+		NSLog(@"%d", [[icon TIFFRepresentation] isEqualToData:[[anObject icon] TIFFRepresentation]]);
 		if ([identifier isEqualToString:[anObject identifier]] &&
-			[displayName isEqualToString:[anObject displayName]] &&
-			[[icon TIFFRepresentation] isEqualToData:[[anObject icon] TIFFRepresentation]]) {
+			[displayName isEqualToString:[anObject displayName]] ) {//&&
+			//[[icon TIFFRepresentation] isEqualToData:[[anObject icon] TIFFRepresentation]]) {
+			NSLog(@"yes!");
 			return YES;
 		}
 	}

@@ -47,5 +47,6 @@
 - (void)addApp:(iPhoneApp *)anApp toScreen:(int)aScreen atIndex:(int)anIndex;
 
 - (IBAction)processAppsOnDevice:(id)sender;
+- (void)handleOverflowForAppScreen:(AppScreenController *)appScreen;
 
 @end

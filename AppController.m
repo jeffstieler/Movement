@@ -56,12 +56,17 @@
 
 - (IBAction)addScreen:(id)sender {
 	NSRect screenFrame = NSMakeRect(SCREEN_X_OFFSET([screenControllers count]), PAD, SCREEN_WIDTH, SCREEN_HEIGHT);	
-	AppScreenController *controller = [[AppScreenController alloc] initWithFrame:screenFrame];
+	AppScreenController *controller = [[AppScreenController alloc] initWithFrame:screenFrame andController:self];
 
 	[screenControllers addObject:controller];
 	[scrollViewContent addSubview:[controller screen]];
 	[scrollViewContent setFrame:NSMakeRect(0, 0, SCREEN_X_OFFSET([screenControllers count]), CONTAINER_HEIGHT)];
 	[controller release];
+}
+
+- (void)removeScreenController:(AppScreenController *)aScreenController {
+	[[aScreenController screen] removeFromSuperview];
+	[screenControllers removeObject:aScreenController];
 }
 
 - (void)addApp:(iPhoneApp *)anApp toScreen:(int)aScreen atIndex:(int)anIndex {
@@ -71,8 +76,26 @@
 			[self addScreen:nil];
 			screenController = [screenControllers objectAtIndex:aScreen];
 		}
-		//[[screenController apps] replaceObjectAtIndex:anIndex withObject:anApp];
-		[[screenController apps] addObject:anApp];// insertObject:anApp atIndex:anIndex];
+		[[screenController apps] addObject:anApp];
+	}
+}
+
+- (void)handleOverflowForAppScreen:(AppScreenController *)appScreen {
+	NSArray *overflowingApps = [appScreen overflowingApps];
+	AppScreenController *destinationScreen = nil;
+	if ([appScreen isEqual:[screenControllers lastObject]]) {
+		[self addScreen];
+		destinationScreen = [screenControllers lastObject];
+		
+	} else {
+		int appScreenNumber = ([screenControllers indexOfObject:appScreen] + 1);
+		destinationScreen = [screenControllers objectAtIndex:appScreenNumber];
+	}
+	
+	// Do nothing if source and destination are the same at this point
+	if (![appScreen isEqual:destinationScreen]) {
+		[appScreen removeApps:overflowingApps];
+		[destinationScreen insertApps:overflowingApps atIndex:0];
 	}
 }
 
