@@ -42,7 +42,7 @@
 		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
 		32CA4F630368D1EE00C91783 /* iPhone App Organizer_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "iPhone App Organizer_Prefix.pch"; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		8D1107320486CEB800E47090 /* iPhone App Organizer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "iPhone App Organizer.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		8D1107320486CEB800E47090 /* Axiomatic.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Axiomatic.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F5768F8A102CF0ED002D2359 /* MobileDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MobileDevice.h; sourceTree = "<group>"; };
 		F5768F8B102CF0ED002D2359 /* AFCInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFCInterface.h; sourceTree = "<group>"; };
 		F5768F8C102CF0ED002D2359 /* AFCInterface.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFCInterface.m; sourceTree = "<group>"; };
@@ -129,7 +129,7 @@
 		19C28FACFE9D520D11CA2CBB /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				8D1107320486CEB800E47090 /* iPhone App Organizer.app */,
+				8D1107320486CEB800E47090 /* Axiomatic.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -226,7 +226,7 @@
 			name = Axiomatic;
 			productInstallPath = "$(HOME)/Applications";
 			productName = "iPhone App Organizer";
-			productReference = 8D1107320486CEB800E47090 /* iPhone App Organizer.app */;
+			productReference = 8D1107320486CEB800E47090 /* Axiomatic.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -325,7 +325,7 @@
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
 				);
-				PRODUCT_NAME = "iPhone App Organizer";
+				PRODUCT_NAME = Axiomatic;
 			};
 			name = Debug;
 		};
@@ -347,7 +347,7 @@
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
 				);
-				PRODUCT_NAME = "iPhone App Organizer";
+				PRODUCT_NAME = Axiomatic;
 			};
 			name = Release;
 		};

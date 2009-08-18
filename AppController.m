@@ -77,6 +77,12 @@
 	[scrollViewContent setFrame:NSMakeRect(0, 0, SCREEN_X_OFFSET([screenControllers count]), CONTAINER_HEIGHT)];
 }
 
+- (void)reloadScreenAtIndex:(int)screenNum {
+	if (screenNum < [screenControllers count]) {
+		[[[screenControllers objectAtIndex:screenNum] screen] reloadData];
+	}
+}
+
 - (void)addApp:(iPhoneApp *)anApp toScreen:(int)aScreen atIndex:(int)anIndex {
 	if (anApp) {
 		// Handle the Dock apps

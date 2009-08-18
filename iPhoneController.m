@@ -162,7 +162,7 @@
 			NSArray *rowApps = [screenRows objectAtIndex:rowNum];
 			[self processApps:rowApps forRow:rowNum ofScreen:screenNum];
 		}
-		[[[[appController screenControllers] objectAtIndex:screenNum] screen] reloadData];
+		[appController reloadScreenAtIndex:screenNum];
 		
 	}
 	
