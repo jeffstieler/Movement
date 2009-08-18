@@ -42,22 +42,27 @@
 
 @implementation AppController
 
-@synthesize screenControllers;
+@synthesize screenControllers, dockController;
 
 - (void)awakeFromNib {
 	self.screenControllers = [[[NSMutableArray alloc] init] autorelease];
+	self.dockController = [[[AppScreenController alloc] init] autorelease];
+	dockController.apps = [NSMutableArray array];
+	dockController.screen = dockView;
+	[dockController setScreenAttributes];
 	NSLog(@"AppController is awake");
 }
 
 - (void)dealloc {
 	[screenControllers release];
+	[dockController release];
 	[super dealloc];
 }
 
 - (IBAction)addScreen:(id)sender {
 	NSRect screenFrame = NSMakeRect(SCREEN_X_OFFSET([screenControllers count]), PAD, SCREEN_WIDTH, SCREEN_HEIGHT);	
 	AppScreenController *controller = [[AppScreenController alloc] initWithFrame:screenFrame andController:self];
-
+	[controller setScreenAttributes];
 	[screenControllers addObject:controller];
 	[scrollViewContent addSubview:[controller screen]];
 	[scrollViewContent setFrame:NSMakeRect(0, 0, SCREEN_X_OFFSET([screenControllers count]), CONTAINER_HEIGHT)];
@@ -67,16 +72,22 @@
 - (void)removeScreenController:(AppScreenController *)aScreenController {
 	[[aScreenController screen] removeFromSuperview];
 	[screenControllers removeObject:aScreenController];
+	[scrollViewContent setFrame:NSMakeRect(0, 0, SCREEN_X_OFFSET([screenControllers count]), CONTAINER_HEIGHT)];
 }
 
 - (void)addApp:(iPhoneApp *)anApp toScreen:(int)aScreen atIndex:(int)anIndex {
 	if (anApp) {
-		AppScreenController *screenController = [screenControllers objectAtIndex:aScreen];
-		if (!screenController) {
-			[self addScreen:nil];
-			screenController = [screenControllers objectAtIndex:aScreen];
+		// Handle the Dock apps
+		if (aScreen == DOCK) {
+			[[dockController apps] addObject:anApp];
+		} else {
+			AppScreenController *screenController = [screenControllers objectAtIndex:aScreen];
+			if (!screenController) {
+				[self addScreen:nil];
+				screenController = [screenControllers objectAtIndex:aScreen];
+			}
+			[[screenController apps] addObject:anApp];
 		}
-		[[screenController apps] addObject:anApp];
 	}
 }
 

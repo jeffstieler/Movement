@@ -35,13 +35,19 @@
 #import "AppScreenController.h"
 #import "iPhoneApp.h"
 
+#define DOCK 666
+
 @interface AppController : NSObject {
 	IBOutlet NSWindow *appWindow;
 	IBOutlet NSView *scrollViewContent;
 	IBOutlet id phoneController;
+	IBOutlet IKImageBrowserView *dockView;
+	AppScreenController *dockController;
 	NSMutableArray *screenControllers;
+	
 }
 @property (readwrite, retain)NSMutableArray *screenControllers;
+@property (readwrite, retain)AppScreenController *dockController;
 
 - (IBAction)addScreen:(id)sender;
 - (void)addApp:(iPhoneApp *)anApp toScreen:(int)aScreen atIndex:(int)anIndex;

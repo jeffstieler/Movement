@@ -38,16 +38,18 @@
 	AFCDevice *iPhone;
 	IBOutlet AppController *appController;
 	NSArray *possibleIconFileKeys, *possibleAppDisplayNameKeys;
-	NSDictionary *officialAppDisplayNames;
+	NSDictionary *officialAppDisplayNames, *allAppsOnDevice;
 	NSMutableDictionary *springboard;
 }
 @property (readwrite, retain)NSArray *possibleIconFileKeys, *possibleAppDisplayNameKeys;
-@property (readwrite, retain)NSDictionary *officialAppDisplayNames;
+@property (readwrite, retain)NSDictionary *officialAppDisplayNames, *allAppsOnDevice;
 @property (readwrite, retain)NSMutableDictionary *springboard;
 
 - (id)contentsOfPlist:(NSString *)plistName;
 - (NSDictionary *)allAppPathsOnDevice;
 - (NSMutableDictionary *)springboardFromPhone;
+- (NSDictionary *)retrieveAllAppsOnDevice;
+- (void)processApps:(NSArray *)apps forRow:(int)rowNum ofScreen:(int)screenNum;
 - (void)processAppsFromSpringboard;
 - (NSDictionary *)plistContentsForApp:(NSString *)appPath;
 - (NSImage *)iconForApp:(NSString *)appPath plistContents:(NSDictionary *)plistContents;

@@ -44,21 +44,24 @@
 		self.appController = aController;
 		self.apps = [NSMutableArray arrayWithCapacity:APPS_PER_SCREEN];
 		self.screen = [[[IKImageBrowserView alloc] initWithFrame:aFrame] autorelease];
-		[screen setValue:[NSColor blackColor] forKey:IKImageBrowserBackgroundColorKey];
-		NSMutableDictionary *attributes = [NSMutableDictionary dictionaryWithCapacity:1];
-		[attributes setValue:[NSColor whiteColor] forKey:NSForegroundColorAttributeName];
-		[screen setValue:attributes forKey:IKImageBrowserCellsTitleAttributesKey];
-		[screen setCellsStyleMask:IKCellsStyleTitled];
-		[screen setCellSize:NSMakeSize(50, 50)];
-		[screen setAllowsReordering:YES];
-		[screen setAllowsMultipleSelection:NO];
-		[screen setAnimates:YES];
-		[screen setDelegate:self];
-		[screen setDataSource:self];
-		[screen setDraggingDestinationDelegate:self];
-		[screen registerForDraggedTypes:[NSArray arrayWithObject:IPHONE_APP_PBOARD_TYPE]];
 	}
 	return self;
+}
+
+- (void)setScreenAttributes {
+	[screen setValue:[NSColor blackColor] forKey:IKImageBrowserBackgroundColorKey];
+	NSMutableDictionary *attributes = [NSMutableDictionary dictionaryWithCapacity:1];
+	[attributes setValue:[NSColor whiteColor] forKey:NSForegroundColorAttributeName];
+	[screen setValue:attributes forKey:IKImageBrowserCellsTitleAttributesKey];
+	[screen setCellsStyleMask:IKCellsStyleTitled];
+	[screen setCellSize:NSMakeSize(50, 50)];
+	[screen setAllowsReordering:YES];
+	[screen setAllowsMultipleSelection:NO];
+	[screen setAnimates:YES];
+	[screen setDelegate:self];
+	[screen setDataSource:self];
+	[screen setDraggingDestinationDelegate:self];
+	[screen registerForDraggedTypes:[NSArray arrayWithObject:IPHONE_APP_PBOARD_TYPE]];
 }
 
 - (void)dealloc {

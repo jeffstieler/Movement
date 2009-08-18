@@ -45,6 +45,7 @@
 @property (readwrite, assign)id appController;
 
 - (id)initWithFrame:(NSRect)aFrame andController:(id)aController;
+- (void)setScreenAttributes;
 - (NSArray *)overflowingApps;
 - (void)insertApps:(NSArray *)appsToInsert atIndex:(int)index;
 - (void)removeApps:(NSArray *)appsToRemove;
