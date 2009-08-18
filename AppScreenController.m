@@ -31,6 +31,7 @@
  */
 
 #import "AppScreenController.h"
+#import "iPhoneApp.h"
 
 #define IPHONE_APP_PBOARD_TYPE @"iPhoneApps"
 
@@ -50,6 +51,7 @@
 		[screen setCellsStyleMask:IKCellsStyleTitled];
 		[screen setCellSize:NSMakeSize(50, 50)];
 		[screen setAllowsReordering:YES];
+		[screen setAllowsMultipleSelection:NO];
 		[screen setAnimates:YES];
 		[screen setDelegate:self];
 		[screen setDataSource:self];
@@ -67,7 +69,7 @@
 
 - (void)insertApps:(NSArray *)appsToInsert atIndex:(int)index {
 	NSEnumerator *appsToInsertReversed = [appsToInsert reverseObjectEnumerator];
-	id app;
+	iPhoneApp *app;
 	while (app = [appsToInsertReversed nextObject]) {
 		[apps insertObject:app atIndex:index];
 	}
@@ -80,12 +82,9 @@
 }
 
 - (void)removeApps:(NSArray *)appsToRemove {
-	NSLog(@"my apps: %@", apps);
-	NSLog(@"removing: %@", appsToRemove);
-	for (id appToRemove in appsToRemove) {
+	for (iPhoneApp *appToRemove in appsToRemove) {
 		[apps removeObject:appToRemove];
 	}
-	NSLog(@"my apps: %@", apps);
 	[screen reloadData];
 }
 
@@ -155,7 +154,8 @@
 	
 	// If the drag would result in overflow back to the sender, do not allow it
 	if (((sourceScreenNumber - 1) == destinationScreenNumber) &&
-		([apps count] == APPS_PER_SCREEN)) {
+		([apps count] == APPS_PER_SCREEN) &&
+		([screen indexAtLocationOfDroppedItem] == APPS_PER_SCREEN)) {
 		return NO;
 	}
 	return YES;
