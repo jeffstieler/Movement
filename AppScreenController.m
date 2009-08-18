@@ -152,8 +152,12 @@
 #pragma mark Browser Dragging Methods
 
 - (BOOL)prepareForDragOperation:(id <NSDraggingInfo>)sender {
+	// if this is a local drag - allow it
+	if ([self isEqual:[[sender draggingSource] delegate]]) {
+		return YES;
+	}
 	// if the destination screen is the dock, and its full - no dice
-	if ([self isEqual:[appController dockController]] &&
+	if ([self isEqual:[appController dockController]] && 
 		([[[appController dockController] apps] count] == [appController numberOfDockApps])) {
 		return NO;
 	}
