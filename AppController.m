@@ -33,7 +33,7 @@
 #import "AppController.h"
 
 #define SCREEN_WIDTH 320
-#define SCREEN_HEIGHT 480
+#define SCREEN_HEIGHT 384 // iPhone screen (480) minus dock (96)
 #define PAD 10
 #define CONTAINER_HEIGHT (SCREEN_HEIGHT + (PAD * 2))
 #define SCREEN_X_OFFSET(x) (x * SCREEN_WIDTH) + (PAD * (x + 1))

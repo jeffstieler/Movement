@@ -211,9 +211,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		8D1107260486CEB800E47090 /* iPhone App Organizer */ = {
+		8D1107260486CEB800E47090 /* Axiomatic */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = C01FCF4A08A954540054247B /* Build configuration list for PBXNativeTarget "iPhone App Organizer" */;
+			buildConfigurationList = C01FCF4A08A954540054247B /* Build configuration list for PBXNativeTarget "Axiomatic" */;
 			buildPhases = (
 				8D1107290486CEB800E47090 /* Resources */,
 				8D11072C0486CEB800E47090 /* Sources */,
@@ -223,7 +223,7 @@
 			);
 			dependencies = (
 			);
-			name = "iPhone App Organizer";
+			name = Axiomatic;
 			productInstallPath = "$(HOME)/Applications";
 			productName = "iPhone App Organizer";
 			productReference = 8D1107320486CEB800E47090 /* iPhone App Organizer.app */;
@@ -241,7 +241,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				8D1107260486CEB800E47090 /* iPhone App Organizer */,
+				8D1107260486CEB800E47090 /* Axiomatic */,
 			);
 		};
 /* End PBXProject section */
@@ -380,7 +380,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		C01FCF4A08A954540054247B /* Build configuration list for PBXNativeTarget "iPhone App Organizer" */ = {
+		C01FCF4A08A954540054247B /* Build configuration list for PBXNativeTarget "Axiomatic" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				C01FCF4B08A954540054247B /* Debug */,

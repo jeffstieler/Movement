@@ -101,14 +101,10 @@
 	for (NSString *basePath in allAppPaths) {
 		for (NSString *appPath in [allAppPaths objectForKey:basePath]) {
 			NSString *fullAppPath = [basePath stringByAppendingString:appPath];
-			//NSLog(@"%@", fullAppPath);
 			NSDictionary *appPlist = [self plistContentsForApp:fullAppPath];
-			//NSLog(@"%@", appPlist);
 			NSImage *appIcon = [self iconForApp:fullAppPath plistContents:appPlist];
-			//NSLog(@"%@", appIcon);
 			NSString *appIdentifer = [appPlist valueForKey:@"CFBundleIdentifier"];
 			NSString *appDisplayName = [self displayNameForApp:fullAppPath plistContents:appPlist];
-			//NSLog(@"%@ %@", appIdentifer, appDisplayName);
 			iPhoneApp *app = [[iPhoneApp alloc] initWithIdentifier:appIdentifer
 													   displayName:appDisplayName
 															  icon:appIcon];
@@ -117,7 +113,6 @@
 		}
 	}
 	
-	//NSLog(@"%@", apps);
 	for (int screenNum = 0; screenNum < [iconLists count]; screenNum++) {
 		
 		// Add a screen to the AppController
@@ -133,7 +128,6 @@
 				if ([app isKindOfClass:[NSDictionary class]]) {
 					NSString *identifier = [app valueForKey:@"displayIdentifier"];
 					iPhoneApp *appToAdd = [apps objectForKey:identifier];
-					//NSNumber *appPosition = [NSNumber numberWithInt:((rowNum * 4) + appNum)];
 					int position = ((rowNum * 4) + appNum);
 					
 					NSRange hypenRange = [identifier rangeOfString:@"-"];
@@ -153,10 +147,6 @@
 									 toScreen:screenNum 
 									  atIndex:position];
 					}
-					//NSLog(@"%@", identifier);
-					//NSDictionary *appDict = [NSDictionary dictionaryWithObjectsAndKeys:
-					//						 screenNSNum, @"screen", appPosition, @"position", nil];
-					//[appPositions setObject:appDict forKey:[app valueForKey:@"displayIdentifier"]];
 				}				
 			}
 		}
