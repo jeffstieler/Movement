@@ -152,6 +152,12 @@
 #pragma mark Browser Dragging Methods
 
 - (BOOL)prepareForDragOperation:(id <NSDraggingInfo>)sender {
+	// if the destination screen is the dock, and its full - no dice
+	if ([self isEqual:[appController dockController]] &&
+		([[[appController dockController] apps] count] == [appController numberOfDockApps])) {
+		return NO;
+	}
+	
 	int sourceScreenNumber = [[appController screenControllers] indexOfObject:[[sender draggingSource] delegate]];
 	int destinationScreenNumber = [[appController screenControllers] indexOfObject:self];
 	

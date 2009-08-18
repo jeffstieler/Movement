@@ -43,11 +43,13 @@
 	IBOutlet id phoneController;
 	IBOutlet IKImageBrowserView *dockView;
 	AppScreenController *dockController;
+	int numberOfDockApps;
 	NSMutableArray *screenControllers;
 	
 }
 @property (readwrite, retain)NSMutableArray *screenControllers;
 @property (readwrite, retain)AppScreenController *dockController;
+@property (readwrite, assign)int numberOfDockApps;
 
 - (IBAction)addScreen:(id)sender;
 - (void)addApp:(iPhoneApp *)anApp toScreen:(int)aScreen atIndex:(int)anIndex;

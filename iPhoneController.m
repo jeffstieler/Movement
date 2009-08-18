@@ -166,7 +166,7 @@
 	// Process all dock apps
 	NSDictionary *dockAppList = [[[self springboard] objectForKey:@"iconState"] objectForKey:@"buttonBar"];
 	NSArray *dockApps = [[dockAppList objectForKey:@"iconMatrix"] objectAtIndex:0];
-	
+	appController.numberOfDockApps = [dockApps count];
 	[self processApps:dockApps forRow:0 ofScreen:DOCK];
 	[[[appController dockController] screen] reloadData];
 }

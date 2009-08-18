@@ -42,14 +42,16 @@
 
 @implementation AppController
 
-@synthesize screenControllers, dockController;
+@synthesize screenControllers, dockController, numberOfDockApps;
 
 - (void)awakeFromNib {
 	self.screenControllers = [[[NSMutableArray alloc] init] autorelease];
 	self.dockController = [[[AppScreenController alloc] init] autorelease];
 	dockController.apps = [NSMutableArray array];
 	dockController.screen = dockView;
+	dockController.appController = self;
 	[dockController setScreenAttributes];
+	self.numberOfDockApps = APPS_PER_ROW;
 	NSLog(@"AppController is awake");
 }
 
