@@ -126,8 +126,11 @@
 			NSRange hypenRange = [identifier rangeOfString:@"-"];
 			if (hypenRange.location != NSNotFound) {
 				NSString *displayName = [identifier substringFromIndex:(hypenRange.location + 1)];
+				NSLog(@"app disp name: %@", displayName);
 				NSString *appExecutableName = [identifier substringToIndex:hypenRange.location];
+				NSLog(@"app exec name: %@", appExecutableName);
 				appToAdd = [allAppsOnDevice objectForKey:appExecutableName];
+				NSLog(@"the app: %@", appToAdd);
 				iPhoneApp *newApp = [[iPhoneApp alloc] initWithIdentifier:identifier
 															  displayName:displayName
 																	 icon:appToAdd.icon];
@@ -191,10 +194,9 @@
 }
 
 - (NSImage *)iconForApp:(NSString *)appPath plistContents:(NSDictionary *)plistContents {
-	NSArray *possibleIconFiles = [NSArray arrayWithObjects:@"Icon.png", @"Icon-Small.png", @"icon.png", nil];
 	NSString *appIconPath = [plistContents valueForKey:@"CFBundleIconFile"];
 	if (!appIconPath) {
-		for (NSString *iconPath in possibleIconFiles) {
+		for (NSString *iconPath in possibleIconFileKeys) {
 			NSString *possibleIconPath = [appPath stringByAppendingPathComponent:iconPath];
 			if ([[iPhone deviceInterface] isFileAtPath:possibleIconPath]) {
 				appIconPath = iconPath;

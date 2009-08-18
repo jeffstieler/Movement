@@ -18,5 +18,15 @@
 	<string>Settings</string>
 	<key>MobileStore</key>
 	<string>iTunes</string>
+	<key>MobileSMS</key>
+	<string>Messages</string>
+	<key>MobileMail</key>
+	<string>Mail</string>
+	<key>MobileSafari</key>
+	<string>Safari</string>
+	<key>MediaPlayer</key>
+	<string>iPod</string>
+	<key>MobilePhone</key>
+	<string>Phone</string>
 </dict>
 </plist>
