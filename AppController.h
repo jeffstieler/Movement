@@ -52,6 +52,7 @@
 @property (readwrite, assign)int numberOfDockApps;
 
 - (IBAction)addScreen:(id)sender;
+- (IBAction)removeLastScreen:(id)sender;
 - (void)addApp:(iPhoneApp *)anApp toScreen:(int)aScreen atIndex:(int)anIndex;
 - (void)reloadScreenAtIndex:(int)screenNum;
 

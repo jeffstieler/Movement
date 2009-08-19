@@ -163,7 +163,6 @@
 			[self processApps:rowApps forRow:rowNum ofScreen:screenNum];
 		}
 		[appController reloadScreenAtIndex:screenNum];
-		
 	}
 	
 	// Process all dock apps

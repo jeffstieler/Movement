@@ -34,6 +34,8 @@
 #import "iPhoneApp.h"
 
 #define IPHONE_APP_PBOARD_TYPE @"iPhoneApps"
+#define APPS_PER_COLUMN 4
+#define APPS_PER_ROW 4
 
 @implementation AppScreenController
 
@@ -97,6 +99,38 @@
 		NSRange overflowedAppsRange = NSMakeRange(APPS_PER_SCREEN, numberOfOverflowedApps);
 		NSIndexSet *overflowedIndexes = [NSIndexSet indexSetWithIndexesInRange:overflowedAppsRange];
 		return [apps objectsAtIndexes:overflowedIndexes];
+	}
+	return nil;
+}
+
+- (NSDictionary *)appsInPlistFormat {
+	// Setup number of apps to expect (handling the dock here!)
+	int numberOfRows, appsPerRow;
+	if ([self isEqual:[appController dockController]]) {
+		numberOfRows = 1;
+		appsPerRow = [appController numberOfDockApps];
+	} else {
+		numberOfRows = APPS_PER_COLUMN;
+		appsPerRow = APPS_PER_ROW;
+	} 
+	//  Build the crazy springboard plist format from the apps on this screen
+	if ([apps count] > 0) {
+		NSMutableArray *screenRows = [NSMutableArray arrayWithCapacity:numberOfRows];
+		for (int i = 0; i < numberOfRows; i++) {
+			[screenRows addObject:[NSMutableArray arrayWithCapacity:appsPerRow]];
+		}
+		for (int i = 0; i < (numberOfRows * appsPerRow); i++) {
+			int row = (i / appsPerRow);
+			if (i < [apps count]) {
+				id app = [apps objectAtIndex:i];
+				NSDictionary *appDict = [NSDictionary dictionaryWithObject:[app identifier] forKey:@"displayIdentifier"];
+				[[screenRows objectAtIndex:row] addObject:appDict];
+			} else {
+				[[screenRows objectAtIndex:row] addObject:[NSNumber numberWithInt:0]];
+			}
+			
+		}
+		return [NSDictionary dictionaryWithObject:screenRows forKey:@"iconMatrix"];
 	}
 	return nil;
 }

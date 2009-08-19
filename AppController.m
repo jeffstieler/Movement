@@ -37,8 +37,7 @@
 #define PAD 10
 #define CONTAINER_HEIGHT (SCREEN_HEIGHT + (PAD * 2))
 #define SCREEN_X_OFFSET(x) (x * SCREEN_WIDTH) + (PAD * (x + 1))
-#define APPS_PER_COLUMN 4
-#define APPS_PER_ROW 4
+#define MAX_APP_SCREENS 11
 
 @implementation AppController
 
@@ -51,7 +50,7 @@
 	dockController.screen = dockView;
 	dockController.appController = self;
 	[dockController setScreenAttributes];
-	self.numberOfDockApps = APPS_PER_ROW;
+	//self.numberOfDockApps = APPS_PER_ROW;
 	NSLog(@"AppController is awake");
 }
 
@@ -69,6 +68,12 @@
 	[scrollViewContent addSubview:[controller screen]];
 	[scrollViewContent setFrame:NSMakeRect(0, 0, SCREEN_X_OFFSET([screenControllers count]), CONTAINER_HEIGHT)];
 	[controller release];
+}
+
+- (IBAction)removeLastScreen:(id)sender {
+	if ([[[screenControllers lastObject] apps] count] == 0) {
+		[self removeScreenController:[screenControllers lastObject]];
+	}
 }
 
 - (void)removeScreenController:(AppScreenController *)aScreenController {
