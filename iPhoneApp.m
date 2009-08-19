@@ -40,29 +40,33 @@
 		self.identifier = [NSString string];
 		self.displayName = [NSString string];
 		self.icon = [NSImage imageNamed:@"sad_mac"];
+		self.path = [NSString string];
 	}
 	return self;
 }
 
 - (id)initWithIdentifier:(NSString *)aIdentifier 
-			 displayName:(NSString *)aName 
+			 displayName:(NSString *)aName
+					path:(NSString *)aPath 
 					icon:(NSImage *)aIcon {
 	if (self = [super init]) {
 		self.identifier = aIdentifier;
 		self.displayName = aName;
+		self.path = aPath;
 		self.icon = aIcon;
 	}
 	return self;
 }
 
 - (NSString *)description {
-	return [NSString stringWithFormat:@"%@ [%@]", displayName, identifier];
+	return [NSString stringWithFormat:@"%@: %@ [%@]", path, displayName, identifier];
 }
 
 - (void)dealloc {
 	[identifier release];
 	[displayName release];
 	[icon release];
+	[path release];
 	[super dealloc];
 }
 
@@ -82,6 +86,7 @@
 	[super init];
 	self.identifier = [coder decodeObjectForKey:@"identifier"];
 	self.displayName = [coder decodeObjectForKey:@"displayName"];
+	self.path = [coder decodeObjectForKey:@"path"];
 	self.icon = [coder decodeObjectForKey:@"icon"];
 	return self;
 }
@@ -89,6 +94,7 @@
 - (void)encodeWithCoder:(NSCoder *)coder {
 	[coder encodeObject:identifier forKey:@"identifier"];
 	[coder encodeObject:displayName forKey:@"displayName"];
+	[coder encodeObject:path forKey:@"path"];
 	[coder encodeObject:icon forKey:@"icon"];
 }
 
@@ -114,6 +120,6 @@
 	return displayName;
 }
 
-@synthesize identifier, displayName, icon;
+@synthesize identifier, displayName, icon, path;
 
 @end

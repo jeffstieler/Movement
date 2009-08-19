@@ -97,7 +97,7 @@
 - (NSDictionary *)retrieveAllAppsOnDevice {
 	NSMutableDictionary *apps = [[[NSMutableDictionary alloc] init] autorelease];
 	NSDictionary *allAppPaths = [self allAppPathsOnDevice];
-	
+
 	for (NSString *basePath in allAppPaths) {
 		for (NSString *appPath in [allAppPaths objectForKey:basePath]) {
 			NSString *fullAppPath = [basePath stringByAppendingString:appPath];
@@ -107,6 +107,7 @@
 			NSString *appDisplayName = [self displayNameForApp:fullAppPath plistContents:appPlist];
 			iPhoneApp *app = [[iPhoneApp alloc] initWithIdentifier:appIdentifer
 													   displayName:appDisplayName
+															  path:fullAppPath
 															  icon:appIcon];
 			[apps setObject:app forKey:appIdentifer];
 			[app release];
@@ -126,14 +127,19 @@
 			NSRange hypenRange = [identifier rangeOfString:@"-"];
 			if (hypenRange.location != NSNotFound) {
 				NSString *displayName = [identifier substringFromIndex:(hypenRange.location + 1)];
-				NSLog(@"app disp name: %@", displayName);
+				NSString *oldDisplayName = [NSString stringWithString:displayName];
+				if ([officialAppDisplayNames valueForKey:displayName]) {
+					displayName = [officialAppDisplayNames valueForKey:displayName];
+				}
+
 				NSString *appExecutableName = [identifier substringToIndex:hypenRange.location];
-				NSLog(@"app exec name: %@", appExecutableName);
 				appToAdd = [allAppsOnDevice objectForKey:appExecutableName];
-				NSLog(@"the app: %@", appToAdd);
+
+				NSImage *appIcon = [self iconForApp:[appToAdd path] inContext:oldDisplayName];
 				iPhoneApp *newApp = [[iPhoneApp alloc] initWithIdentifier:identifier
 															  displayName:displayName
-																	 icon:appToAdd.icon];
+																	 path:appToAdd.path 
+																	 icon:appIcon];
 				[appController addApp:newApp
 							 toScreen:screenNum 
 							  atIndex:position];
@@ -206,6 +212,17 @@
 	return nil;
 }
 
+- (NSImage *)iconForApp:(NSString *)appPath inContext:(NSString *)appContext {
+	NSString *iconNameForContext = [NSString stringWithFormat:@"icon-%@.png", appContext];
+	NSString *appIconPath = [appPath stringByAppendingPathComponent:iconNameForContext];
+
+	if ([[iPhone deviceInterface] isFileAtPath:appIconPath]) {
+		NSData *fixedData = [PNGFixer fixPNG:[iPhone contentsOfFileAtPath:appIconPath]];
+		return [[[NSImage alloc] initWithData:fixedData] autorelease];
+	}
+	return [NSImage imageNamed:@"sad_mac"];
+}
+
 - (NSImage *)iconForApp:(NSString *)appPath plistContents:(NSDictionary *)plistContents {
 	NSString *appIconPath = [plistContents valueForKey:@"CFBundleIconFile"];
 	if (!appIconPath) {
@@ -218,7 +235,7 @@
 		}
 	}
 	appIconPath = [appPath stringByAppendingPathComponent:appIconPath];
-	NSLog(@"fixing PNG for %@", [plistContents valueForKey:@"CFBundleIdentifier"]);
+
 	NSData *fixedData = [PNGFixer fixPNG:[iPhone contentsOfFileAtPath:appIconPath]];
 	return [[[NSImage alloc] initWithData:fixedData] autorelease];
 }

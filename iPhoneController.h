@@ -53,6 +53,7 @@
 - (IBAction)readAppsFromSpringboard:(id)sender;
 - (void)writeAppsToSpringBoard;
 - (NSDictionary *)plistContentsForApp:(NSString *)appPath;
+- (NSImage *)iconForApp:(NSString *)appPath inContext:(NSString *)appContext;
 - (NSImage *)iconForApp:(NSString *)appPath plistContents:(NSDictionary *)plistContents;
 - (NSString *)displayNameForApp:(NSString *)appPath plistContents:(NSDictionary *)plistContents;
 

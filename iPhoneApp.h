@@ -36,14 +36,16 @@
 @interface iPhoneApp : NSObject {
 	NSString *displayName;
 	NSString *identifier;
+	NSString *path;
 	NSImage *icon;
 }
 
-@property (readwrite, retain)NSString *displayName, *identifier;
+@property (readwrite, retain)NSString *displayName, *identifier, *path;
 @property (readwrite, retain)NSImage *icon;
 
 - (id)initWithIdentifier:(NSString *)aIdentifier 
 			 displayName:(NSString *)aName 
+					path:(NSString *)aPath 
 					icon:(NSImage *)aIcon;
 
 #pragma mark -
