@@ -28,7 +28,7 @@
 		F5D339E21032680A00B01750 /* flipchannels.m in Sources */ = {isa = PBXBuildFile; fileRef = F5D339DF1032680A00B01750 /* flipchannels.m */; };
 		F5D339E31032680A00B01750 /* PNG Fixer.m in Sources */ = {isa = PBXBuildFile; fileRef = F5D339E11032680A00B01750 /* PNG Fixer.m */; };
 		F5D339EC1032682C00B01750 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = F5D339EB1032682C00B01750 /* libz.dylib */; };
-		F5D339EE1032683B00B01750 /* libpng12.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F5D339ED1032683B00B01750 /* libpng12.a */; };
+		F5D339EE1032683B00B01750 /* libpng12.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = F5D339ED1032683B00B01750 /* libpng12.0.dylib */; };
 		F5D33AD81032780600B01750 /* sad_mac.gif in Resources */ = {isa = PBXBuildFile; fileRef = F5D33AD71032780600B01750 /* sad_mac.gif */; };
 /* End PBXBuildFile section */
 
@@ -70,7 +70,7 @@
 		F5D339E01032680A00B01750 /* PNG Fixer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "PNG Fixer.h"; sourceTree = "<group>"; };
 		F5D339E11032680A00B01750 /* PNG Fixer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "PNG Fixer.m"; sourceTree = "<group>"; };
 		F5D339EB1032682C00B01750 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
-		F5D339ED1032683B00B01750 /* libpng12.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libpng12.a; sourceTree = "<group>"; };
+		F5D339ED1032683B00B01750 /* libpng12.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libpng12.0.dylib; sourceTree = "<group>"; };
 		F5D33AD71032780600B01750 /* sad_mac.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = sad_mac.gif; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -83,7 +83,7 @@
 				F5768F9B102CF13C002D2359 /* MobileDevice.framework in Frameworks */,
 				F5769001102D0CA4002D2359 /* Quartz.framework in Frameworks */,
 				F5D339EC1032682C00B01750 /* libz.dylib in Frameworks */,
-				F5D339EE1032683B00B01750 /* libpng12.a in Frameworks */,
+				F5D339EE1032683B00B01750 /* libpng12.0.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -108,7 +108,7 @@
 		1058C7A0FEA54F0111CA2CBB /* Linked Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				F5D339ED1032683B00B01750 /* libpng12.a */,
+				F5D339ED1032683B00B01750 /* libpng12.0.dylib */,
 				F5769000102D0CA4002D2359 /* Quartz.framework */,
 				F5768F9A102CF13C002D2359 /* MobileDevice.framework */,
 				1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */,

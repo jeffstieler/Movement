@@ -156,7 +156,7 @@
 - (IBAction)readAppsFromSpringboard:(id)sender {
 	NSArray *iconLists = [[[self springboard] objectForKey:@"iconState"] objectForKey:@"iconLists"];
 	self.allAppsOnDevice = [self retrieveAllAppsOnDevice];
-	
+	[appController initialSetup];
 	for (int screenNum = 0; screenNum < [iconLists count]; screenNum++) {
 		
 		// Add a screen to the AppController
