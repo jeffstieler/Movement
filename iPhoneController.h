@@ -51,6 +51,7 @@
 - (NSDictionary *)retrieveAllAppsOnDevice;
 - (void)processApps:(NSArray *)apps forRow:(int)rowNum ofScreen:(int)screenNum;
 - (IBAction)readAppsFromSpringboard:(id)sender;
+- (void)writeAppsToSpringBoard;
 - (NSDictionary *)plistContentsForApp:(NSString *)appPath;
 - (NSImage *)iconForApp:(NSString *)appPath plistContents:(NSDictionary *)plistContents;
 - (NSString *)displayNameForApp:(NSString *)appPath plistContents:(NSDictionary *)plistContents;

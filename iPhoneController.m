@@ -173,6 +173,20 @@
 	[appController reloadScreenAtIndex:DOCK];
 }
 
+- (void)writeAppsToSpringBoard {
+	NSMutableArray *appScreens = [NSMutableArray array];
+	for (AppScreenController *controller in [appController screenControllers]) {
+		NSDictionary *screenApps = [controller appsInPlistFormat];
+		if (screenApps) {
+			[appScreens addObject:screenApps];
+		}
+	}
+	[[springboard objectForKey:@"iconState"] setObject:appScreens forKey:@"iconLists"];
+	NSDictionary *dockApps = [[appController dockController] appsInPlistFormat];
+	[[springboard objectForKey:@"iconState"] setObject:dockApps forKey:@"buttonBar"];
+	NSLog(@"%@", springboard);
+}
+
 - (NSDictionary *)plistContentsForApp:(NSString *)appPath {
 	NSString *plistPath = nil;
 	NSArray *possibleInfoFiles = [NSArray arrayWithObjects:@"/Info.plist", @"/info.plist", nil];
@@ -204,6 +218,7 @@
 		}
 	}
 	appIconPath = [appPath stringByAppendingPathComponent:appIconPath];
+	NSLog(@"fixing PNG for %@", [plistContents valueForKey:@"CFBundleIdentifier"]);
 	NSData *fixedData = [PNGFixer fixPNG:[iPhone contentsOfFileAtPath:appIconPath]];
 	return [[[NSImage alloc] initWithData:fixedData] autorelease];
 }

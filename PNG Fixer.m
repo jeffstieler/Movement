@@ -83,9 +83,10 @@ unsigned char cgbichunk[4] = {0x43, 0x67, 0x42, 0x49}; // CgBI
     if (read_png_file((char*)[newPath cString]) == 1) {
 		if (process_file() == 1) {
 			write_png_file((char*)[newPath cString]);
+			return [NSData dataWithContentsOfFile:newPath];
 		}
 	}
-	return [NSData dataWithContentsOfFile:newPath];
+	return pngData;
 }
 
 @end

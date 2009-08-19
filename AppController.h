@@ -53,8 +53,10 @@
 
 - (IBAction)addScreen:(id)sender;
 - (IBAction)removeLastScreen:(id)sender;
+- (IBAction)promptWriteAppsToSpringboard:(id)sender;
 - (void)addApp:(iPhoneApp *)anApp toScreen:(int)aScreen atIndex:(int)anIndex;
 - (void)reloadScreenAtIndex:(int)screenNum;
+- (void)removeScreenController:(AppScreenController *)aScreenController;
 - (void)handleOverflowForAppScreen:(AppScreenController *)appScreen;
 
 @end

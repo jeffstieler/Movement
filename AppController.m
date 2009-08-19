@@ -110,7 +110,7 @@
 	NSArray *overflowingApps = [appScreen overflowingApps];
 	AppScreenController *destinationScreen = nil;
 	if ([appScreen isEqual:[screenControllers lastObject]]) {
-		[self addScreen];
+		[self addScreen:nil];
 		destinationScreen = [screenControllers lastObject];
 		
 	} else {
@@ -123,6 +123,32 @@
 		[appScreen removeApps:overflowingApps];
 		[destinationScreen insertApps:overflowingApps atIndex:0];
 	}
+}
+
+- (IBAction)promptWriteAppsToSpringboard:(id)sender {
+	// First, prompt the user to backup their existing springboard plist
+	NSBeginAlertSheet(@"Do you want to make a backup of your springboard?", 
+					  @"Yes!", @"No, I'm reckless", nil, 
+					  appWindow, 
+					  self, 
+					  @selector(sheetDidEndShouldBackup:returnCode:contextInfo:), 
+					  nil, 
+					  nil, 
+					  @"You really should backup your springboard. This is beta software!");
+}
+
+
+# pragma mark -
+# pragma mark Sheet methods
+- (void)sheetDidEndShouldBackup: (NSWindow *)sheet
+					 returnCode: (NSInteger)returnCode
+					contextInfo: (void *)contextInfo
+{
+    
+	if (returnCode == NSAlertDefaultReturn) {
+		
+	}
+	[phoneController writeAppsToSpringBoard];
 }
 
 @end
