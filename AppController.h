@@ -55,8 +55,6 @@
 - (IBAction)removeLastScreen:(id)sender;
 - (void)addApp:(iPhoneApp *)anApp toScreen:(int)aScreen atIndex:(int)anIndex;
 - (void)reloadScreenAtIndex:(int)screenNum;
-
-- (IBAction)readAppsFromDevice:(id)sender;
 - (void)handleOverflowForAppScreen:(AppScreenController *)appScreen;
 
 @end

@@ -125,8 +125,4 @@
 	}
 }
 
-- (IBAction)readAppsFromDevice:(id)sender {
-	[phoneController readAppsFromSpringboard];
-}
-
 @end

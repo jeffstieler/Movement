@@ -581,11 +581,11 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBActionConnection" key="connection">
-						<string key="label">readAppsFromDevice:</string>
-						<reference key="source" ref="944515993"/>
+						<string key="label">readAppsFromSpringboard:</string>
+						<reference key="source" ref="314682444"/>
 						<reference key="destination" ref="511309157"/>
 					</object>
-					<int key="connectionID">496</int>
+					<int key="connectionID">497</int>
 				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -982,7 +982,7 @@
 				</object>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">496</int>
+			<int key="maxID">497</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -995,12 +995,10 @@
 						<object class="NSMutableArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>addScreen:</string>
-							<string>readAppsFromDevice:</string>
 							<string>removeLastScreen:</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>id</string>
 							<string>id</string>
 							<string>id</string>
 						</object>
@@ -1030,6 +1028,10 @@
 				<object class="IBPartialClassDescription">
 					<string key="className">iPhoneController</string>
 					<string key="superclassName">NSObject</string>
+					<object class="NSMutableDictionary" key="actions">
+						<string key="NS.key.0">readAppsFromSpringboard:</string>
+						<string key="NS.object.0">id</string>
+					</object>
 					<object class="NSMutableDictionary" key="outlets">
 						<string key="NS.key.0">appController</string>
 						<string key="NS.object.0">AppController</string>

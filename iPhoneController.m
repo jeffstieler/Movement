@@ -147,7 +147,7 @@
 	}
 }
 
-- (void)readAppsFromSpringboard {
+- (IBAction)readAppsFromSpringboard:(id)sender {
 	NSArray *iconLists = [[[self springboard] objectForKey:@"iconState"] objectForKey:@"iconLists"];
 	self.allAppsOnDevice = [self retrieveAllAppsOnDevice];
 	
