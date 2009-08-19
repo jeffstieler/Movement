@@ -170,7 +170,7 @@
 	NSArray *dockApps = [[dockAppList objectForKey:@"iconMatrix"] objectAtIndex:0];
 	appController.numberOfDockApps = [dockApps count];
 	[self processApps:dockApps forRow:0 ofScreen:DOCK];
-	[[[appController dockController] screen] reloadData];
+	[appController reloadScreenAtIndex:DOCK];
 }
 
 - (NSDictionary *)plistContentsForApp:(NSString *)appPath {

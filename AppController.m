@@ -83,7 +83,9 @@
 }
 
 - (void)reloadScreenAtIndex:(int)screenNum {
-	if (screenNum < [screenControllers count]) {
+	if (screenNum == DOCK) {
+		[[dockController screen] reloadData];
+	} else if (screenNum < [screenControllers count]) {
 		[[[screenControllers objectAtIndex:screenNum] screen] reloadData];
 	}
 }
