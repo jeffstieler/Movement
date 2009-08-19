@@ -8,8 +8,8 @@
 		<string key="IBDocument.HIToolboxVersion">353.00</string>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
-			<integer value="29"/>
 			<integer value="372"/>
+			<integer value="29"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -295,9 +295,29 @@
 							<object class="NSButtonCell" key="NSCell" id="36455958">
 								<int key="NSCellFlags">-2080244224</int>
 								<int key="NSCellFlags2">134217728</int>
-								<string key="NSContents">Process Apps</string>
+								<string key="NSContents">Read Apps</string>
 								<reference key="NSSupport" ref="296033737"/>
 								<reference key="NSControlView" ref="511309157"/>
+								<int key="NSButtonFlags">-2038152961</int>
+								<int key="NSButtonFlags2">163</int>
+								<string key="NSAlternateContents"/>
+								<string key="NSKeyEquivalent"/>
+								<int key="NSPeriodicDelay">400</int>
+								<int key="NSPeriodicInterval">75</int>
+							</object>
+						</object>
+						<object class="NSButton" id="914105346">
+							<reference key="NSNextResponder" ref="439893737"/>
+							<int key="NSvFlags">260</int>
+							<string key="NSFrame">{{10, 61}, {106, 25}}</string>
+							<reference key="NSSuperview" ref="439893737"/>
+							<bool key="NSEnabled">YES</bool>
+							<object class="NSButtonCell" key="NSCell" id="751029711">
+								<int key="NSCellFlags">-2080244224</int>
+								<int key="NSCellFlags2">134217728</int>
+								<string key="NSContents">Write Apps</string>
+								<reference key="NSSupport" ref="296033737"/>
+								<reference key="NSControlView" ref="914105346"/>
 								<int key="NSButtonFlags">-2038152961</int>
 								<int key="NSButtonFlags2">163</int>
 								<string key="NSAlternateContents"/>
@@ -544,14 +564,6 @@
 					<int key="connectionID">479</int>
 				</object>
 				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">processAppsOnDevice:</string>
-						<reference key="source" ref="944515993"/>
-						<reference key="destination" ref="511309157"/>
-					</object>
-					<int key="connectionID">483</int>
-				</object>
-				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
 						<string key="label">dockView</string>
 						<reference key="source" ref="944515993"/>
@@ -566,6 +578,14 @@
 						<reference key="destination" ref="747157449"/>
 					</object>
 					<int key="connectionID">491</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">readAppsFromDevice:</string>
+						<reference key="source" ref="944515993"/>
+						<reference key="destination" ref="511309157"/>
+					</object>
+					<int key="connectionID">496</int>
 				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -707,6 +727,7 @@
 							<reference ref="152269714"/>
 							<reference ref="996316868"/>
 							<reference ref="747157449"/>
+							<reference ref="914105346"/>
 						</object>
 						<reference key="parent" ref="972006081"/>
 					</object>
@@ -798,6 +819,20 @@
 						<reference key="object" ref="1063215805"/>
 						<reference key="parent" ref="747157449"/>
 					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">494</int>
+						<reference key="object" ref="914105346"/>
+						<object class="NSMutableArray" key="children">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<reference ref="751029711"/>
+						</object>
+						<reference key="parent" ref="439893737"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">495</int>
+						<reference key="object" ref="751029711"/>
+						<reference key="parent" ref="914105346"/>
+					</object>
 				</object>
 			</object>
 			<object class="NSMutableDictionary" key="flattenedProperties">
@@ -853,6 +888,8 @@
 					<string>485.IBPluginDependency</string>
 					<string>487.IBPluginDependency</string>
 					<string>488.IBPluginDependency</string>
+					<string>494.IBPluginDependency</string>
+					<string>495.IBPluginDependency</string>
 					<string>56.IBPluginDependency</string>
 					<string>56.ImportedFromIB2</string>
 					<string>57.IBEditorWindowLastContentRect</string>
@@ -914,6 +951,8 @@
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
+					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
+					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<reference ref="9"/>
 					<string>{{99, 115}, {207, 153}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -943,7 +982,7 @@
 				</object>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">491</int>
+			<int key="maxID">496</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -956,7 +995,7 @@
 						<object class="NSMutableArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>addScreen:</string>
-							<string>processAppsOnDevice:</string>
+							<string>readAppsFromDevice:</string>
 							<string>removeLastScreen:</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">

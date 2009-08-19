@@ -56,7 +56,7 @@
 - (void)addApp:(iPhoneApp *)anApp toScreen:(int)aScreen atIndex:(int)anIndex;
 - (void)reloadScreenAtIndex:(int)screenNum;
 
-- (IBAction)processAppsOnDevice:(id)sender;
+- (IBAction)readAppsFromDevice:(id)sender;
 - (void)handleOverflowForAppScreen:(AppScreenController *)appScreen;
 
 @end

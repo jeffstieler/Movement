@@ -125,8 +125,8 @@
 	}
 }
 
-- (IBAction)processAppsOnDevice:(id)sender {
-	[phoneController processAppsFromSpringboard];
+- (IBAction)readAppsFromDevice:(id)sender {
+	[phoneController readAppsFromSpringboard];
 }
 
 @end
