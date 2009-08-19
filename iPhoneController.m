@@ -190,7 +190,16 @@
 	[[springboard objectForKey:@"iconState"] setObject:appScreens forKey:@"iconLists"];
 	NSDictionary *dockApps = [[appController dockController] appsInPlistFormat];
 	[[springboard objectForKey:@"iconState"] setObject:dockApps forKey:@"buttonBar"];
-	NSLog(@"%@", springboard);
+	NSString *errorDesc;
+	NSData *springboardData = [NSPropertyListSerialization dataFromPropertyList:springboard 
+																		 format:NSPropertyListXMLFormat_v1_0 
+															   errorDescription:&errorDesc];
+	if (errorDesc) {
+		NSLog(@"Error serializing springboard plist -> NO WRITE!!");
+		NSLog(@"%@", errorDesc);
+	} else {
+		[iPhone createFileAtPath:SPRINGBOARD_PLIST withData:springboardData]; 
+	}
 }
 
 - (NSDictionary *)plistContentsForApp:(NSString *)appPath {
@@ -251,6 +260,10 @@
 		}
 	}
 	return nil;
+}
+
+- (void)backupSpringBoardToFilePath:(NSString *)backupPath {
+	[[iPhone contentsOfFileAtPath:SPRINGBOARD_PLIST] writeToFile:backupPath atomically:YES];
 }
 
 

@@ -52,6 +52,7 @@
 - (void)processApps:(NSArray *)apps forRow:(int)rowNum ofScreen:(int)screenNum;
 - (IBAction)readAppsFromSpringboard:(id)sender;
 - (void)writeAppsToSpringBoard;
+- (void)backupSpringBoardToFilePath:(NSString *)backupPath;
 - (NSDictionary *)plistContentsForApp:(NSString *)appPath;
 - (NSImage *)iconForApp:(NSString *)appPath inContext:(NSString *)appContext;
 - (NSImage *)iconForApp:(NSString *)appPath plistContents:(NSDictionary *)plistContents;

@@ -146,9 +146,17 @@
 {
     
 	if (returnCode == NSAlertDefaultReturn) {
+		NSSavePanel *savePanel = [NSSavePanel savePanel];
 		
+		int result = [savePanel runModalForDirectory:nil file:@"springboard.plist"];
+		
+		if (result == NSOKButton) {
+			[phoneController backupSpringBoardToFilePath:[savePanel filename]];
+			[phoneController writeAppsToSpringBoard];
+		}
+	} else {
+		[phoneController writeAppsToSpringBoard];
 	}
-	[phoneController writeAppsToSpringBoard];
 }
 
 @end
