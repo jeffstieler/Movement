@@ -88,16 +88,11 @@
 				}
 			}
 		}
+		[allApps setObject:(NSArray *)userApps forKey:USER_APP_DIR];
 		
 		// Webclips are /User/Library/WebClips/<crazy hash>.webclip/
 		[allApps setObject:[iPhone listOfFoldersAtPath:WEBCLIP_DIR] forKey:WEBCLIP_DIR];
-		/*for (NSString *folder in [iPhone listOfFoldersAtPath:WEBCLIP_DIR]) {
-			NSLog(@"folder in webclip dir: %@", folder);
-			NSString *webclipPath = [NSString pathWithComponents:[NSArray arrayWithObjects:WEBCLIP_DIR, folder, nil]];
-			
-		}*/
 		
-		[allApps setObject:(NSArray *)userApps forKey:USER_APP_DIR];
 		return (NSDictionary *)allApps;
 	}
 	return nil;
@@ -118,7 +113,6 @@
 			if (!appIdentifer) {
 				NSRange dotRange = [appPath rangeOfString:@".webclip"];
 				appIdentifer = [appPath substringToIndex:dotRange.location];
-				//NSLog(@"supposed webclip: %d, %@, %@", dotRange.location, appPath, appIdentifer);
 			}
 			NSString *appDisplayName = [self displayNameForApp:fullAppPath plistContents:appPlist];
 			iPhoneApp *app = [[iPhoneApp alloc] initWithIdentifier:appIdentifer

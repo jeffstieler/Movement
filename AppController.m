@@ -45,7 +45,6 @@
 
 - (void)awakeFromNib {
 	[self initialSetup];
-	//self.numberOfDockApps = APPS_PER_ROW;
 	NSLog(@"AppController is awake");
 }
 
