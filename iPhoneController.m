@@ -36,6 +36,7 @@
 
 #define APP_DIR @"/Applications/"
 #define USER_APP_DIR @"/User/Applications/"
+#define WEBCLIP_DIR @"/User/Library/WebClips/"
 #define SPRINGBOARD_PLIST @"/User/Library/Preferences/com.apple.springboard.plist"
 
 @implementation iPhoneController
@@ -88,6 +89,14 @@
 			}
 		}
 		
+		// Webclips are /User/Library/WebClips/<crazy hash>.webclip/
+		[allApps setObject:[iPhone listOfFoldersAtPath:WEBCLIP_DIR] forKey:WEBCLIP_DIR];
+		/*for (NSString *folder in [iPhone listOfFoldersAtPath:WEBCLIP_DIR]) {
+			NSLog(@"folder in webclip dir: %@", folder);
+			NSString *webclipPath = [NSString pathWithComponents:[NSArray arrayWithObjects:WEBCLIP_DIR, folder, nil]];
+			
+		}*/
+		
 		[allApps setObject:(NSArray *)userApps forKey:USER_APP_DIR];
 		return (NSDictionary *)allApps;
 	}
@@ -103,7 +112,14 @@
 			NSString *fullAppPath = [basePath stringByAppendingString:appPath];
 			NSDictionary *appPlist = [self plistContentsForApp:fullAppPath];
 			NSImage *appIcon = [self iconForApp:fullAppPath plistContents:appPlist];
-			NSString *appIdentifer = [appPlist valueForKey:@"CFBundleIdentifier"];
+			
+			NSString *appIdentifer = [appPlist objectForKey:@"CFBundleIdentifier"];
+			// Handle WebClips - no bundle ID
+			if (!appIdentifer) {
+				NSRange dotRange = [appPath rangeOfString:@".webclip"];
+				appIdentifer = [appPath substringToIndex:dotRange.location];
+				//NSLog(@"supposed webclip: %d, %@, %@", dotRange.location, appPath, appIdentifer);
+			}
 			NSString *appDisplayName = [self displayNameForApp:fullAppPath plistContents:appPlist];
 			iPhoneApp *app = [[iPhoneApp alloc] initWithIdentifier:appIdentifer
 													   displayName:appDisplayName
@@ -154,6 +170,7 @@
 }
 
 - (IBAction)readAppsFromSpringboard:(id)sender {
+	self.springboard = [self springboardFromPhone];
 	NSArray *iconLists = [[[self springboard] objectForKey:@"iconState"] objectForKey:@"iconLists"];
 	self.allAppsOnDevice = [self retrieveAllAppsOnDevice];
 	[appController initialSetup];
@@ -328,7 +345,7 @@
 	} else {
 		NSLog(@"Device connected, ID: %d, SN: %@", [[iPhone device] deviceID], [[iPhone device] serialNumber]);
 		[iPhone setDelegate:self];
-		self.springboard = [self springboardFromPhone];
+		//self.springboard = [self springboardFromPhone];
 	}
 	
 }

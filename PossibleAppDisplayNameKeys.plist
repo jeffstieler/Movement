@@ -6,5 +6,6 @@
 	<string>CFBundleName</string>
 	<string>CFBundleExecutable</string>
 	<string>Executable file</string>
+	<string>Title</string>
 </array>
 </plist>
