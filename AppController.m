@@ -45,11 +45,9 @@
 
 - (void)awakeFromNib {
 	[self initialSetup];
-	NSLog(@"AppController is awake");
 }
 
 - (void)initialSetup {
-	//[phoneController setSpringboard:[NSMutableDictionary dictionary]];
 	self.screenControllers = [[[NSMutableArray alloc] init] autorelease];
 	self.dockController = [[[AppScreenController alloc] init] autorelease];
 	dockController.apps = [NSMutableArray array];
