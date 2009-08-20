@@ -497,7 +497,7 @@
 						<object class="NSTextField" id="1010021384">
 							<reference key="NSNextResponder" ref="795914104"/>
 							<int key="NSvFlags">268</int>
-							<string key="NSFrame">{{17, 46}, {67, 17}}</string>
+							<string key="NSFrame">{{17, 46}, {282, 17}}</string>
 							<reference key="NSSuperview" ref="795914104"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSTextFieldCell" key="NSCell" id="223859581">
@@ -682,6 +682,14 @@
 						<reference key="destination" ref="1021352652"/>
 					</object>
 					<int key="connectionID">513</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">loadingSheetLabel</string>
+						<reference key="source" ref="944515993"/>
+						<reference key="destination" ref="1010021384"/>
+					</object>
+					<int key="connectionID">514</int>
 				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -1140,7 +1148,7 @@
 				</object>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">513</int>
+			<int key="maxID">514</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -1172,6 +1180,7 @@
 							<string>dockView</string>
 							<string>loadingSheet</string>
 							<string>loadingSheetIndicator</string>
+							<string>loadingSheetLabel</string>
 							<string>phoneController</string>
 							<string>scrollViewContent</string>
 						</object>
@@ -1180,6 +1189,7 @@
 							<string>IKImageBrowserView</string>
 							<string>NSPanel</string>
 							<string>NSProgressIndicator</string>
+							<string>NSTextField</string>
 							<string>id</string>
 							<string>NSView</string>
 						</object>

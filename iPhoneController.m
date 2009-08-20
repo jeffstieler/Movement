@@ -164,7 +164,6 @@
 }
 
 - (void)readAppsFromSpringboard {
-	
 	self.springboard = [self springboardFromPhone];
 	NSArray *iconLists = [[[self springboard] objectForKey:@"iconState"] objectForKey:@"iconLists"];
 	self.allAppsOnDevice = [self retrieveAllAppsOnDevice];

@@ -39,6 +39,7 @@
 
 @interface AppController : NSWindowController {
 	IBOutlet NSPanel *loadingSheet;
+	IBOutlet NSTextField *loadingSheetLabel;
 	IBOutlet NSProgressIndicator *loadingSheetIndicator;
 	IBOutlet NSView *scrollViewContent;
 	IBOutlet id phoneController;

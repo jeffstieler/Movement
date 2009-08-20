@@ -64,13 +64,15 @@
 }
 
 - (IBAction)addScreen:(id)sender {
-	NSRect screenFrame = NSMakeRect(SCREEN_X_OFFSET([screenControllers count]), PAD, SCREEN_WIDTH, SCREEN_HEIGHT);	
-	AppScreenController *controller = [[AppScreenController alloc] initWithFrame:screenFrame andController:self];
-	[controller setScreenAttributes];
-	[screenControllers addObject:controller];
-	[scrollViewContent addSubview:[controller screen]];
-	[scrollViewContent setFrame:NSMakeRect(0, 0, SCREEN_X_OFFSET([screenControllers count]), CONTAINER_HEIGHT)];
-	[controller release];
+	if ([screenControllers count] < MAX_APP_SCREENS) {
+		NSRect screenFrame = NSMakeRect(SCREEN_X_OFFSET([screenControllers count]), PAD, SCREEN_WIDTH, SCREEN_HEIGHT);	
+		AppScreenController *controller = [[AppScreenController alloc] initWithFrame:screenFrame andController:self];
+		[controller setScreenAttributes];
+		[screenControllers addObject:controller];
+		[scrollViewContent addSubview:[controller screen]];
+		[scrollViewContent setFrame:NSMakeRect(0, 0, SCREEN_X_OFFSET([screenControllers count]), CONTAINER_HEIGHT)];
+		[controller release];
+	}
 }
 
 - (IBAction)removeLastScreen:(id)sender {
@@ -129,6 +131,7 @@
 }
 
 - (IBAction)readAppsFromSpringBoard:(id)sender {
+	[loadingSheetLabel setStringValue:@"Reading apps from device..."];
 	[NSApp beginSheet:loadingSheet
 	   modalForWindow:[self window]
 		modalDelegate:self  
@@ -168,11 +171,20 @@
 		
 		if (result == NSOKButton) {
 			[phoneController backupSpringBoardToFilePath:[savePanel filename]];
-			[phoneController writeAppsToSpringBoard];
 		}
-	} else {
-		[phoneController writeAppsToSpringBoard];
 	}
+	
+	[loadingSheetLabel setStringValue:@"Writing apps to device..."];
+	[NSApp beginSheet:loadingSheet
+	   modalForWindow:[self window]
+		modalDelegate:self  
+	   didEndSelector:nil 
+		  contextInfo:nil];
+	[loadingSheetIndicator startAnimation:self];
+	[phoneController writeAppsToSpringBoard];
+	[loadingSheetIndicator stopAnimation:self];
+	[NSApp endSheet:loadingSheet];
+	[loadingSheet orderOut:nil];
 }
 
 @end
