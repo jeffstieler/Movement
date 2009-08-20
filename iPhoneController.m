@@ -163,7 +163,8 @@
 	}
 }
 
-- (IBAction)readAppsFromSpringboard:(id)sender {
+- (void)readAppsFromSpringboard {
+	
 	self.springboard = [self springboardFromPhone];
 	NSArray *iconLists = [[[self springboard] objectForKey:@"iconState"] objectForKey:@"iconLists"];
 	self.allAppsOnDevice = [self retrieveAllAppsOnDevice];
@@ -188,6 +189,7 @@
 	appController.numberOfDockApps = [dockApps count];
 	[self processApps:dockApps forRow:0 ofScreen:DOCK];
 	[appController reloadScreenAtIndex:DOCK];
+
 }
 
 - (void)writeAppsToSpringBoard {

@@ -54,6 +54,7 @@
 	dockController.screen = dockView;
 	dockController.appController = self;
 	[dockController setScreenAttributes];
+	[loadingSheetIndicator setUsesThreadedAnimation:YES];
 }
 
 - (void)dealloc {
@@ -127,11 +128,24 @@
 	}
 }
 
+- (IBAction)readAppsFromSpringBoard:(id)sender {
+	[NSApp beginSheet:loadingSheet
+	   modalForWindow:[self window]
+		modalDelegate:self  
+	   didEndSelector:nil 
+		  contextInfo:nil];
+	[loadingSheetIndicator startAnimation:self];
+	[phoneController readAppsFromSpringboard];
+	[loadingSheetIndicator stopAnimation:self];
+	[NSApp endSheet:loadingSheet];
+	[loadingSheet orderOut:nil];
+}
+
 - (IBAction)promptWriteAppsToSpringboard:(id)sender {
 	// First, prompt the user to backup their existing springboard plist
 	NSBeginAlertSheet(@"Do you want to make a backup of your springboard?", 
 					  @"Yes!", @"No, I'm reckless", nil, 
-					  appWindow, 
+					  [self window], 
 					  self, 
 					  @selector(sheetDidEndShouldBackup:returnCode:contextInfo:), 
 					  nil, 

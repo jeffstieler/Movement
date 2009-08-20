@@ -50,7 +50,7 @@
 - (NSMutableDictionary *)springboardFromPhone;
 - (NSDictionary *)retrieveAllAppsOnDevice;
 - (void)processApps:(NSArray *)apps forRow:(int)rowNum ofScreen:(int)screenNum;
-- (IBAction)readAppsFromSpringboard:(id)sender;
+- (void)readAppsFromSpringboard;
 - (void)writeAppsToSpringBoard;
 - (void)backupSpringBoardToFilePath:(NSString *)backupPath;
 - (NSDictionary *)plistContentsForApp:(NSString *)appPath;

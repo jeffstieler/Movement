@@ -37,8 +37,9 @@
 
 #define DOCK 666
 
-@interface AppController : NSObject {
-	IBOutlet NSWindow *appWindow;
+@interface AppController : NSWindowController {
+	IBOutlet NSPanel *loadingSheet;
+	IBOutlet NSProgressIndicator *loadingSheetIndicator;
 	IBOutlet NSView *scrollViewContent;
 	IBOutlet id phoneController;
 	IBOutlet IKImageBrowserView *dockView;
@@ -54,6 +55,7 @@
 - (IBAction)addScreen:(id)sender;
 - (IBAction)removeLastScreen:(id)sender;
 - (IBAction)promptWriteAppsToSpringboard:(id)sender;
+- (IBAction)readAppsFromSpringBoard:(id)sender;
 - (void)initialSetup;
 - (void)addApp:(iPhoneApp *)anApp toScreen:(int)aScreen atIndex:(int)anIndex;
 - (void)reloadScreenAtIndex:(int)screenNum;
