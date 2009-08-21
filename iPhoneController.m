@@ -341,7 +341,6 @@
 	} else {
 		NSLog(@"Device connected, ID: %d, SN: %@", [[iPhone device] deviceID], [[iPhone device] serialNumber]);
 		[iPhone setDelegate:self];
-		//self.springboard = [self springboardFromPhone];
 	}
 	
 }

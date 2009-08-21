@@ -5,15 +5,15 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>English</string>
 	<key>CFBundleExecutable</key>
-	<string>Axiomatic</string>
+	<string>Movement</string>
 	<key>CFBundleIconFile</key>
-	<string></string>
+	<string>MovementApp.icns</string>
 	<key>CFBundleIdentifier</key>
-	<string>com.jeffstieler.Axiomatic</string>
+	<string>com.jeffstieler.Movement</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
-	<string>Axiomatic</string>
+	<string>Movement</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleSignature</key>

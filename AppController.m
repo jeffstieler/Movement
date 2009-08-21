@@ -146,14 +146,14 @@
 
 - (IBAction)promptWriteAppsToSpringboard:(id)sender {
 	// First, prompt the user to backup their existing springboard plist
-	NSBeginAlertSheet(@"Do you want to make a backup of your springboard?", 
-					  @"Yes!", @"No, I'm reckless", nil, 
-					  [self window], 
-					  self, 
-					  @selector(sheetDidEndShouldBackup:returnCode:contextInfo:), 
-					  nil, 
-					  nil, 
-					  @"You really should backup your springboard. This is beta software!");
+	NSBeginCriticalAlertSheet(@"Do you want to make a backup of your springboard?", 
+							  @"Yes!", @"No, I'm reckless", nil, 
+							  [self window], 
+							  self, 
+							  @selector(sheetDidEndShouldBackup:returnCode:contextInfo:), 
+							  nil, 
+							  nil, 
+							  @"You really should backup your springboard. This is beta software!");
 }
 
 
@@ -174,7 +174,6 @@
 		}
 	}
 	[phoneController writeAppsToSpringBoard];
-	
 }
 
 @end
