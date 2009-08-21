@@ -47,6 +47,17 @@
 	[self initialSetup];
 }
 
+- (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
+	NSBeginInformationalAlertSheet(@"Welcome to Movement!", 
+							  @"Ok!", nil, nil, 
+							  [self window], 
+							  self, 
+							  nil, 
+							  nil, 
+							  nil, 
+							  @"Important Usage Instructions:\n\n1. Connect device\n2. Click \"Read Apps\"\n3. Rearrange your apps\n4. Click \"Write Apps\"\n5. Disconnect and restart the device\n6. Quit");
+}
+
 - (void)initialSetup {
 	self.screenControllers = [[[NSMutableArray alloc] init] autorelease];
 	self.dockController = [[[AppScreenController alloc] init] autorelease];
@@ -55,6 +66,7 @@
 	dockController.appController = self;
 	[dockController setScreenAttributes];
 	[loadingSheetIndicator setUsesThreadedAnimation:YES];
+	[NSApp setDelegate:self];
 }
 
 - (void)dealloc {
