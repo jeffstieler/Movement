@@ -192,6 +192,7 @@
 }
 
 - (void)writeAppsToSpringBoard {
+	
 	NSMutableArray *appScreens = [NSMutableArray array];
 	for (AppScreenController *controller in [appController screenControllers]) {
 		NSDictionary *screenApps = [controller appsInPlistFormat];
@@ -210,7 +211,7 @@
 		NSLog(@"Error serializing springboard plist -> NO WRITE!!");
 		NSLog(@"%@", errorDesc);
 	} else {
-		[iPhone createFileAtPath:SPRINGBOARD_PLIST withData:springboardData]; 
+		[iPhone createFileAtPath:SPRINGBOARD_PLIST withData:springboardData];
 	}
 }
 

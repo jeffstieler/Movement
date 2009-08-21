@@ -173,18 +173,8 @@
 			[phoneController backupSpringBoardToFilePath:[savePanel filename]];
 		}
 	}
-	
-	[loadingSheetLabel setStringValue:@"Writing apps to device..."];
-	[NSApp beginSheet:loadingSheet
-	   modalForWindow:[self window]
-		modalDelegate:self  
-	   didEndSelector:nil 
-		  contextInfo:nil];
-	[loadingSheetIndicator startAnimation:self];
 	[phoneController writeAppsToSpringBoard];
-	[loadingSheetIndicator stopAnimation:self];
-	[NSApp endSheet:loadingSheet];
-	[loadingSheet orderOut:nil];
+	
 }
 
 @end
