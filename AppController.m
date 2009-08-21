@@ -157,6 +157,17 @@
 }
 
 
+#pragma mark - 
+#pragma mark Window Delegate Methods
+- (NSSize)windowWillResize:(NSWindow *)aWindow toSize:(NSSize)proposedFrameSize {
+	
+	for (AppScreenController *controller in screenControllers) {
+		[[controller screen] reloadData];
+	}
+	return NSMakeSize(proposedFrameSize.width, [aWindow frame].size.height);
+}
+
+
 # pragma mark -
 # pragma mark Sheet methods
 - (void)sheetDidEndShouldBackup: (NSWindow *)sheet
