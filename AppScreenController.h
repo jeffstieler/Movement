@@ -47,7 +47,7 @@
 - (id)initWithFrame:(NSRect)aFrame andController:(id)aController;
 - (void)setScreenAttributes;
 - (NSArray *)overflowingApps;
-- (BOOL)insertApps:(NSArray *)appsToInsert atIndex:(int)index;
+- (void)insertApps:(NSArray *)appsToInsert atIndex:(int)index;
 - (void)removeApps:(NSArray *)appsToRemove;
 - (NSDictionary *)appsInPlistFormat;
 - (NSArray *)draggedItemsFromSender:(id <NSDraggingInfo>)sender;

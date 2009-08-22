@@ -73,18 +73,20 @@
 	[super dealloc];
 }
 
-- (BOOL)insertApps:(NSArray *)appsToInsert atIndex:(int)index {
+- (void)insertApps:(NSArray *)appsToInsert atIndex:(int)index {
 	NSEnumerator *appsToInsertReversed = [appsToInsert reverseObjectEnumerator];
 	id app;
 	while (app = [appsToInsertReversed nextObject]) {
 		[apps insertObject:app atIndex:index];
 	}
 	
+	// Handle overflow if necessary
+	if ([apps count] > APPS_PER_SCREEN) {
+		[appController handleOverflowForAppScreen:self];
+	}
+	
 	// Refresh the view
 	[screen reloadData];
-	
-	// Notify message sender whether overflow is occuring
-	return ([apps count] > APPS_PER_SCREEN);
 }
 
 - (void)removeApps:(NSArray *)appsToRemove {
@@ -237,12 +239,7 @@
 	
     if(draggedApps) {
 		
-		BOOL overflow = [self insertApps:draggedApps atIndex:[screen indexAtLocationOfDroppedItem]];
-		if (overflow) {
-			// Handle the case where overflowing apps going back to their source
-			// screen were getting deleted
-			[appController handleOverflowForAppScreen:self];
-		}
+		[self insertApps:draggedApps atIndex:[screen indexAtLocationOfDroppedItem]];
 		[[[sender draggingSource] delegate] removeApps:draggedApps];
     }
 	
