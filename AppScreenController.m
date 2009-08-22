@@ -52,13 +52,14 @@
 
 - (void)setScreenAttributes {
 	[screen setValue:[NSColor blackColor] forKey:IKImageBrowserBackgroundColorKey];
-	NSMutableDictionary *attributes = [NSMutableDictionary dictionaryWithCapacity:1];
-	[attributes setValue:[NSColor whiteColor] forKey:NSForegroundColorAttributeName];
-	[screen setValue:attributes forKey:IKImageBrowserCellsTitleAttributesKey];
+	NSDictionary *oldAttributes = [screen valueForKey:IKImageBrowserCellsTitleAttributesKey];
+	NSMutableDictionary *newAttributes = [oldAttributes mutableCopy];
+	[newAttributes setObject:[NSFont fontWithName:@"Helvetica" size:11] forKey:NSFontAttributeName];
+	[newAttributes setValue:[NSColor whiteColor] forKey:NSForegroundColorAttributeName];
+	[screen setValue:newAttributes forKey:IKImageBrowserCellsTitleAttributesKey];
 	[screen setCellsStyleMask:IKCellsStyleTitled];
 	[screen setCellSize:NSMakeSize(50, 50)];
 	[screen setAllowsReordering:YES];
-	[screen setAllowsMultipleSelection:NO];
 	[screen setAnimates:YES];
 	[screen setDelegate:self];
 	[screen setDataSource:self];
@@ -72,23 +73,31 @@
 	[super dealloc];
 }
 
-- (void)insertApps:(NSArray *)appsToInsert atIndex:(int)index {
+- (BOOL)insertApps:(NSArray *)appsToInsert atIndex:(int)index {
 	NSEnumerator *appsToInsertReversed = [appsToInsert reverseObjectEnumerator];
-	iPhoneApp *app;
+	id app;
 	while (app = [appsToInsertReversed nextObject]) {
 		[apps insertObject:app atIndex:index];
 	}
-	// Handle overflow if necessary
-	if ([apps count] > APPS_PER_SCREEN) {
-		[appController handleOverflowForAppScreen:self];
-	}
+	
 	// Refresh the view
 	[screen reloadData];
+	
+	// Notify message sender whether overflow is occuring
+	return ([apps count] > APPS_PER_SCREEN);
 }
 
 - (void)removeApps:(NSArray *)appsToRemove {
-	for (iPhoneApp *appToRemove in appsToRemove) {
-		[apps removeObject:appToRemove];
+	for (id appToRemove in appsToRemove) {
+		// Purposely NOT using the NSMutableArray removeObject:
+		// since it removes all objects that match, when we want to remove the FIRST 
+		// to properly handle drag overflows with multiple items
+		for (iPhoneApp *app in apps) {
+			if ([app isEqual:appToRemove]) {
+				[apps removeObjectAtIndex:[apps indexOfObject:app]];
+				break;
+			}
+		}
 	}
 	[screen reloadData];
 }
@@ -146,11 +155,6 @@
 - (id) imageBrowser:(IKImageBrowserView *) aBrowser itemAtIndex:(NSUInteger)index
 {
 	return [apps objectAtIndex:index];
-}
-
-- (void) imageBrowser:(IKImageBrowserView *) view removeItemsAtIndexes: (NSIndexSet *) indexes
-{
-    [apps removeObjectsAtIndexes:indexes];
 }
 
 - (BOOL) imageBrowser:(IKImageBrowserView *) aBrowser  
@@ -216,10 +220,15 @@
 		data = [pasteboard dataForType:IPHONE_APP_PBOARD_TYPE];
 	}
     if(data) {
-		// Add app to destination screen
+		
 		NSArray *draggedApps = [NSKeyedUnarchiver unarchiveObjectWithData:data];
 		
-		[self insertApps:draggedApps atIndex:[screen indexAtLocationOfDroppedItem]];
+		BOOL overflow = [self insertApps:draggedApps atIndex:[screen indexAtLocationOfDroppedItem]];
+		if (overflow) {
+			// Handle the case where overflowing apps going back to their source
+			// screen were getting deleted
+			[appController handleOverflowForAppScreen:self];
+		}
 		[[[sender draggingSource] delegate] removeApps:draggedApps];
     }
 	
