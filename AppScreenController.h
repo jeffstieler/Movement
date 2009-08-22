@@ -50,5 +50,6 @@
 - (BOOL)insertApps:(NSArray *)appsToInsert atIndex:(int)index;
 - (void)removeApps:(NSArray *)appsToRemove;
 - (NSDictionary *)appsInPlistFormat;
+- (NSArray *)draggedItemsFromSender:(id <NSDraggingInfo>)sender;
 
 @end

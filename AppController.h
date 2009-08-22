@@ -63,5 +63,6 @@
 - (void)reloadScreenAtIndex:(int)screenNum;
 - (void)removeScreenController:(AppScreenController *)aScreenController;
 - (void)handleOverflowForAppScreen:(AppScreenController *)appScreen;
+- (void)resetScrollViewSize;
 
 @end

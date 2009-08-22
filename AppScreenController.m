@@ -189,15 +189,34 @@
 #pragma mark - 
 #pragma mark Browser Dragging Methods
 
+- (NSArray *)draggedItemsFromSender:(id <NSDraggingInfo>)sender {
+	NSData *data = nil;
+    NSPasteboard *pasteboard = [sender draggingPasteboard];
+	
+    if ([[pasteboard types] containsObject:IPHONE_APP_PBOARD_TYPE]) {
+		data = [pasteboard dataForType:IPHONE_APP_PBOARD_TYPE];
+	}
+    if(data) {
+		return [NSKeyedUnarchiver unarchiveObjectWithData:data];
+	}
+	return nil;
+}
+
 - (BOOL)prepareForDragOperation:(id <NSDraggingInfo>)sender {
 	// if this is a local drag - allow it
 	if ([self isEqual:[[sender draggingSource] delegate]]) {
 		return YES;
 	}
 	// if the destination screen is the dock, and its full - no dice
-	if ([self isEqual:[appController dockController]] && 
-		([[[appController dockController] apps] count] == [appController numberOfDockApps])) {
-		return NO;
+	// if the # of dragged items would overflow the dock, dont allow
+	if ([self isEqual:[appController dockController]]) {
+		int numCurrentDockApps = [[[appController dockController] apps] count];
+		int maxDockApps = [appController numberOfDockApps];
+		if ((numCurrentDockApps == maxDockApps) ||
+			(([[self draggedItemsFromSender:sender] count] + numCurrentDockApps) > maxDockApps)) {
+			
+			return NO;
+		}
 	}
 	
 	int sourceScreenNumber = [[appController screenControllers] indexOfObject:[[sender draggingSource] delegate]];
@@ -213,15 +232,10 @@
 }
 
 - (BOOL) performDragOperation:(id <NSDraggingInfo>)sender {
-    NSData *data = nil;
-    NSPasteboard *pasteboard = [sender draggingPasteboard];
 	
-    if ([[pasteboard types] containsObject:IPHONE_APP_PBOARD_TYPE]) {
-		data = [pasteboard dataForType:IPHONE_APP_PBOARD_TYPE];
-	}
-    if(data) {
-		
-		NSArray *draggedApps = [NSKeyedUnarchiver unarchiveObjectWithData:data];
+	NSArray *draggedApps = [self draggedItemsFromSender:sender];
+	
+    if(draggedApps) {
 		
 		BOOL overflow = [self insertApps:draggedApps atIndex:[screen indexAtLocationOfDroppedItem]];
 		if (overflow) {

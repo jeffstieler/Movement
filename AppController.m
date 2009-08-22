@@ -83,7 +83,7 @@
 		[controller setScreenAttributes];
 		[screenControllers addObject:controller];
 		[scrollViewContent addSubview:[controller screen]];
-		[scrollViewContent setFrame:NSMakeRect(0, 0, SCREEN_X_OFFSET([screenControllers count]), CONTAINER_HEIGHT)];
+		[self resetScrollViewSize];
 		[controller release];
 	}
 }
@@ -95,9 +95,20 @@
 }
 
 - (void)removeScreenController:(AppScreenController *)aScreenController {
+	
+	int removalIndex = [screenControllers indexOfObject:aScreenController];
 	[[aScreenController screen] removeFromSuperview];
 	[screenControllers removeObject:aScreenController];
-	[scrollViewContent setFrame:NSMakeRect(0, 0, SCREEN_X_OFFSET([screenControllers count]), CONTAINER_HEIGHT)];
+	
+	// Shift all screens over << that were to the right of the removed screen
+	for (int i = removalIndex; i < [screenControllers count]; i++) {
+		AppScreenController *screenController = [screenControllers objectAtIndex:i];
+		NSRect newFrame = [[screenController screen] frame];
+		newFrame.origin.x -= (SCREEN_WIDTH + PAD);
+		[[screenController screen] setFrame:newFrame];
+	}
+	
+	[self resetScrollViewSize];
 }
 
 - (void)reloadScreenAtIndex:(int)screenNum {
@@ -106,6 +117,10 @@
 	} else if (screenNum < [screenControllers count]) {
 		[[[screenControllers objectAtIndex:screenNum] screen] reloadData];
 	}
+}
+
+- (void)resetScrollViewSize {
+	[scrollViewContent setFrame:NSMakeRect(0, 0, SCREEN_X_OFFSET([screenControllers count]), CONTAINER_HEIGHT)];
 }
 
 - (void)addApp:(iPhoneApp *)anApp toScreen:(int)aScreen atIndex:(int)anIndex {
