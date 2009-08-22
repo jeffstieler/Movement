@@ -38,6 +38,7 @@
 #define DOCK 666
 
 @interface AppController : NSWindowController {
+	IBOutlet NSButton *writeAppsButton;
 	IBOutlet NSPanel *loadingSheet;
 	IBOutlet NSTextField *loadingSheetLabel;
 	IBOutlet NSProgressIndicator *loadingSheetIndicator;

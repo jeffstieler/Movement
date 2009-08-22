@@ -75,6 +75,7 @@
 		
 		// "Official" apps are in /Applications/<app name>.app/
 		[allApps setObject:[iPhone listOfFoldersAtPath:APP_DIR] forKey:APP_DIR];
+		
 		NSRange isDotApp;
 		NSMutableArray *userApps = [[[NSMutableArray alloc] init] autorelease];
 		
@@ -106,21 +107,23 @@
 		for (NSString *appPath in [allAppPaths objectForKey:basePath]) {
 			NSString *fullAppPath = [basePath stringByAppendingString:appPath];
 			NSDictionary *appPlist = [self plistContentsForApp:fullAppPath];
-			NSImage *appIcon = [self iconForApp:fullAppPath plistContents:appPlist];
-			
-			NSString *appIdentifer = [appPlist objectForKey:@"CFBundleIdentifier"];
-			// Handle WebClips - no bundle ID
-			if (!appIdentifer) {
-				NSRange dotRange = [appPath rangeOfString:@".webclip"];
-				appIdentifer = [appPath substringToIndex:dotRange.location];
+			if (appPlist) {
+				NSImage *appIcon = [self iconForApp:fullAppPath plistContents:appPlist];
+				
+				NSString *appIdentifer = [appPlist objectForKey:@"CFBundleIdentifier"];
+				// Handle WebClips - no bundle ID
+				if (!appIdentifer) {
+					NSRange dotRange = [appPath rangeOfString:@".webclip"];
+					appIdentifer = [appPath substringToIndex:dotRange.location];
+				}
+				NSString *appDisplayName = [self displayNameForApp:fullAppPath plistContents:appPlist];
+				iPhoneApp *app = [[iPhoneApp alloc] initWithIdentifier:appIdentifer
+														   displayName:appDisplayName
+																  path:fullAppPath
+																  icon:appIcon];
+				[apps setObject:app forKey:appIdentifer];
+				[app release];
 			}
-			NSString *appDisplayName = [self displayNameForApp:fullAppPath plistContents:appPlist];
-			iPhoneApp *app = [[iPhoneApp alloc] initWithIdentifier:appIdentifer
-													   displayName:appDisplayName
-															  path:fullAppPath
-															  icon:appIcon];
-			[apps setObject:app forKey:appIdentifer];
-			[app release];
 		}
 	}
 	return [NSDictionary dictionaryWithDictionary:apps];
@@ -135,7 +138,7 @@
 			int position = ((rowNum * 4) + appNum);
 			
 			NSRange hypenRange = [identifier rangeOfString:@"-"];
-			if (hypenRange.location != NSNotFound) {
+			if (!appToAdd && (hypenRange.location != NSNotFound)) {
 				NSString *displayName = [identifier substringFromIndex:(hypenRange.location + 1)];
 				NSString *oldDisplayName = [NSString stringWithString:displayName];
 				if ([officialAppDisplayNames valueForKey:displayName]) {
@@ -237,7 +240,6 @@
 - (NSImage *)iconForApp:(NSString *)appPath inContext:(NSString *)appContext {
 	NSString *iconNameForContext = [NSString stringWithFormat:@"icon-%@.png", appContext];
 	NSString *appIconPath = [appPath stringByAppendingPathComponent:iconNameForContext];
-
 	if ([[iPhone deviceInterface] isFileAtPath:appIconPath]) {
 		NSData *fixedData = [PNGFixer fixPNG:[iPhone contentsOfFileAtPath:appIconPath]];
 		return [[[NSImage alloc] initWithData:fixedData] autorelease];

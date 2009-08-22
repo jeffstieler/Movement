@@ -67,6 +67,7 @@
 	[dockController setScreenAttributes];
 	[loadingSheetIndicator setUsesThreadedAnimation:YES];
 	[NSApp setDelegate:self];
+	[writeAppsButton setEnabled:NO];
 }
 
 - (void)dealloc {
@@ -154,6 +155,7 @@
 	[loadingSheetIndicator stopAnimation:self];
 	[NSApp endSheet:loadingSheet];
 	[loadingSheet orderOut:nil];
+	[writeAppsButton setEnabled:YES];
 }
 
 - (IBAction)promptWriteAppsToSpringboard:(id)sender {
