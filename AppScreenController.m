@@ -60,6 +60,7 @@
 	[screen setCellsStyleMask:IKCellsStyleTitled];
 	[screen setCellSize:NSMakeSize(50, 50)];
 	[screen setAllowsReordering:YES];
+	[screen setAllowsMultipleSelection:NO];
 	[screen setAnimates:YES];
 	[screen setDelegate:self];
 	[screen setDataSource:self];

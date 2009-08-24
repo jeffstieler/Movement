@@ -315,11 +315,10 @@
 #pragma mark AFC Factory Delegates
 
 -(void)AFCDeviceWasConnected:(AFCDeviceRef *)dev {
-	
 	// This is where the action happens - the factory has
 	// detected a new iPhone/iPod touch.
 	if (iPhone) {
-		
+
 		if ([[[iPhone device] serialNumber] isEqualToString:[dev serialNumber]]) {
 			
 			// When the same device is reconnected, it seems to have 
@@ -336,12 +335,11 @@
 	[iPhone release];
 	iPhone = nil;
 	iPhone = [[AFCDevice alloc] initWithRef:dev andService:kRootAFC];
-	
+
 	if (!iPhone) {
 		[NSException raise:@"iPhoneController" format:@"Error occurred when trying to init AFC device."];
 		
 	} else {
-		NSLog(@"Device connected, ID: %d, SN: %@", [[iPhone device] deviceID], [[iPhone device] serialNumber]);
 		[iPhone setDelegate:self];
 	}
 	
