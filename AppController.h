@@ -35,8 +35,6 @@
 #import "AppScreenController.h"
 #import "iPhoneApp.h"
 
-#define DOCK 666
-
 @interface AppController : NSWindowController {
 	IBOutlet NSButton *writeAppsButton;
 	IBOutlet NSPanel *loadingSheet;
@@ -64,5 +62,11 @@
 - (void)removeScreenController:(AppScreenController *)aScreenController;
 - (void)handleOverflowForAppScreen:(AppScreenController *)appScreen;
 - (void)resetScrollViewSize;
+- (void)moveApps:(NSArray *)appsToMove 
+   fromScreenNum:(int)fromScreenIdx 
+	 toScreenNum:(int)toScreenIdx 
+		 atIndex:(int)dragIndex
+initialScreenNum:(int)initialScreenIdx
+ initialDragApps:(NSArray *)initialDragApps;
 
 @end

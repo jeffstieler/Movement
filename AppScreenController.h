@@ -34,6 +34,7 @@
 #import <Quartz/Quartz.h>
 
 #define APPS_PER_SCREEN 16
+#define DOCK 666
 
 @interface AppScreenController : NSWindowController {
 	NSMutableArray *apps;

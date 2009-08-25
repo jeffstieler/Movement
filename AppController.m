@@ -158,6 +158,81 @@
 	}
 }
 
+- (void)logAllApps {
+	for (AppScreenController *asc in screenControllers) {
+		NSLog(@"%@", [asc apps]);
+	}
+}
+
+
+- (void)moveApps:(NSArray *)appsToMove 
+   fromScreenNum:(int)fromScreenIdx 
+	 toScreenNum:(int)toScreenIdx 
+		 atIndex:(int)dragIndex
+initialScreenNum:(int)initialScreenIdx
+ initialDragApps:(NSArray *)initialDragApps {
+	
+	NSLog(@"move apps: %@ from screen #%d to #%d at index %d (init screen: %d)", appsToMove, fromScreenIdx, toScreenIdx, dragIndex, initialScreenIdx);
+	// Get references to each screen's controller, being mindful of the dock
+	AppScreenController *destinationController, *originController;
+	
+	destinationController = (toScreenIdx == DOCK) ? dockController : [screenControllers objectAtIndex:toScreenIdx];
+	originController = (fromScreenIdx == DOCK) ? dockController : [screenControllers objectAtIndex:fromScreenIdx];
+	
+	// Insert the dragged apps into the destination screen
+	NSLog(@"inserting apps: %@ to screen #%d at index %d", appsToMove, toScreenIdx, dragIndex);
+	[destinationController insertApps:appsToMove atIndex:dragIndex];
+	
+	// Remove dragged apps from origin screen
+	NSLog(@"removing apps: %@ from screen #%d", appsToMove, fromScreenIdx);
+	[originController removeApps:appsToMove];
+	
+	// Determine how many apps the screen we just inserted into has now
+	int destinationScreenAppCount = [[destinationController apps] count];
+	
+	// Handle this case: 
+	//  we have overflowed all the way back to the initial screen, which happens to be the last
+	//  screen. delete the apps that we originally dragged from it, and return - thats it
+	if ((toScreenIdx == initialScreenIdx) && 
+		((toScreenIdx + 1) == [screenControllers count]) &&
+		(destinationScreenAppCount > APPS_PER_SCREEN)) {
+		
+		NSLog(@"we have overflowed all the way back to the initial screen, which happens to be the last");
+		NSLog(@"removing initial apps: %@", initialDragApps);
+		[destinationController removeApps:initialDragApps];
+		NSLog(@"screen after removal: %@", [destinationController apps]);
+		return;
+	}
+	
+	NSLog(@"destination screen app count: %d", destinationScreenAppCount);
+	NSLog(@"destination screen apps: %@", [destinationController apps]);
+	
+	// Handle overflow - doesn't happen for dock
+	if ((toScreenIdx != DOCK) && (destinationScreenAppCount > APPS_PER_SCREEN)) {
+		// Get all overflowing apps 
+		NSMutableArray *overflowingApps = [NSMutableArray array];
+		for (int i = APPS_PER_SCREEN; i < destinationScreenAppCount; i++) {
+			[overflowingApps addObject:[[destinationController apps] objectAtIndex:i]];
+		}
+		// Determine new destination screen, create if necessary
+		int newDestinationIdx = (toScreenIdx + 1);
+		if ((newDestinationIdx + 1) > [screenControllers count]) {
+			NSLog(@"adding a screen!");
+			[self addScreen:nil];
+		}
+		
+		// Move overflowing apps to the next screen
+		[self moveApps:overflowingApps 
+		 fromScreenNum:toScreenIdx 
+		   toScreenNum:newDestinationIdx 
+			   atIndex:0 
+	  initialScreenNum:initialScreenIdx
+	   initialDragApps:initialDragApps];
+		
+	}
+	
+}
+
 - (IBAction)readAppsFromSpringBoard:(id)sender {
 	[loadingSheetLabel setStringValue:@"Reading apps from device..."];
 	[NSApp beginSheet:loadingSheet

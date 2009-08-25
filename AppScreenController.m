@@ -60,7 +60,7 @@
 	[screen setCellsStyleMask:IKCellsStyleTitled];
 	[screen setCellSize:NSMakeSize(50, 50)];
 	[screen setAllowsReordering:YES];
-	[screen setAllowsMultipleSelection:NO];
+	[screen setAllowsMultipleSelection:YES];
 	[screen setAnimates:YES];
 	[screen setDelegate:self];
 	[screen setDataSource:self];
@@ -74,6 +74,9 @@
 	[super dealloc];
 }
 
+
+
+
 - (void)insertApps:(NSArray *)appsToInsert atIndex:(int)index {
 	NSEnumerator *appsToInsertReversed = [appsToInsert reverseObjectEnumerator];
 	id app;
@@ -81,16 +84,12 @@
 		[apps insertObject:app atIndex:index];
 	}
 	
-	// Handle overflow if necessary
-	if ([apps count] > APPS_PER_SCREEN) {
-		[appController handleOverflowForAppScreen:self];
-	}
-	
 	// Refresh the view
 	[screen reloadData];
 }
 
 - (void)removeApps:(NSArray *)appsToRemove {
+
 	for (id appToRemove in appsToRemove) {
 		// Purposely NOT using the NSMutableArray removeObject:
 		// since it removes all objects that match, when we want to remove the FIRST 
@@ -103,6 +102,7 @@
 		}
 	}
 	[screen reloadData];
+
 }
 
 - (NSArray *)overflowingApps {
@@ -236,13 +236,39 @@
 
 - (BOOL) performDragOperation:(id <NSDraggingInfo>)sender {
 	
+	[appController logAllApps];
+	
 	NSArray *draggedApps = [self draggedItemsFromSender:sender];
 	
     if(draggedApps) {
 		
-		[self insertApps:draggedApps atIndex:[screen indexAtLocationOfDroppedItem]];
-		[[[sender draggingSource] delegate] removeApps:draggedApps];
+		// Get indexes for origin and destination - being mindful of seperate dock
+		int toScreen, fromScreen;
+		
+		if ([self isEqual:[appController dockController]]) {
+			toScreen = DOCK;
+		} else {
+			toScreen = [[appController screenControllers] indexOfObject:self];
+		}
+		
+		if ([[[sender draggingSource] delegate] isEqual:[appController dockController]]) {
+			fromScreen = DOCK;
+		} else {
+			fromScreen = [[appController screenControllers] indexOfObject:[[sender draggingSource] delegate]];
+		}
+		
+		int dragIndex = [screen indexAtLocationOfDroppedItem];
+		
+		NSLog(@"initial moveApps: from drag!");
+		// Perform move
+		[appController moveApps:draggedApps 
+				  fromScreenNum:fromScreen 
+					toScreenNum:toScreen 
+						atIndex:dragIndex 
+			   initialScreenNum:fromScreen
+				initialDragApps:draggedApps];
     }
+	[appController logAllApps];
 	
     return YES;
 }
