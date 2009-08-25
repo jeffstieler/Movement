@@ -30,6 +30,19 @@
  
  */
 
+@interface JSScrollView : NSScrollView
+@end
+
+@implementation JSScrollView 
+
+- (void)reflectScrolledClipView:(NSClipView *)aClipView {
+	NSLog(@"reflectScrolledClipView:");
+	[[[self window] delegate] scrollViewFrameChanged];
+	[super reflectScrolledClipView:aClipView];
+}
+
+@end
+
 #import "AppController.h"
 
 #define SCREEN_WIDTH 320
@@ -45,6 +58,13 @@
 
 - (void)awakeFromNib {
 	[self initialSetup];
+}
+
+- (void)scrollViewFrameChanged {
+	NSLog(@"scrollViewFrameChanged:");
+	for (AppScreenController *controller in screenControllers) {
+		[[controller screen] reloadData];
+	}
 }
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
@@ -290,6 +310,8 @@ initialScreenNum:(int)initialScreenIdx
 	}
 	[phoneController writeAppsToSpringBoard];
 	[sheet orderOut:nil];
+	NSSound *completeSound = [NSSound soundNamed:@"Glass"];
+	
 	NSBeginCriticalAlertSheet(@"Movement Complete", 
 							  @"Ok!", nil, nil, 
 							  [self window], 
@@ -298,6 +320,7 @@ initialScreenNum:(int)initialScreenIdx
 							  nil, 
 							  nil, 
 							  @"\nThank you for using Movement!\n\nRestart your device for changes to take effect.");
+	[completeSound play];
 }
 
 @end

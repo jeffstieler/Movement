@@ -69,4 +69,6 @@
 initialScreenNum:(int)initialScreenIdx
  initialDragApps:(NSArray *)initialDragApps;
 
+- (void)scrollViewFrameChanged;
+
 @end
