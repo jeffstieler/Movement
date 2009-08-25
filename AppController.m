@@ -289,6 +289,15 @@ initialScreenNum:(int)initialScreenIdx
 		}
 	}
 	[phoneController writeAppsToSpringBoard];
+	[sheet orderOut:nil];
+	NSBeginCriticalAlertSheet(@"Movement Complete", 
+							  @"Ok!", nil, nil, 
+							  [self window], 
+							  self, 
+							  nil, 
+							  nil, 
+							  nil, 
+							  @"\nThank you for using Movement!\n\nRestart your device for changes to take effect.");
 }
 
 @end
