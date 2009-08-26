@@ -57,6 +57,7 @@
 	[newAttributes setObject:[NSFont fontWithName:@"Helvetica" size:11] forKey:NSFontAttributeName];
 	[newAttributes setValue:[NSColor whiteColor] forKey:NSForegroundColorAttributeName];
 	[screen setValue:newAttributes forKey:IKImageBrowserCellsTitleAttributesKey];
+	[newAttributes release];
 	[screen setCellsStyleMask:IKCellsStyleTitled];
 	[screen setCellSize:NSMakeSize(50, 50)];
 	[screen setAllowsReordering:YES];
