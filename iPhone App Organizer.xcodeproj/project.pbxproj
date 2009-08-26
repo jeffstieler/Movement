@@ -12,6 +12,9 @@
 		8D11072D0486CEB800E47090 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
 		F50EA1BB103E5378002DD99B /* MovementApp.icns in Resources */ = {isa = PBXBuildFile; fileRef = F50EA1BA103E5378002DD99B /* MovementApp.icns */; };
+		F521BEA91044C44600EE8079 /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F521BEA81044C44600EE8079 /* Sparkle.framework */; };
+		F521BEC21044C67200EE8079 /* Sparkle.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = F521BEA81044C44600EE8079 /* Sparkle.framework */; };
+		F521BEC91044D17100EE8079 /* dsa_pub.pem in Resources */ = {isa = PBXBuildFile; fileRef = F521BEC81044D17100EE8079 /* dsa_pub.pem */; };
 		F5768F93102CF0ED002D2359 /* AFCInterface.m in Sources */ = {isa = PBXBuildFile; fileRef = F5768F8C102CF0ED002D2359 /* AFCInterface.m */; };
 		F5768F94102CF0ED002D2359 /* AFCDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = F5768F8E102CF0ED002D2359 /* AFCDevice.m */; };
 		F5768F95102CF0ED002D2359 /* AFCDeviceRef.m in Sources */ = {isa = PBXBuildFile; fileRef = F5768F90102CF0ED002D2359 /* AFCDeviceRef.m */; };
@@ -34,6 +37,19 @@
 		F5F2B35A103CD999001EFDCB /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = F5F2B359103CD999001EFDCB /* Credits.rtf */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		F521BEBC1044C58900EE8079 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				F521BEC21044C67200EE8079 /* Sparkle.framework in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		089C165DFE840E0CC02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
@@ -46,6 +62,8 @@
 		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8D1107320486CEB800E47090 /* Movement.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Movement.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F50EA1BA103E5378002DD99B /* MovementApp.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = MovementApp.icns; sourceTree = "<group>"; };
+		F521BEA81044C44600EE8079 /* Sparkle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Sparkle.framework; sourceTree = "<group>"; };
+		F521BEC81044D17100EE8079 /* dsa_pub.pem */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = dsa_pub.pem; sourceTree = "<group>"; };
 		F5768F8A102CF0ED002D2359 /* MobileDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MobileDevice.h; sourceTree = "<group>"; };
 		F5768F8B102CF0ED002D2359 /* AFCInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFCInterface.h; sourceTree = "<group>"; };
 		F5768F8C102CF0ED002D2359 /* AFCInterface.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFCInterface.m; sourceTree = "<group>"; };
@@ -88,6 +106,7 @@
 				F5769001102D0CA4002D2359 /* Quartz.framework in Frameworks */,
 				F5D339EC1032682C00B01750 /* libz.dylib in Frameworks */,
 				F5D339EE1032683B00B01750 /* libpng12.0.dylib in Frameworks */,
+				F521BEA91044C44600EE8079 /* Sparkle.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -112,6 +131,7 @@
 		1058C7A0FEA54F0111CA2CBB /* Linked Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				F521BEA81044C44600EE8079 /* Sparkle.framework */,
 				F5D339ED1032683B00B01750 /* libpng12.0.dylib */,
 				F5769000102D0CA4002D2359 /* Quartz.framework */,
 				F5768F9A102CF13C002D2359 /* MobileDevice.framework */,
@@ -165,6 +185,7 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				F521BEC81044D17100EE8079 /* dsa_pub.pem */,
 				F50EA1BA103E5378002DD99B /* MovementApp.icns */,
 				F5F2B359103CD999001EFDCB /* Credits.rtf */,
 				F5D33AD71032780600B01750 /* sad_mac.gif */,
@@ -224,6 +245,7 @@
 				8D1107290486CEB800E47090 /* Resources */,
 				8D11072C0486CEB800E47090 /* Sources */,
 				8D11072E0486CEB800E47090 /* Frameworks */,
+				F521BEBC1044C58900EE8079 /* CopyFiles */,
 			);
 			buildRules = (
 			);
@@ -266,6 +288,7 @@
 				F5D33AD81032780600B01750 /* sad_mac.gif in Resources */,
 				F5F2B35A103CD999001EFDCB /* Credits.rtf in Resources */,
 				F50EA1BB103E5378002DD99B /* MovementApp.icns in Resources */,
+				F521BEC91044D17100EE8079 /* dsa_pub.pem in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -320,6 +343,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SYSTEM_LIBRARY_DIR)/PrivateFrameworks\"",
+					"\"$(SRCROOT)\"",
 				);
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
@@ -345,6 +369,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SYSTEM_LIBRARY_DIR)/PrivateFrameworks\"",
+					"\"$(SRCROOT)\"",
 				);
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;

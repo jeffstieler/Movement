@@ -19,10 +19,18 @@
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
+<<<<<<< HEAD:Info.plist
 	<string>1.1.1</string>
+=======
+	<string>1.1.2</string>
+>>>>>>> sparkle:Info.plist
 	<key>NSMainNibFile</key>
 	<string>MainMenu</string>
 	<key>NSPrincipalClass</key>
 	<string>NSApplication</string>
+	<key>SUPublicDSAKeyFile</key>
+	<string>dsa_pub.pem</string>
+	<key>SUFeedURL</key>
+	<string>http://movementapp.com/appcast.xml</string>
 </dict>
 </plist>
