@@ -3,30 +3,22 @@
 <plist version="1.0">
 <dict>
 	<key>CFBundleDevelopmentRegion</key>
-	<string>English</string>
+	<string>en</string>
 	<key>CFBundleExecutable</key>
-	<string>Movement</string>
-	<key>CFBundleIconFile</key>
-	<string>MovementApp.icns</string>
+	<string>Sparkle</string>
 	<key>CFBundleIdentifier</key>
-	<string>com.jeffstieler.Movement</string>
+	<string>org.andymatuschak.Sparkle</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
-	<string>Movement</string>
+	<string>Sparkle</string>
 	<key>CFBundlePackageType</key>
-	<string>APPL</string>
+	<string>FMWK</string>
+	<key>CFBundleShortVersionString</key>
+	<string>1.5 Beta 6</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>1.1</string>
-	<key>NSMainNibFile</key>
-	<string>MainMenu</string>
-	<key>NSPrincipalClass</key>
-	<string>NSApplication</string>
-	<key>SUPublicDSAKeyFile</key>
-	<string>dsa_pub.pem</string>
-	<key>SUFeedURL</key>
-	<string>http://movementapp.com/appcast.xml</string>
+	<string>313</string>
 </dict>
 </plist>
