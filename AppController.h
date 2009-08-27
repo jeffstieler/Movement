@@ -43,6 +43,7 @@
 	IBOutlet NSView *scrollViewContent;
 	IBOutlet id phoneController;
 	IBOutlet IKImageBrowserView *dockView;
+	IBOutlet NSArrayController *screensArrayController;
 	AppScreenController *dockController;
 	int numberOfDockApps;
 	NSMutableArray *screenControllers;

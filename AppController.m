@@ -35,11 +35,11 @@
 
 @implementation JSScrollView 
 
-- (void)reflectScrolledClipView:(NSClipView *)aClipView {
+/*- (void)reflectScrolledClipView:(NSClipView *)aClipView {
 	NSLog(@"reflectScrolledClipView:");
 	[[[self window] delegate] scrollViewFrameChanged];
 	[super reflectScrolledClipView:aClipView];
-}
+}*/
 
 @end
 
@@ -84,7 +84,7 @@
 	dockController.apps = [NSMutableArray array];
 	dockController.screen = dockView;
 	dockController.appController = self;
-	[dockController setScreenAttributes];
+	[dockController setScreenAttributesAndDelegate:dockController];
 	[loadingSheetIndicator setUsesThreadedAnimation:YES];
 	[NSApp setDelegate:self];
 	[writeAppsButton setEnabled:NO];
@@ -98,7 +98,17 @@
 
 - (IBAction)addScreen:(id)sender {
 	if ([screenControllers count] < MAX_APP_SCREENS) {
-		NSRect screenFrame = NSMakeRect(SCREEN_X_OFFSET([screenControllers count]), PAD, SCREEN_WIDTH, SCREEN_HEIGHT);	
+		AppScreenController *controller = [[AppScreenController alloc] initWithController:self];
+		//[controller setScreenAttributes];
+		[screensArrayController addObject:controller];
+		//NSLog(@"%@", screenControllers);
+	}
+}
+
+/*
+- (IBAction)addScreen:(id)sender {
+	if ([screenControllers count] < MAX_APP_SCREENS) {
+		//NSRect screenFrame = NSMakeRect(SCREEN_X_OFFSET([screenControllers count]), PAD, SCREEN_WIDTH, SCREEN_HEIGHT);	
 		AppScreenController *controller = [[AppScreenController alloc] initWithFrame:screenFrame andController:self];
 		[controller setScreenAttributes];
 		[screenControllers addObject:controller];
@@ -106,14 +116,18 @@
 		[self resetScrollViewSize];
 		[controller release];
 	}
-}
+}*/
 
 - (IBAction)removeLastScreen:(id)sender {
 	if ([[[screenControllers lastObject] apps] count] == 0) {
-		[self removeScreenController:[screenControllers lastObject]];
+		[screensArrayController removeObject:[screenControllers lastObject]];
 	}
 }
 
+- (void)removeScreenController:(AppScreenController *)aScreenController {
+	[screensArrayController removeObject:aScreenController];
+}
+/*
 - (void)removeScreenController:(AppScreenController *)aScreenController {
 	
 	int removalIndex = [screenControllers indexOfObject:aScreenController];
@@ -129,7 +143,7 @@
 	}
 	
 	[self resetScrollViewSize];
-}
+}*/
 
 - (void)reloadScreenAtIndex:(int)screenNum {
 	if (screenNum == DOCK) {
@@ -283,13 +297,13 @@ initialScreenNum:(int)initialScreenIdx
 
 #pragma mark - 
 #pragma mark Window Delegate Methods
-- (NSSize)windowWillResize:(NSWindow *)aWindow toSize:(NSSize)proposedFrameSize {
+/*- (NSSize)windowWillResize:(NSWindow *)aWindow toSize:(NSSize)proposedFrameSize {
 	
 	for (AppScreenController *controller in screenControllers) {
 		[[controller screen] reloadData];
 	}
 	return NSMakeSize(proposedFrameSize.width, [aWindow frame].size.height);
-}
+}*/
 
 
 # pragma mark -

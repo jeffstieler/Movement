@@ -41,6 +41,14 @@
 
 @synthesize apps, screen, appController;
 
+- (id)initWithController:(id)aController {
+	if (self = [super init]) {
+		self.appController = aController;
+		self.apps = [NSMutableArray array];
+	}
+	return self;
+}
+/*
 - (id)initWithFrame:(NSRect)aFrame andController:(id)aController {
 	if (self = [super init]) {
 		self.appController = aController;
@@ -49,8 +57,8 @@
 	}
 	return self;
 }
-
-- (void)setScreenAttributes {
+*/
+- (void)setScreenAttributesAndDelegate:(id)aDelegate {
 	[screen setValue:[NSColor blackColor] forKey:IKImageBrowserBackgroundColorKey];
 	NSDictionary *oldAttributes = [screen valueForKey:IKImageBrowserCellsTitleAttributesKey];
 	NSMutableDictionary *newAttributes = [oldAttributes mutableCopy];
@@ -63,15 +71,15 @@
 	[screen setAllowsReordering:YES];
 	[screen setAllowsMultipleSelection:YES];
 	[screen setAnimates:YES];
-	[screen setDelegate:self];
-	[screen setDataSource:self];
-	[screen setDraggingDestinationDelegate:self];
+	[screen setDelegate:aDelegate];
+	[screen setDataSource:aDelegate];
+	[screen setDraggingDestinationDelegate:aDelegate];
 	[screen registerForDraggedTypes:[NSArray arrayWithObject:IPHONE_APP_PBOARD_TYPE]];
 }
 
 - (void)dealloc {
 	[apps release];
-	[screen release];
+	//[screen release];
 	[super dealloc];
 }
 
@@ -310,6 +318,7 @@
 	AppScreenController *sourceController = [[sender draggingSource] delegate];
 	if ([[sourceController apps] count] == 0) {
 		[sourceController retain];
+		//[[appController screenControllers] removeObject:sourceController];
 		[appController removeScreenController:sourceController];
 		[sourceController autorelease];
 	}
