@@ -30,19 +30,6 @@
  
  */
 
-@interface JSScrollView : NSScrollView
-@end
-
-@implementation JSScrollView 
-
-- (void)reflectScrolledClipView:(NSClipView *)aClipView {
-	NSLog(@"reflectScrolledClipView:");
-	//[[[self window] delegate] scrollViewFrameChanged];
-	[super reflectScrolledClipView:aClipView];
-}
-
-@end
-
 #import "AppController.h"
 
 #define SCREEN_WIDTH 320
