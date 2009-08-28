@@ -35,11 +35,11 @@
 
 @implementation JSScrollView 
 
-/*- (void)reflectScrolledClipView:(NSClipView *)aClipView {
+- (void)reflectScrolledClipView:(NSClipView *)aClipView {
 	NSLog(@"reflectScrolledClipView:");
-	[[[self window] delegate] scrollViewFrameChanged];
+	//[[[self window] delegate] scrollViewFrameChanged];
 	[super reflectScrolledClipView:aClipView];
-}*/
+}
 
 @end
 

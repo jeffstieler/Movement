@@ -73,7 +73,7 @@
 		
 		NSMutableDictionary *allApps = [NSMutableDictionary dictionaryWithCapacity:2];
 		
-		// "Official" apps are in /Applications/<app name>.app/
+		// "Official" (and jailbroken) apps are in /Applications/<app name>.app/
 		[allApps setObject:[iPhone listOfFoldersAtPath:APP_DIR] forKey:APP_DIR];
 		
 		NSRange isDotApp;
@@ -82,7 +82,9 @@
 		// "Third Party" apps are in /User/Applications/<crazy hash>/<app name>.app/
 		for (NSString *folder in [iPhone listOfFoldersAtPath:USER_APP_DIR]) {
 			NSString *appPath = [NSString pathWithComponents:[NSArray arrayWithObjects:USER_APP_DIR, folder, nil]];
+			//NSLog(@"user app dir: %@", appPath);
 			for (NSString *subFolder in [iPhone listOfFoldersAtPath:appPath]) {
+				//NSLog(@"\tsub dir: %@", subFolder);
 				isDotApp = [subFolder rangeOfString:@".app"];
 				if (isDotApp.location != NSNotFound) {
 					[userApps addObject:[NSString pathWithComponents:[NSArray arrayWithObjects:folder, subFolder, nil]]];
@@ -102,7 +104,7 @@
 - (NSDictionary *)retrieveAllAppsOnDevice {
 	NSMutableDictionary *apps = [[[NSMutableDictionary alloc] init] autorelease];
 	NSDictionary *allAppPaths = [self allAppPathsOnDevice];
-
+	NSLog(@"all app paths: %@", allAppPaths);
 	for (NSString *basePath in allAppPaths) {
 		for (NSString *appPath in [allAppPaths objectForKey:basePath]) {
 			NSString *fullAppPath = [basePath stringByAppendingString:appPath];
@@ -170,6 +172,7 @@
 	self.springboard = [self springboardFromPhone];
 	NSArray *iconLists = [[[self springboard] objectForKey:@"iconState"] objectForKey:@"iconLists"];
 	self.allAppsOnDevice = [self retrieveAllAppsOnDevice];
+	NSLog(@"all apps: %@", allAppsOnDevice);
 	[appController initialSetup];
 	for (int screenNum = 0; screenNum < [iconLists count]; screenNum++) {
 		

@@ -82,7 +82,9 @@
 		do {
 			AFCDirectoryRead(afc_handle, hAFCDir, &buffer);
 			if (buffer != nil) {
-				[fileList addObject:[NSString stringWithCString:buffer]];
+				NSString *filePath = [[[NSString alloc] initWithCString:buffer encoding:NSUTF8StringEncoding] autorelease];
+				[fileList addObject:filePath];
+				
 			}
 		} while (buffer != nil);
 		
