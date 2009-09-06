@@ -41,7 +41,12 @@
 
 @implementation AppController
 
-@synthesize screenControllers, dockController, numberOfDockApps;
+@synthesize screenControllers, dockController, numberOfDockApps, numberOfAppsPerRow, numberOfAppsPerScreen;
+
+- (void)setNumberOfAppsPerRow:(int)appsPerRow {
+	numberOfAppsPerRow = appsPerRow;
+	numberOfAppsPerScreen = (appsPerRow * APPS_PER_COLUMN);
+}
 
 - (void)awakeFromNib {
 	[self initialSetup];
@@ -92,18 +97,6 @@
 	}
 }
 
-/*
-- (IBAction)addScreen:(id)sender {
-	if ([screenControllers count] < MAX_APP_SCREENS) {
-		//NSRect screenFrame = NSMakeRect(SCREEN_X_OFFSET([screenControllers count]), PAD, SCREEN_WIDTH, SCREEN_HEIGHT);	
-		AppScreenController *controller = [[AppScreenController alloc] initWithFrame:screenFrame andController:self];
-		[controller setScreenAttributes];
-		[screenControllers addObject:controller];
-		[scrollViewContent addSubview:[controller screen]];
-		[self resetScrollViewSize];
-		[controller release];
-	}
-}*/
 
 - (IBAction)removeLastScreen:(id)sender {
 	if ([[[screenControllers lastObject] apps] count] == 0) {
@@ -114,23 +107,7 @@
 - (void)removeScreenController:(AppScreenController *)aScreenController {
 	[screensArrayController removeObject:aScreenController];
 }
-/*
-- (void)removeScreenController:(AppScreenController *)aScreenController {
-	
-	int removalIndex = [screenControllers indexOfObject:aScreenController];
-	[[aScreenController screen] removeFromSuperview];
-	[screenControllers removeObject:aScreenController];
-	
-	// Shift all screens over << that were to the right of the removed screen
-	for (int i = removalIndex; i < [screenControllers count]; i++) {
-		AppScreenController *screenController = [screenControllers objectAtIndex:i];
-		NSRect newFrame = [[screenController screen] frame];
-		newFrame.origin.x -= (SCREEN_WIDTH + PAD);
-		[[screenController screen] setFrame:newFrame];
-	}
-	
-	[self resetScrollViewSize];
-}*/
+
 
 - (void)reloadScreenAtIndex:(int)screenNum {
 	if (screenNum == DOCK) {
@@ -144,7 +121,7 @@
 	[scrollViewContent setFrame:NSMakeRect(0, 0, SCREEN_X_OFFSET([screenControllers count]), CONTAINER_HEIGHT)];
 }
 
-- (void)addApp:(iPhoneApp *)anApp toScreen:(int)aScreen atIndex:(int)anIndex {
+- (void)addApp:(iPhoneApp *)anApp toScreen:(int)aScreen {
 	if (anApp) {
 		// Handle the Dock apps
 		if (aScreen == DOCK) {
@@ -210,13 +187,13 @@ initialScreenNum:(int)initialScreenIdx
 	
 	// Determine how many apps the screen we just inserted into has now
 	int destinationScreenAppCount = [[destinationController apps] count];
-	
+
 	// Handle this case: 
 	//  we have overflowed all the way back to the initial screen, which happens to be the last
 	//  screen. delete the apps that we originally dragged from it, and return - thats it
 	if ((toScreenIdx == initialScreenIdx) && 
 		((toScreenIdx + 1) == [screenControllers count]) &&
-		(destinationScreenAppCount > APPS_PER_SCREEN)) {
+		(destinationScreenAppCount > numberOfAppsPerScreen)) {
 		
 		NSLog(@"we have overflowed all the way back to the initial screen, which happens to be the last");
 		NSLog(@"removing initial apps: %@", initialDragApps);
@@ -229,10 +206,10 @@ initialScreenNum:(int)initialScreenIdx
 	NSLog(@"destination screen apps: %@", [destinationController apps]);
 	
 	// Handle overflow - doesn't happen for dock
-	if ((toScreenIdx != DOCK) && (destinationScreenAppCount > APPS_PER_SCREEN)) {
+	if ((toScreenIdx != DOCK) && (destinationScreenAppCount > numberOfAppsPerScreen)) {
 		// Get all overflowing apps 
 		NSMutableArray *overflowingApps = [NSMutableArray array];
-		for (int i = APPS_PER_SCREEN; i < destinationScreenAppCount; i++) {
+		for (int i = numberOfAppsPerScreen; i < destinationScreenAppCount; i++) {
 			[overflowingApps addObject:[[destinationController apps] objectAtIndex:i]];
 		}
 		// Determine new destination screen, create if necessary
@@ -309,7 +286,7 @@ initialScreenNum:(int)initialScreenIdx
 			[phoneController backupSpringBoardToFilePath:[savePanel filename]];
 		}
 	}
-	[phoneController writeAppsToSpringBoard];
+	//[phoneController writeAppsToSpringBoard];
 	[sheet orderOut:nil];
 	NSSound *completeSound = [NSSound soundNamed:@"Glass"];
 	

@@ -34,8 +34,6 @@
 #import "iPhoneApp.h"
 
 #define IPHONE_APP_PBOARD_TYPE @"iPhoneApps"
-#define APPS_PER_COLUMN 4
-#define APPS_PER_ROW 4
 
 @implementation AppScreenController
 
@@ -48,16 +46,8 @@
 	}
 	return self;
 }
-/*
-- (id)initWithFrame:(NSRect)aFrame andController:(id)aController {
-	if (self = [super init]) {
-		self.appController = aController;
-		self.apps = [NSMutableArray arrayWithCapacity:APPS_PER_SCREEN];
-		self.screen = [[[IKImageBrowserView alloc] initWithFrame:aFrame] autorelease];
-	}
-	return self;
-}
-*/
+
+
 - (void)setScreenAttributesAndDelegate:(id)aDelegate {
 	[screen setValue:[NSColor blackColor] forKey:IKImageBrowserBackgroundColorKey];
 	NSDictionary *oldAttributes = [screen valueForKey:IKImageBrowserCellsTitleAttributesKey];
@@ -115,9 +105,10 @@
 }
 
 - (NSArray *)overflowingApps {
-	int numberOfOverflowedApps = ([apps count] - APPS_PER_SCREEN);
+	int maxAppsPerScreen = [appController numberOfAppsPerScreen];
+	int numberOfOverflowedApps = ([apps count] - maxAppsPerScreen);
 	if (numberOfOverflowedApps > 0) {
-		NSRange overflowedAppsRange = NSMakeRange(APPS_PER_SCREEN, numberOfOverflowedApps);
+		NSRange overflowedAppsRange = NSMakeRange(maxAppsPerScreen, numberOfOverflowedApps);
 		NSIndexSet *overflowedIndexes = [NSIndexSet indexSetWithIndexesInRange:overflowedAppsRange];
 		return [apps objectsAtIndexes:overflowedIndexes];
 	}
@@ -132,7 +123,7 @@
 		appsPerRow = [appController numberOfDockApps];
 	} else {
 		numberOfRows = APPS_PER_COLUMN;
-		appsPerRow = APPS_PER_ROW;
+		appsPerRow = [appController numberOfAppsPerRow];
 	} 
 	//  Build the crazy springboard plist format from the apps on this screen
 	if ([apps count] > 0) {
@@ -235,9 +226,10 @@
 	int destinationScreenNumber = [[appController screenControllers] indexOfObject:self];
 	
 	// If the drag would result in overflow back to the sender, do not allow it
+	int maxAppsPerScreen = [appController numberOfAppsPerScreen];
 	if (((sourceScreenNumber - 1) == destinationScreenNumber) &&
-		([apps count] == APPS_PER_SCREEN) &&
-		([screen indexAtLocationOfDroppedItem] == APPS_PER_SCREEN)) {
+		([apps count] == maxAppsPerScreen) &&
+		([screen indexAtLocationOfDroppedItem] == maxAppsPerScreen)) {
 		return NO;
 	}
 	return YES;

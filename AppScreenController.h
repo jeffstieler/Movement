@@ -33,8 +33,8 @@
 #import <Cocoa/Cocoa.h>
 #import <Quartz/Quartz.h>
 
-#define APPS_PER_SCREEN 16
 #define DOCK 666
+#define APPS_PER_COLUMN 4
 
 @interface AppScreenController : NSWindowController {
 	NSMutableArray *apps;

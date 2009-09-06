@@ -137,7 +137,7 @@
 		if ([app isKindOfClass:[NSDictionary class]]) {
 			NSString *identifier = [app valueForKey:@"displayIdentifier"];
 			iPhoneApp *appToAdd = [allAppsOnDevice objectForKey:identifier];
-			int position = ((rowNum * 4) + appNum);
+			int position = ((rowNum * appController.numberOfAppsPerRow) + appNum);
 			
 			NSRange hypenRange = [identifier rangeOfString:@"-"];
 			if (!appToAdd && (hypenRange.location != NSNotFound)) {
@@ -156,13 +156,11 @@
 																	 path:appToAdd.path 
 																	 icon:appIcon];
 				[appController addApp:newApp
-							 toScreen:screenNum 
-							  atIndex:position];
+							 toScreen:screenNum];
 				[newApp release];
 			} else {
 				[appController addApp:appToAdd
-							 toScreen:screenNum 
-							  atIndex:position];
+							 toScreen:screenNum];
 			}
 		}				
 	}
@@ -171,6 +169,8 @@
 - (void)readAppsFromSpringboard {
 	self.springboard = [self springboardFromPhone];
 	NSArray *iconLists = [[[self springboard] objectForKey:@"iconState"] objectForKey:@"iconLists"];
+	int appsPerRow = [[[[iconLists objectAtIndex:0] objectForKey:@"iconMatrix"] objectAtIndex:0] count];
+	appController.numberOfAppsPerRow = appsPerRow;
 	self.allAppsOnDevice = [self retrieveAllAppsOnDevice];
 	NSLog(@"all apps: %@", allAppsOnDevice);
 	[appController initialSetup];
@@ -210,6 +210,7 @@
 	NSDictionary *dockApps = [[appController dockController] appsInPlistFormat];
 	[[springboard objectForKey:@"iconState"] setObject:dockApps forKey:@"buttonBar"];
 	NSString *errorDesc;
+	NSLog(@"springboard after moving: %@", springboard);
 	NSData *springboardData = [NSPropertyListSerialization dataFromPropertyList:springboard 
 																		 format:NSPropertyListXMLFormat_v1_0 
 															   errorDescription:&errorDesc];

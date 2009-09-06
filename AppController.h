@@ -45,20 +45,20 @@
 	IBOutlet IKImageBrowserView *dockView;
 	IBOutlet NSArrayController *screensArrayController;
 	AppScreenController *dockController;
-	int numberOfDockApps;
+	int numberOfDockApps, numberOfAppsPerRow, numberOfAppsPerScreen;
 	NSMutableArray *screenControllers;
 	
 }
 @property (readwrite, retain)NSMutableArray *screenControllers;
 @property (readwrite, retain)AppScreenController *dockController;
-@property (readwrite, assign)int numberOfDockApps;
+@property (readwrite, assign)int numberOfDockApps, numberOfAppsPerRow, numberOfAppsPerScreen;
 
 - (IBAction)addScreen:(id)sender;
 - (IBAction)removeLastScreen:(id)sender;
 - (IBAction)promptWriteAppsToSpringboard:(id)sender;
 - (IBAction)readAppsFromSpringBoard:(id)sender;
 - (void)initialSetup;
-- (void)addApp:(iPhoneApp *)anApp toScreen:(int)aScreen atIndex:(int)anIndex;
+- (void)addApp:(iPhoneApp *)anApp toScreen:(int)aScreen;
 - (void)reloadScreenAtIndex:(int)screenNum;
 - (void)removeScreenController:(AppScreenController *)aScreenController;
 - (void)handleOverflowForAppScreen:(AppScreenController *)appScreen;
