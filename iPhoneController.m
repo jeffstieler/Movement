@@ -137,7 +137,6 @@
 		if ([app isKindOfClass:[NSDictionary class]]) {
 			NSString *identifier = [app valueForKey:@"displayIdentifier"];
 			iPhoneApp *appToAdd = [allAppsOnDevice objectForKey:identifier];
-			int position = ((rowNum * appController.numberOfAppsPerRow) + appNum);
 			
 			NSRange hypenRange = [identifier rangeOfString:@"-"];
 			if (!appToAdd && (hypenRange.location != NSNotFound)) {

@@ -93,6 +93,7 @@
 		AppScreenController *controller = [[AppScreenController alloc] initWithController:self];
 		//[controller setScreenAttributes];
 		[screensArrayController addObject:controller];
+		[controller release];
 		//NSLog(@"%@", screenControllers);
 	}
 }
@@ -286,7 +287,7 @@ initialScreenNum:(int)initialScreenIdx
 			[phoneController backupSpringBoardToFilePath:[savePanel filename]];
 		}
 	}
-	//[phoneController writeAppsToSpringBoard];
+	[phoneController writeAppsToSpringBoard];
 	[sheet orderOut:nil];
 	NSSound *completeSound = [NSSound soundNamed:@"Glass"];
 	

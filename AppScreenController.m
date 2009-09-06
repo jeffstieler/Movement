@@ -49,15 +49,18 @@
 
 
 - (void)setScreenAttributesAndDelegate:(id)aDelegate {
+	BOOL fiveColumn = ([appController numberOfAppsPerRow] == 5);
+	int fontSize = (fiveColumn ? 8 : 11);
+	int cellSize = (fiveColumn ? 35 : 50);
 	[screen setValue:[NSColor blackColor] forKey:IKImageBrowserBackgroundColorKey];
 	NSDictionary *oldAttributes = [screen valueForKey:IKImageBrowserCellsTitleAttributesKey];
 	NSMutableDictionary *newAttributes = [oldAttributes mutableCopy];
-	[newAttributes setObject:[NSFont fontWithName:@"Helvetica" size:11] forKey:NSFontAttributeName];
+	[newAttributes setObject:[NSFont fontWithName:@"Helvetica" size:fontSize] forKey:NSFontAttributeName];
 	[newAttributes setValue:[NSColor whiteColor] forKey:NSForegroundColorAttributeName];
 	[screen setValue:newAttributes forKey:IKImageBrowserCellsTitleAttributesKey];
 	[newAttributes release];
 	[screen setCellsStyleMask:IKCellsStyleTitled];
-	[screen setCellSize:NSMakeSize(50, 50)];
+	[screen setCellSize:NSMakeSize(cellSize, cellSize)];
 	[screen setAllowsReordering:YES];
 	[screen setAllowsMultipleSelection:YES];
 	[screen setAnimates:YES];
