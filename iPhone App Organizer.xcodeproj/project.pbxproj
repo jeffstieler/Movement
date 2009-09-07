@@ -122,6 +122,8 @@
 		080E96DDFE201D6D7F000001 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				F5FB587A1048A27500E98E34 /* JSScrollView.h */,
+				F5FB587B1048A27500E98E34 /* JSScrollView.m */,
 				F5E50A1C10472AF7005D6946 /* JSCollectionView.h */,
 				F5E50A1D10472AF7005D6946 /* JSCollectionView.m */,
 				F57691F2102D429F002D2359 /* AppController.h */,
@@ -132,8 +134,6 @@
 				F5768FF7102D0C66002D2359 /* iPhoneApp.m */,
 				F5769064102D17F6002D2359 /* iPhoneController.h */,
 				F5769065102D17F6002D2359 /* iPhoneController.m */,
-				F5FB587A1048A27500E98E34 /* JSScrollView.h */,
-				F5FB587B1048A27500E98E34 /* JSScrollView.m */,
 			);
 			name = Classes;
 			sourceTree = "<group>";

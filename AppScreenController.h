@@ -45,7 +45,6 @@
 @property (readwrite, retain)IKImageBrowserView *screen;
 @property (readwrite, assign)id appController;
 
-//- (id)initWithFrame:(NSRect)aFrame andController:(id)aController;
 - (id)initWithController:(id)aController;
 - (void)setScreenAttributesAndDelegate:(id)aDelegate;
 - (NSArray *)overflowingApps;

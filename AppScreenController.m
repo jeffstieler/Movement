@@ -50,8 +50,11 @@
 
 - (void)setScreenAttributesAndDelegate:(id)aDelegate {
 	BOOL fiveColumn = ([appController numberOfAppsPerRow] == 5);
-	int fontSize = (fiveColumn ? 8 : 11);
-	int cellSize = (fiveColumn ? 35 : 50);
+	BOOL isDock = [[appController dockController] isEqual:aDelegate];
+	
+	int fontSize = ((fiveColumn && !isDock) ? 9 : 11);
+	int cellSize = ((fiveColumn && !isDock) ? 35 : 50);
+
 	[screen setValue:[NSColor blackColor] forKey:IKImageBrowserBackgroundColorKey];
 	NSDictionary *oldAttributes = [screen valueForKey:IKImageBrowserCellsTitleAttributesKey];
 	NSMutableDictionary *newAttributes = [oldAttributes mutableCopy];
@@ -72,7 +75,7 @@
 
 - (void)dealloc {
 	[apps release];
-	//[screen release];
+	[screen release];
 	[super dealloc];
 }
 
@@ -313,7 +316,6 @@
 	AppScreenController *sourceController = [[sender draggingSource] delegate];
 	if ([[sourceController apps] count] == 0) {
 		[sourceController retain];
-		//[[appController screenControllers] removeObject:sourceController];
 		[appController removeScreenController:sourceController];
 		[sourceController autorelease];
 	}

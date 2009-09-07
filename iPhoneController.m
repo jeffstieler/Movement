@@ -81,10 +81,10 @@
 		
 		// "Third Party" apps are in /User/Applications/<crazy hash>/<app name>.app/
 		for (NSString *folder in [iPhone listOfFoldersAtPath:USER_APP_DIR]) {
+			
 			NSString *appPath = [NSString pathWithComponents:[NSArray arrayWithObjects:USER_APP_DIR, folder, nil]];
-			//NSLog(@"user app dir: %@", appPath);
 			for (NSString *subFolder in [iPhone listOfFoldersAtPath:appPath]) {
-				//NSLog(@"\tsub dir: %@", subFolder);
+
 				isDotApp = [subFolder rangeOfString:@".app"];
 				if (isDotApp.location != NSNotFound) {
 					[userApps addObject:[NSString pathWithComponents:[NSArray arrayWithObjects:folder, subFolder, nil]]];

@@ -91,10 +91,8 @@
 - (IBAction)addScreen:(id)sender {
 	if ([screenControllers count] < MAX_APP_SCREENS) {
 		AppScreenController *controller = [[AppScreenController alloc] initWithController:self];
-		//[controller setScreenAttributes];
 		[screensArrayController addObject:controller];
 		[controller release];
-		//NSLog(@"%@", screenControllers);
 	}
 }
 
@@ -258,17 +256,6 @@ initialScreenNum:(int)initialScreenIdx
 							  nil, 
 							  @"You really should backup your springboard. This is beta software!");
 }
-
-
-#pragma mark - 
-#pragma mark Window Delegate Methods
-/*- (NSSize)windowWillResize:(NSWindow *)aWindow toSize:(NSSize)proposedFrameSize {
-	
-	for (AppScreenController *controller in screenControllers) {
-		[[controller screen] reloadData];
-	}
-	return NSMakeSize(proposedFrameSize.width, [aWindow frame].size.height);
-}*/
 
 
 # pragma mark -

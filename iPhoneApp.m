@@ -60,7 +60,6 @@
 
 - (NSString *)description {
 	return displayName;
-	//return [NSString stringWithFormat:@"%@: %@ [%@]", path, displayName, identifier];
 }
 
 - (void)dealloc {
