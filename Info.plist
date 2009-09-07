@@ -28,5 +28,9 @@
 	<string>dsa_pub.pem</string>
 	<key>SUFeedURL</key>
 	<string>http://movementapp.com/appcast.xml</string>
+	<key>SUEnableAutomaticChecks</key>
+	<true/>
+	<key>SUScheduledCheckInterval</key>
+	<integer>4000</integer>
 </dict>
 </plist>
