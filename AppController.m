@@ -52,13 +52,6 @@
 	[self initialSetup];
 }
 
-- (void)scrollViewFrameChanged {
-	NSLog(@"scrollViewFrameChanged:");
-	for (AppScreenController *controller in screenControllers) {
-		[[controller screen] reloadData];
-	}
-}
-
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
 	NSBeginInformationalAlertSheet(@"Welcome to Movement!", 
 							  @"Ok!", nil, nil, 
@@ -116,10 +109,6 @@
 	}
 }
 
-- (void)resetScrollViewSize {
-	[scrollViewContent setFrame:NSMakeRect(0, 0, SCREEN_X_OFFSET([screenControllers count]), CONTAINER_HEIGHT)];
-}
-
 - (void)addApp:(iPhoneApp *)anApp toScreen:(int)aScreen {
 	if (anApp) {
 		// Handle the Dock apps
@@ -133,31 +122,6 @@
 			}
 			[[screenController apps] addObject:anApp];
 		}
-	}
-}
-
-- (void)handleOverflowForAppScreen:(AppScreenController *)appScreen {
-	NSArray *overflowingApps = [appScreen overflowingApps];
-	AppScreenController *destinationScreen = nil;
-	if ([appScreen isEqual:[screenControllers lastObject]]) {
-		[self addScreen:nil];
-		destinationScreen = [screenControllers lastObject];
-		
-	} else {
-		int appScreenNumber = ([screenControllers indexOfObject:appScreen] + 1);
-		destinationScreen = [screenControllers objectAtIndex:appScreenNumber];
-	}
-	
-	// Do nothing if source and destination are the same at this point
-	if (![appScreen isEqual:destinationScreen]) {
-		[appScreen removeApps:overflowingApps];
-		[destinationScreen insertApps:overflowingApps atIndex:0];
-	}
-}
-
-- (void)logAllApps {
-	for (AppScreenController *asc in screenControllers) {
-		NSLog(@"%@", [asc apps]);
 	}
 }
 

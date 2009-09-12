@@ -61,15 +61,12 @@
 - (void)addApp:(iPhoneApp *)anApp toScreen:(int)aScreen;
 - (void)reloadScreenAtIndex:(int)screenNum;
 - (void)removeScreenController:(AppScreenController *)aScreenController;
-- (void)handleOverflowForAppScreen:(AppScreenController *)appScreen;
-- (void)resetScrollViewSize;
+
 - (void)moveApps:(NSArray *)appsToMove 
    fromScreenNum:(int)fromScreenIdx 
 	 toScreenNum:(int)toScreenIdx 
 		 atIndex:(int)dragIndex
 initialScreenNum:(int)initialScreenIdx
  initialDragApps:(NSArray *)initialDragApps;
-
-- (void)scrollViewFrameChanged;
 
 @end

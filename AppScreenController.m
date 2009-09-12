@@ -79,9 +79,6 @@
 	[super dealloc];
 }
 
-
-
-
 - (void)insertApps:(NSArray *)appsToInsert atIndex:(int)index {
 	NSEnumerator *appsToInsertReversed = [appsToInsert reverseObjectEnumerator];
 	id app;
@@ -243,8 +240,6 @@
 
 - (BOOL) performDragOperation:(id <NSDraggingInfo>)sender {
 	
-	[appController logAllApps];
-	
 	NSArray *draggedApps = [self draggedItemsFromSender:sender];
 	
     if(draggedApps) {
@@ -275,7 +270,6 @@
 			   initialScreenNum:fromScreen
 				initialDragApps:draggedApps];
     }
-	[appController logAllApps];
 	
     return YES;
 }
