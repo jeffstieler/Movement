@@ -42,7 +42,7 @@
 @implementation iPhoneController
 
 @synthesize possibleIconFileKeys, possibleAppDisplayNameKeys, officialAppDisplayNames, 
-			iconListKey, springboard, allAppsOnDevice;
+			iconListKey, springboard, allAppsOnDevice, firmwareBefore3_1;
 
 - (void)awakeFromNib {
 	[[AFCFactory factory] setDelegate:self];
@@ -176,7 +176,7 @@
 
 - (void)readAppsFromSpringboard {
 	self.springboard = [self springboardFromPhone];
-	BOOL firmwareBefore3_1 = ([springboard objectForKey:@"iconState"] != nil);
+	self.firmwareBefore3_1 = ([springboard objectForKey:@"iconState"] != nil);
 	self.iconListKey = firmwareBefore3_1 ? @"iconState": @"iconState2";
 
 	NSArray *iconLists = [[[self springboard] objectForKey:iconListKey] objectForKey:@"iconLists"];
@@ -225,16 +225,16 @@
 }
 
 - (void)writeAppsToSpringBoard {
-	
+	NSLog(@"springboard before moving: %@", springboard);
 	NSMutableArray *appScreens = [NSMutableArray array];
 	for (AppScreenController *controller in [appController screenControllers]) {
-		NSDictionary *screenApps = [controller appsInPlistFormat];
+		NSDictionary *screenApps = [controller appsInPlistFormatForPre3_1:firmwareBefore3_1];
 		if (screenApps) {
 			[appScreens addObject:screenApps];
 		}
 	}
 	[[springboard objectForKey:iconListKey] setObject:appScreens forKey:@"iconLists"];
-	NSDictionary *dockApps = [[appController dockController] appsInPlistFormat];
+	NSDictionary *dockApps = [[appController dockController] appsInPlistFormatForPre3_1:firmwareBefore3_1];
 	[[springboard objectForKey:iconListKey] setObject:dockApps forKey:@"buttonBar"];
 	NSString *errorDesc;
 	NSLog(@"springboard after moving: %@", springboard);

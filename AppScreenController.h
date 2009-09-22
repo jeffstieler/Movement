@@ -50,7 +50,7 @@
 - (NSArray *)overflowingApps;
 - (void)insertApps:(NSArray *)appsToInsert atIndex:(int)index;
 - (void)removeApps:(NSArray *)appsToRemove;
-- (NSDictionary *)appsInPlistFormat;
+- (id)appsInPlistFormatForPre3_1:(BOOL)firmwareBefore3_1;
 - (NSArray *)draggedItemsFromSender:(id <NSDraggingInfo>)sender;
 
 @end

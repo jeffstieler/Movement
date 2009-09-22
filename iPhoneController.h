@@ -38,11 +38,13 @@
 	AFCDevice *iPhone;
 	IBOutlet AppController *appController;
 	NSString *iconListKey;
+	BOOL firmwareBefore3_1;
 	NSArray *possibleIconFileKeys, *possibleAppDisplayNameKeys;
 	NSDictionary *officialAppDisplayNames, *allAppsOnDevice;
 	NSMutableDictionary *springboard;
 }
 @property (readwrite, retain)NSString *iconListKey;
+@property (readwrite, assign)BOOL firmwareBefore3_1;
 @property (readwrite, retain)NSArray *possibleIconFileKeys, *possibleAppDisplayNameKeys;
 @property (readwrite, retain)NSDictionary *officialAppDisplayNames, *allAppsOnDevice;
 @property (readwrite, retain)NSMutableDictionary *springboard;
