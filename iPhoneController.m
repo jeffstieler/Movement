@@ -41,7 +41,8 @@
 
 @implementation iPhoneController
 
-@synthesize possibleIconFileKeys, possibleAppDisplayNameKeys, officialAppDisplayNames, springboard, allAppsOnDevice;
+@synthesize possibleIconFileKeys, possibleAppDisplayNameKeys, officialAppDisplayNames, 
+			iconListKey, springboard, allAppsOnDevice;
 
 - (void)awakeFromNib {
 	[[AFCFactory factory] setDelegate:self];
@@ -134,41 +135,58 @@
 - (void)processApps:(NSArray *)apps forRow:(int)rowNum ofScreen:(int)screenNum {
 	for (int appNum = 0; appNum < [apps count]; appNum++) {
 		id app = [apps objectAtIndex:appNum];
+		if ([app isKindOfClass:[NSNumber class]]) {
+			continue;
+		}
+		NSString *identifier;
 		if ([app isKindOfClass:[NSDictionary class]]) {
-			NSString *identifier = [app valueForKey:@"displayIdentifier"];
-			iPhoneApp *appToAdd = [allAppsOnDevice objectForKey:identifier];
+			identifier = [app valueForKey:@"displayIdentifier"];
+		} else {
+			identifier = (NSString *)app;
+		}
+
+		iPhoneApp *appToAdd = [allAppsOnDevice objectForKey:identifier];
 			
-			NSRange hypenRange = [identifier rangeOfString:@"-"];
-			if (!appToAdd && (hypenRange.location != NSNotFound)) {
-				NSString *displayName = [identifier substringFromIndex:(hypenRange.location + 1)];
-				NSString *oldDisplayName = [NSString stringWithString:displayName];
-				if ([officialAppDisplayNames valueForKey:displayName]) {
-					displayName = [officialAppDisplayNames valueForKey:displayName];
-				}
-
-				NSString *appExecutableName = [identifier substringToIndex:hypenRange.location];
-				appToAdd = [allAppsOnDevice objectForKey:appExecutableName];
-
-				NSImage *appIcon = [self iconForApp:[appToAdd path] inContext:oldDisplayName];
-				iPhoneApp *newApp = [[iPhoneApp alloc] initWithIdentifier:identifier
-															  displayName:displayName
-																	 path:appToAdd.path 
-																	 icon:appIcon];
-				[appController addApp:newApp
-							 toScreen:screenNum];
-				[newApp release];
-			} else {
-				[appController addApp:appToAdd
-							 toScreen:screenNum];
+		NSRange hypenRange = [identifier rangeOfString:@"-"];
+		if (!appToAdd && (hypenRange.location != NSNotFound)) {
+			NSString *displayName = [identifier substringFromIndex:(hypenRange.location + 1)];
+			NSString *oldDisplayName = [NSString stringWithString:displayName];
+			if ([officialAppDisplayNames valueForKey:displayName]) {
+				displayName = [officialAppDisplayNames valueForKey:displayName];
 			}
-		}				
-	}
+
+			NSString *appExecutableName = [identifier substringToIndex:hypenRange.location];
+			appToAdd = [allAppsOnDevice objectForKey:appExecutableName];
+
+			NSImage *appIcon = [self iconForApp:[appToAdd path] inContext:oldDisplayName];
+			iPhoneApp *newApp = [[iPhoneApp alloc] initWithIdentifier:identifier
+														  displayName:displayName
+																 path:appToAdd.path 
+																 icon:appIcon];
+			[appController addApp:newApp
+						 toScreen:screenNum];
+			[newApp release];
+		} else {
+			[appController addApp:appToAdd
+						 toScreen:screenNum];
+		}
+	}				
 }
+
 
 - (void)readAppsFromSpringboard {
 	self.springboard = [self springboardFromPhone];
-	NSArray *iconLists = [[[self springboard] objectForKey:@"iconState"] objectForKey:@"iconLists"];
-	int appsPerRow = [[[[iconLists objectAtIndex:0] objectForKey:@"iconMatrix"] objectAtIndex:0] count];
+	BOOL firmwareBefore3_1 = ([springboard objectForKey:@"iconState"] != nil);
+	self.iconListKey = firmwareBefore3_1 ? @"iconState": @"iconState2";
+
+	NSArray *iconLists = [[[self springboard] objectForKey:iconListKey] objectForKey:@"iconLists"];
+
+	int appsPerRow;
+	if (firmwareBefore3_1) {
+		appsPerRow = [[[[iconLists objectAtIndex:0] objectForKey:@"iconMatrix"] objectAtIndex:0] count];
+	} else {
+		appsPerRow = [[[iconLists objectAtIndex:0] objectAtIndex:0] count];
+	}
 	appController.numberOfAppsPerRow = appsPerRow;
 	self.allAppsOnDevice = [self retrieveAllAppsOnDevice];
 	NSLog(@"all apps: %@", allAppsOnDevice);
@@ -178,7 +196,12 @@
 		// Add a screen to the AppController
 		[appController addScreen:nil];
 		
-		NSArray *screenRows = [[iconLists objectAtIndex:screenNum] objectForKey:@"iconMatrix"];
+		NSArray *screenRows;
+		if (firmwareBefore3_1) {
+			screenRows = [[iconLists objectAtIndex:screenNum] objectForKey:@"iconMatrix"];
+		} else {
+			screenRows = [iconLists objectAtIndex:screenNum];
+		}
 		
 		for (int rowNum = 0; rowNum < [screenRows count]; rowNum++) {
 			NSArray *rowApps = [screenRows objectAtIndex:rowNum];
@@ -188,8 +211,13 @@
 	}
 	
 	// Process all dock apps
-	NSDictionary *dockAppList = [[[self springboard] objectForKey:@"iconState"] objectForKey:@"buttonBar"];
-	NSArray *dockApps = [[dockAppList objectForKey:@"iconMatrix"] objectAtIndex:0];
+	id dockAppList = [[[self springboard] objectForKey:iconListKey] objectForKey:@"buttonBar"];
+	NSArray *dockApps;
+	if (firmwareBefore3_1) {
+		dockApps = [[dockAppList objectForKey:@"iconMatrix"] objectAtIndex:0];
+	} else{
+		dockApps = [dockAppList objectAtIndex:0];
+	}
 	appController.numberOfDockApps = [dockApps count];
 	[self processApps:dockApps forRow:0 ofScreen:DOCK];
 	[appController reloadScreenAtIndex:DOCK];
@@ -205,9 +233,9 @@
 			[appScreens addObject:screenApps];
 		}
 	}
-	[[springboard objectForKey:@"iconState"] setObject:appScreens forKey:@"iconLists"];
+	[[springboard objectForKey:iconListKey] setObject:appScreens forKey:@"iconLists"];
 	NSDictionary *dockApps = [[appController dockController] appsInPlistFormat];
-	[[springboard objectForKey:@"iconState"] setObject:dockApps forKey:@"buttonBar"];
+	[[springboard objectForKey:iconListKey] setObject:dockApps forKey:@"buttonBar"];
 	NSString *errorDesc;
 	NSLog(@"springboard after moving: %@", springboard);
 	NSData *springboardData = [NSPropertyListSerialization dataFromPropertyList:springboard 

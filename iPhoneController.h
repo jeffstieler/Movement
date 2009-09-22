@@ -37,10 +37,12 @@
 @interface iPhoneController : NSObject {
 	AFCDevice *iPhone;
 	IBOutlet AppController *appController;
+	NSString *iconListKey;
 	NSArray *possibleIconFileKeys, *possibleAppDisplayNameKeys;
 	NSDictionary *officialAppDisplayNames, *allAppsOnDevice;
 	NSMutableDictionary *springboard;
 }
+@property (readwrite, retain)NSString *iconListKey;
 @property (readwrite, retain)NSArray *possibleIconFileKeys, *possibleAppDisplayNameKeys;
 @property (readwrite, retain)NSDictionary *officialAppDisplayNames, *allAppsOnDevice;
 @property (readwrite, retain)NSMutableDictionary *springboard;
