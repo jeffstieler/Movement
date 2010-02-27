@@ -37,6 +37,7 @@
 #define APP_DIR @"/Applications/"
 #define USER_APP_DIR @"/User/Applications/"
 #define WEBCLIP_DIR @"/User/Library/WebClips/"
+#define WEBCLIP_PLIST_PREFIX @"com.apple.webapp"
 #define SPRINGBOARD_PLIST @"/User/Library/Preferences/com.apple.springboard.plist"
 #define PRE_3_1_ICONS_KEY @"iconState"
 #define POST_3_1_ICONS_KEY @"iconState2"
@@ -153,22 +154,32 @@
 		NSRange hypenRange = [identifier rangeOfString:@"-"];
 		if (!appToAdd && (hypenRange.location != NSNotFound)) {
 			NSString *displayName = [identifier substringFromIndex:(hypenRange.location + 1)];
-			NSString *oldDisplayName = [NSString stringWithString:displayName];
-			if ([officialAppDisplayNames valueForKey:displayName]) {
-				displayName = [officialAppDisplayNames valueForKey:displayName];
+
+			// test for webclip (identifier begins with com.apple.webclip)
+			BOOL isWebclip = [[identifier substringToIndex:hypenRange.location] isEqualToString:WEBCLIP_PLIST_PREFIX];
+
+			if (isWebclip) {
+				[appController addApp:[allAppsOnDevice objectForKey:displayName]
+							 toScreen:screenNum];
+			} else {
+
+				NSString *oldDisplayName = [NSString stringWithString:displayName];
+				if ([officialAppDisplayNames valueForKey:displayName]) {
+					displayName = [officialAppDisplayNames valueForKey:displayName];
+				}
+
+				NSString *appExecutableName = [identifier substringToIndex:hypenRange.location];
+				appToAdd = [allAppsOnDevice objectForKey:appExecutableName];
+
+				NSImage *appIcon = [self iconForApp:[appToAdd path] inContext:oldDisplayName];
+				iPhoneApp *newApp = [[iPhoneApp alloc] initWithIdentifier:identifier
+															  displayName:displayName
+																	 path:appToAdd.path
+																	 icon:appIcon];
+				[appController addApp:newApp
+							 toScreen:screenNum];
+				[newApp release];
 			}
-
-			NSString *appExecutableName = [identifier substringToIndex:hypenRange.location];
-			appToAdd = [allAppsOnDevice objectForKey:appExecutableName];
-
-			NSImage *appIcon = [self iconForApp:[appToAdd path] inContext:oldDisplayName];
-			iPhoneApp *newApp = [[iPhoneApp alloc] initWithIdentifier:identifier
-														  displayName:displayName
-																 path:appToAdd.path 
-																 icon:appIcon];
-			[appController addApp:newApp
-						 toScreen:screenNum];
-			[newApp release];
 		} else {
 			[appController addApp:appToAdd
 						 toScreen:screenNum];
