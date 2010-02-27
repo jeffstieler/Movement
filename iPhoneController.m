@@ -38,6 +38,9 @@
 #define USER_APP_DIR @"/User/Applications/"
 #define WEBCLIP_DIR @"/User/Library/WebClips/"
 #define SPRINGBOARD_PLIST @"/User/Library/Preferences/com.apple.springboard.plist"
+#define PRE_3_1_ICONS_KEY @"iconState"
+#define POST_3_1_ICONS_KEY @"iconState2"
+#define FCSB_ICONS_KEY @"iconState_fcsb"
 
 @implementation iPhoneController
 
@@ -176,8 +179,19 @@
 
 - (void)readAppsFromSpringboard {
 	self.springboard = [self springboardFromPhone];
-	self.firmwareBefore3_1 = ([springboard objectForKey:@"iconState"] != nil);
-	self.iconListKey = firmwareBefore3_1 ? @"iconState": @"iconState2";
+
+	// default 'firmware before 3.1' to NO
+	self.firmwareBefore3_1 = NO;
+
+	// test for FCSB springboard key, then try to determine firmware version key
+	if ([springboard objectForKey:FCSB_ICONS_KEY] != nil) {
+		self.iconListKey = FCSB_ICONS_KEY;
+	} else if ([springboard objectForKey:POST_3_1_ICONS_KEY] != nil) {
+		self.iconListKey = POST_3_1_ICONS_KEY;
+	} else {
+		self.iconListKey = PRE_3_1_ICONS_KEY;
+		self.firmwareBefore3_1 = YES;
+	}
 
 	NSArray *iconLists = [[[self springboard] objectForKey:iconListKey] objectForKey:@"iconLists"];
 
