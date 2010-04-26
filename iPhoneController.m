@@ -43,6 +43,9 @@
 #define POST_3_1_ICONS_KEY @"iconState2"
 #define FCSB_ICONS_KEY @"iconState_fcsb"
 
+#define ICONSUPPORT_ICONS_KEY @"iconState"
+#define ICONSUPPORT_TEST_PATH @"/Library/MobileSubstrate/DynamicLibraries/IconSupport.plist"
+
 @implementation iPhoneController
 
 @synthesize possibleIconFileKeys, possibleAppDisplayNameKeys, officialAppDisplayNames, 
@@ -194,8 +197,17 @@
 	// default 'firmware before 3.1' to NO
 	self.firmwareBefore3_1 = NO;
 
+	// Test for IconSupport.
+	if ([[iPhone deviceInterface] isFileAtPath:ICONSUPPORT_TEST_PATH] && [springboard valueForKey:@"ISLastUsed"]) {
+		// We should check for a file as well as the ISLastUsed key because the
+		// key will still exist if IconSupport has been uninstalled.
+		NSString *iconListKeyPostfix = [springboard valueForKey:@"ISLastUsed"];
+		self.iconListKey = [ICONSUPPORT_ICONS_KEY stringByAppendingString:iconListKeyPostfix];
+		NSLog(@"IconSupport detected. Using SpringBoard key %@", self.iconListKey);
+	}
+	
 	// test for FCSB springboard key, then try to determine firmware version key
-	if ([springboard objectForKey:FCSB_ICONS_KEY] != nil) {
+	else if ([springboard objectForKey:FCSB_ICONS_KEY] != nil) {
 		self.iconListKey = FCSB_ICONS_KEY;
 	} else if ([springboard objectForKey:POST_3_1_ICONS_KEY] != nil) {
 		self.iconListKey = POST_3_1_ICONS_KEY;
