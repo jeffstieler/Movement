@@ -118,7 +118,7 @@
 	return nil;
 }
 
-- (id)appsInPlistFormatForPre3_1:(BOOL)firmwareBefore3_1 {
+- (id)appsInPlistFormat {
 	// Setup number of apps to expect (handling the dock here!)
 	int numberOfRows, appsPerRow;
 	if ([self isEqual:[appController dockController]]) {
@@ -138,22 +138,13 @@
 			int row = (i / appsPerRow);
 			if (i < [apps count]) {
 				id app = [apps objectAtIndex:i];
-				if (firmwareBefore3_1) {
-					NSDictionary *appDict = [NSDictionary dictionaryWithObject:[app identifier] forKey:@"displayIdentifier"];
-					[[screenRows objectAtIndex:row] addObject:appDict];
-				} else {
-					[[screenRows objectAtIndex:row] addObject:[app identifier]];
-				}
+				[[screenRows objectAtIndex:row] addObject:[app identifier]];
 			} else {
 				[[screenRows objectAtIndex:row] addObject:[NSNumber numberWithInt:0]];
 			}
 			
 		}
-		if (firmwareBefore3_1) {
-			return [NSDictionary dictionaryWithObject:screenRows forKey:@"iconMatrix"];
-		} else {
-			return (NSArray *)screenRows;
-		}
+		return (NSArray *)screenRows;
 	}
 	return nil;
 }

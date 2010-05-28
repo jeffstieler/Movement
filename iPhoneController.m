@@ -39,17 +39,16 @@
 #define WEBCLIP_DIR @"/User/Library/WebClips/"
 #define WEBCLIP_PLIST_PREFIX @"com.apple.webapp"
 #define SPRINGBOARD_PLIST @"/User/Library/Preferences/com.apple.springboard.plist"
-#define PRE_3_1_ICONS_KEY @"iconState"
-#define POST_3_1_ICONS_KEY @"iconState2"
-#define FCSB_ICONS_KEY @"iconState_fcsb"
-
-#define ICONSUPPORT_ICONS_KEY @"iconState"
+#define SPRINGBOARD_ICONS_KEY @"iconState"
+#define ICONSUPPORT_LAST_USED @"ISLastUsed"
 #define ICONSUPPORT_TEST_PATH @"/Library/MobileSubstrate/DynamicLibraries/IconSupport.plist"
+#define FCSB_TEST_PATH @"/Library/MobileSubstrate/DynamicLibraries/FCSB.dylib"
+#define FCSB_PLIST_PATH @"/User/Library/Preferences/net.r-ch.fcsb.plist"
 
 @implementation iPhoneController
 
 @synthesize possibleIconFileKeys, possibleAppDisplayNameKeys, officialAppDisplayNames, 
-			iconListKey, springboard, allAppsOnDevice, firmwareBefore3_1;
+			iconListKey, springboard, allAppsOnDevice;
 
 - (void)awakeFromNib {
 	[[AFCFactory factory] setDelegate:self];
@@ -190,40 +189,46 @@
 	}				
 }
 
+- (NSString *)determineIconListKey {
+	// From here on out, Movement will only support the newest version of FCSB, and the iPhone OS 3+
+	// As of this comment, that means 1.0 that uses IconSupport
+	// also, after checking IconSupport source  -> http://github.com/chpwn/IconSupport/blob/master/IconSupport.m
+	// looks like the iconState2 key isn't being used anymore..
+
+	AFCInterface *iPhoneInterface = [iPhone deviceInterface];
+
+	// Test for FCSB and IconSupport
+	if ([iPhoneInterface isFileAtPath:FCSB_TEST_PATH] &&
+		[iPhoneInterface isFileAtPath:ICONSUPPORT_TEST_PATH] &&
+		[iPhoneInterface isFileAtPath:FCSB_PLIST_PATH]) {
+	
+		NSData *fcsbData = [iPhone contentsOfFileAtPath:FCSB_PLIST_PATH];
+		NSDictionary *fcsbPlist = [NSPropertyListSerialization propertyListFromData:fcsbData
+																   mutabilityOption:NSPropertyListImmutable
+																			 format:nil
+																   errorDescription:nil];
+
+		BOOL fcsbEnabled = [(NSNumber *)[fcsbPlist valueForKey:@"Enable"] boolValue];
+		NSString *iconSupportPostfix = [self.springboard valueForKey:ICONSUPPORT_LAST_USED];
+		BOOL iconSupportEnabled = ([iconSupportPostfix length] > 0);
+
+		if (fcsbEnabled && iconSupportEnabled) {
+			return [SPRINGBOARD_ICONS_KEY stringByAppendingString:iconSupportPostfix];
+		}
+	}
+	return SPRINGBOARD_ICONS_KEY;
+}
+
 
 - (void)readAppsFromSpringboard {
 	self.springboard = [self springboardFromPhone];
-
-	// default 'firmware before 3.1' to NO
-	self.firmwareBefore3_1 = NO;
-
-	// Test for IconSupport.
-	if ([[iPhone deviceInterface] isFileAtPath:ICONSUPPORT_TEST_PATH] && [springboard valueForKey:@"ISLastUsed"]) {
-		// We should check for a file as well as the ISLastUsed key because the
-		// key will still exist if IconSupport has been uninstalled.
-		NSString *iconListKeyPostfix = [springboard valueForKey:@"ISLastUsed"];
-		self.iconListKey = [ICONSUPPORT_ICONS_KEY stringByAppendingString:iconListKeyPostfix];
-		NSLog(@"IconSupport detected. Using SpringBoard key %@", self.iconListKey);
-	}
 	
-	// test for FCSB springboard key, then try to determine firmware version key
-	else if ([springboard objectForKey:FCSB_ICONS_KEY] != nil) {
-		self.iconListKey = FCSB_ICONS_KEY;
-	} else if ([springboard objectForKey:POST_3_1_ICONS_KEY] != nil) {
-		self.iconListKey = POST_3_1_ICONS_KEY;
-	} else {
-		self.iconListKey = PRE_3_1_ICONS_KEY;
-		self.firmwareBefore3_1 = YES;
-	}
+	self.iconListKey = [self determineIconListKey];
 
 	NSArray *iconLists = [[[self springboard] objectForKey:iconListKey] objectForKey:@"iconLists"];
 
-	int appsPerRow;
-	if (firmwareBefore3_1) {
-		appsPerRow = [[[[iconLists objectAtIndex:0] objectForKey:@"iconMatrix"] objectAtIndex:0] count];
-	} else {
-		appsPerRow = [[[iconLists objectAtIndex:0] objectAtIndex:0] count];
-	}
+	int appsPerRow = [[[iconLists objectAtIndex:0] objectAtIndex:0] count];
+
 	appController.numberOfAppsPerRow = appsPerRow;
 	self.allAppsOnDevice = [self retrieveAllAppsOnDevice];
 	NSLog(@"all apps: %@", allAppsOnDevice);
@@ -233,12 +238,7 @@
 		// Add a screen to the AppController
 		[appController addScreen:nil];
 		
-		NSArray *screenRows;
-		if (firmwareBefore3_1) {
-			screenRows = [[iconLists objectAtIndex:screenNum] objectForKey:@"iconMatrix"];
-		} else {
-			screenRows = [iconLists objectAtIndex:screenNum];
-		}
+		NSArray *screenRows = [iconLists objectAtIndex:screenNum];
 		
 		for (int rowNum = 0; rowNum < [screenRows count]; rowNum++) {
 			NSArray *rowApps = [screenRows objectAtIndex:rowNum];
@@ -248,13 +248,8 @@
 	}
 	
 	// Process all dock apps
-	id dockAppList = [[[self springboard] objectForKey:iconListKey] objectForKey:@"buttonBar"];
-	NSArray *dockApps;
-	if (firmwareBefore3_1) {
-		dockApps = [[dockAppList objectForKey:@"iconMatrix"] objectAtIndex:0];
-	} else{
-		dockApps = [dockAppList objectAtIndex:0];
-	}
+	NSArray *dockAppList = [[[self springboard] objectForKey:iconListKey] objectForKey:@"buttonBar"];
+	NSArray *dockApps = [dockAppList objectAtIndex:0];
 	appController.numberOfDockApps = [dockApps count];
 	[self processApps:dockApps forRow:0 ofScreen:DOCK];
 	[appController reloadScreenAtIndex:DOCK];
@@ -265,13 +260,13 @@
 	NSLog(@"springboard before moving: %@", springboard);
 	NSMutableArray *appScreens = [NSMutableArray array];
 	for (AppScreenController *controller in [appController screenControllers]) {
-		NSDictionary *screenApps = [controller appsInPlistFormatForPre3_1:firmwareBefore3_1];
+		NSDictionary *screenApps = [controller appsInPlistFormat];
 		if (screenApps) {
 			[appScreens addObject:screenApps];
 		}
 	}
 	[[springboard objectForKey:iconListKey] setObject:appScreens forKey:@"iconLists"];
-	NSDictionary *dockApps = [[appController dockController] appsInPlistFormatForPre3_1:firmwareBefore3_1];
+	NSDictionary *dockApps = [[appController dockController] appsInPlistFormat];
 	[[springboard objectForKey:iconListKey] setObject:dockApps forKey:@"buttonBar"];
 	NSString *errorDesc;
 	NSLog(@"springboard after moving: %@", springboard);
